@@ -9,7 +9,7 @@ const PAD = { l: 44, r: 10, t: 12, b: 22 };
 
 /** Sun and Earth elevation over the stay at one site, with the horizon at each body's azimuth. */
 export default function ElevationChart({ which = 'A' }) {
-  const { t, results, cursor, start, days, terrain } = useApp();
+  const { t, results, cursor, start, days, terrain, siteName } = useApp();
   const r = results[which];
   if (!r?.series) return null;
   const end = start + days * 86400;
@@ -24,7 +24,7 @@ export default function ElevationChart({ which = 'A' }) {
 
   return (
     <figure className="m-0 px-4 py-3">
-      <figcaption className="panel-title mb-2">{t('planner.elevation')} · {r.site.name}</figcaption>
+      <figcaption className="panel-title mb-2">{t('planner.elevation')} · {siteName(r.site)}</figcaption>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img"
         aria-label={r ? t('common.elevSummary', { s: degRange(r.metrics.sun.elevation.min, r.metrics.sun.elevation.max), e: degRange(r.metrics.earth.elevation.min, r.metrics.earth.elevation.max) }) : `${t('common.sunElevation')} / ${t('common.earthElevation')}`}>
         {[...new Set([...ticks, 0])].map((v) => (

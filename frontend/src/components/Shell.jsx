@@ -88,7 +88,7 @@ function NavLinks({ onNavigate, vertical }) {
  * the mode switch, "Ask the analyst" and the screens move into the collapsible menu.
  */
 export function TopBar({ menuOpen, setMenuOpen, menuButton }) {
-  const { t, go, cursor, A, B } = useApp();
+  const { t, go, cursor, A, B, siteName } = useApp();
   return (
     <header className="no-print flex flex-wrap lg:flex-nowrap items-center gap-x-2 sm:gap-x-4 lg:gap-x-5 gap-y-2 min-h-[48px] px-4 border-b border-line [&>*]:flex-shrink-0">
       <a href="#/" onClick={(e) => { e.preventDefault(); go('/'); }} className="tap flex items-center gap-2.5 no-underline whitespace-nowrap">
@@ -96,8 +96,8 @@ export function TopBar({ menuOpen, setMenuOpen, menuButton }) {
         <span className="text-sm font-semibold">{t('app.name')}</span>
       </a>
       {/* The scenario breadcrumb is the only part that gives way: it shortens with an ellipsis. */}
-      <span className="text-[13px] text-muted hidden xl:block min-w-0 !flex-shrink truncate" title={`${A?.name ?? ''} · ${B?.name ?? ''}`}>
-        {t('top.scenario')} / <span className="text-ink">{A?.name ?? '…'} · {B?.name ?? '…'}</span>
+      <span className="text-[13px] text-muted hidden xl:block min-w-0 !flex-shrink truncate" title={`${A ? siteName(A) : ''} · ${B ? siteName(B) : ''}`}>
+        {t('top.scenario')} / <span className="text-ink">{A ? siteName(A) : '…'} · {B ? siteName(B) : '…'}</span>
       </span>
       <span className="flex-grow !flex-shrink" />
       {cursor && <span className="hidden lg:inline font-mono text-[13px] tabular whitespace-nowrap" aria-live="off">{isoMin(cursor)}</span>}
@@ -174,6 +174,28 @@ export function FakeBanner() {
   );
 }
 
+/**
+ * Short notice after Technical / Learn changes: what the mode does. role="status" is always in the
+ * page (so screen readers announce the new text); the text clears itself after a few seconds.
+ */
+function ModeNotice() {
+  const { t, modeNotice, setModeNotice } = useApp();
+  useEffect(() => {
+    if (!modeNotice) return undefined;
+    const id = setTimeout(() => setModeNotice(null), 6000);
+    return () => clearTimeout(id);
+  }, [modeNotice, setModeNotice]);
+  return (
+    <div role="status" aria-live="polite" className="fixed z-40 left-1/2 -translate-x-1/2 bottom-12 w-[min(560px,calc(100vw-32px))] pointer-events-none">
+      {modeNotice && (
+        <p className="m-0 px-4 py-3 bg-raise border border-line2 text-sm leading-relaxed text-text2 shadow-lg">
+          <span className="font-medium text-ink">{t(modeNotice.mode === 'learn' ? 'top.learn' : 'top.technical')}:</span> {t(`top.modeNotice.${modeNotice.mode}`)}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function Shell({ children }) {
   const { t, route } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -199,6 +221,7 @@ export function Shell({ children }) {
         <main id="main" tabIndex={-1} className="flex-grow min-w-0 flex flex-col focus:outline-none">{children}</main>
       </div>
       <StatusBar />
+      <ModeNotice />
     </div>
   );
 }

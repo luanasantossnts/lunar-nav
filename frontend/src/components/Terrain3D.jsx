@@ -75,7 +75,7 @@ function earthTexture() {
  * from the 150 km horizon mask (what hides the Sun beyond the 20 km tile).
  */
 export default function Terrain3D({ site, result, mask }) {
-  const { t, cursor } = useApp();
+  const { t, cursor, siteName } = useApp();
   const mount = useRef(null);
   const ctx = useRef({});
   const [state, setState] = useState('loading');
@@ -342,7 +342,7 @@ export default function Terrain3D({ site, result, mask }) {
     <div className="w-full border border-line">
       <div className="relative w-full h-[520px]" style={{ background: SKY_HEX }}>
         <div ref={mount} className="absolute inset-0" role="img"
-          aria-label={t('sky.terrainSummary', { site: site.name, time: isoMin(cursor), p: pct(result?.metrics?.sun?.fraction) })} />
+          aria-label={t('sky.terrainSummary', { site: siteName(site), time: isoMin(cursor), p: pct(result?.metrics?.sun?.fraction) })} />
         {/* Fixed light-on-dark text: the 3D sky is black in both themes. */}
         {state === 'loading' && <p className="absolute left-3 top-3 text-sm" style={{ color: '#b8b9bc' }}>{t('common.loading')}</p>}
         {state === 'missing' && <p className="absolute inset-0 grid place-items-center text-sm p-6 text-center" style={{ color: '#b8b9bc' }}>{t('sky.noTerrain')}</p>}

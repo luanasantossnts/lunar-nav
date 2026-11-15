@@ -50,12 +50,12 @@ export function placeLabels(items, fixed = []) {
 const LAT_LABELS = [-82, -84, -86, -88].map((lat) => ({ lat, x: C + 4, y: C + (k(lat) / K_EDGE) * R_MAX + 14 }));
 
 export default function PolarMap() {
-  const { t, sites, siteA, siteB, setSiteA, setSiteB, A, B } = useApp();
+  const { t, sites, siteA, siteB, setSiteA, setSiteB, A, B, siteName, siteShort } = useApp();
   const [picked, setPicked] = useState(null);
   const polar = sites.filter((s) => s.lat <= LAT_EDGE);
   const extra = [A, B].filter((s) => s && s.id === 'custom' && s.lat <= LAT_EDGE);
   const all = [...polar, ...extra];
-  const short = (s) => `${s.id === siteA ? 'A · ' : s.id === siteB ? 'B · ' : ''}${s.name.split(/,| at /)[0]}`;
+  const short = (s) => `${s.id === siteA ? 'A · ' : s.id === siteB ? 'B · ' : ''}${siteShort(s)}`;
   const order = [...all].sort((p, q) => Number(q.id === siteA || q.id === siteB) - Number(p.id === siteA || p.id === siteB));
   // Fixed obstacles: every marker, the latitude labels and the compass labels.
   const fixed = [
@@ -67,7 +67,7 @@ export default function PolarMap() {
 
   return (
     <section aria-label={t('planner.map')} className="relative bg-bg2 flex items-start justify-center pt-8 pb-4 md:sticky md:top-0 w-full">
-      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="block w-full h-auto max-h-[calc(100vh-290px)] min-h-[340px]" role="group" aria-label={`${t('planner.map')} · A: ${A?.name ?? '—'} · B: ${B?.name ?? '—'}`}>
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="block w-full h-auto max-h-[calc(100vh-290px)] min-h-[340px]" role="group" aria-label={`${t('planner.map')} · A: ${A ? siteName(A) : '—'} · B: ${B ? siteName(B) : '—'}`}>
         <g fill="none" style={{ stroke: 'var(--line)' }} strokeWidth="1">
           {[-80, -82, -84, -86, -88].map((lat) => <circle key={lat} cx={C} cy={C} r={(k(lat) / K_EDGE) * R_MAX} />)}
           {Array.from({ length: 12 }, (_, i) => {
@@ -89,7 +89,7 @@ export default function PolarMap() {
           const isB = s.id === siteB;
           const col = isA ? 'var(--sun)' : isB ? 'var(--earth)' : 'var(--muted)';
           return (
-            <g key={s.id} role="button" tabIndex={0} aria-label={`${s.name}, ${coord(s.lat, s.lon)}`}
+            <g key={s.id} role="button" tabIndex={0} aria-label={`${siteName(s)}, ${coord(s.lat, s.lon)}`}
               onClick={() => setPicked(s)} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setPicked(s)} style={{ cursor: 'pointer' }}>
               {/* Transparent touch area around the marker and its label: 68 map units ≈ 44 px on a phone. */}
               {(() => {
@@ -101,7 +101,7 @@ export default function PolarMap() {
               {(isA || isB) && <circle className="ln-pulse" cx={x} cy={y} r="6" fill="none" style={{ stroke: col }} strokeWidth="1.5" />}
               <rect x={x - 5} y={y - 5} width="10" height="10" fill={isA || isB ? 'none' : 'var(--bg2)'} style={{ stroke: col }} strokeWidth="1.5" />
               <text x={lp.x} y={lp.y} textAnchor={lp.anchor} fontSize="12" fontFamily="IBM Plex Mono, monospace" style={{ fill: col }}>
-                {isA ? 'A · ' : isB ? 'B · ' : ''}{s.name.split(/,| at /)[0]}
+                {isA ? 'A · ' : isB ? 'B · ' : ''}{siteShort(s)}
               </text>
             </g>
           );
@@ -110,7 +110,7 @@ export default function PolarMap() {
       <p className="absolute left-3 top-2 text-xs text-muted max-w-[70%]">{t('planner.mapNote')}</p>
       {picked && (
         <div className="absolute right-3 top-3 w-64 p-3 bg-panel border border-line2 text-sm flex flex-col gap-2">
-          <div className="font-semibold">{picked.name}</div>
+          <div className="font-semibold">{siteName(picked)}</div>
           <div className="font-mono text-xs text-muted">{coord(picked.lat, picked.lon)}</div>
           <div className="text-xs text-muted">{picked.source}</div>
           <div className="flex gap-2">
@@ -122,7 +122,7 @@ export default function PolarMap() {
       )}
       {[A, B].some((s) => s && s.lat > LAT_EDGE) && (
         <p className="absolute left-3 bottom-3 text-xs text-muted">
-          {t('planner.outsideMap', { list: [A, B].filter((s, i, all) => s && s.lat > LAT_EDGE && all.findIndex((o) => o?.id === s.id) === i).map((s) => `${s.name} (${coord(s.lat, s.lon)})`).join('; ') })}
+          {t('planner.outsideMap', { list: [A, B].filter((s, i, all) => s && s.lat > LAT_EDGE && all.findIndex((o) => o?.id === s.id) === i).map((s) => `${siteName(s)} (${coord(s.lat, s.lon)})`).join('; ') })}
         </p>
       )}
     </section>

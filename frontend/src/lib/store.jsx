@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { api, POWER_DEFAULTS } from './api.js';
 import { detectLang, makeT } from './i18n.js';
 import { parseDateInput, setNumberLang } from './format.js';
+import { localSiteName, shortSiteName } from './siteNames.js';
 
 const Ctx = createContext(null);
 
@@ -61,6 +62,20 @@ export function AppProvider({ children }) {
   useEffect(() => { document.documentElement.classList.toggle('light', theme === 'light'); storage.set('theme', theme); }, [theme]);
   useEffect(() => { document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang; storage.set('lang', lang); }, [lang]);
   useEffect(() => { storage.set('uiMode', uiMode); }, [uiMode]);
+
+  // Analyst explanation level: follows Technical / Learn ('technical' / 'learn' = classroom level)
+  // each time the mode changes; a choice made in the Analyst afterwards is kept until the next change.
+  // The values are the API's own ('technical' | 'learn'), so the Analyst cache keys do not change.
+  const [analystLevel, setAnalystLevel] = useState(() => (storage.get('uiMode', 'technical') === 'learn' ? 'learn' : 'technical'));
+  // Short notice after a mode change (null until the user changes the mode).
+  const [modeNotice, setModeNotice] = useState(null);
+  const changeUiMode = (m) => {
+    const next = m === 'learn' ? 'learn' : 'technical';
+    if (next === uiMode) return;
+    setUiMode(next);
+    setAnalystLevel(next);
+    setModeNotice({ mode: next, at: Date.now() });
+  };
 
   useEffect(() => {
     const on = () => setRoute(readHash().route);
@@ -154,7 +169,10 @@ export function AppProvider({ children }) {
   }, [scenarioQuery]);
 
   const value = {
-    t, lang, setLang, theme, setTheme, uiMode, setUiMode, route, go, goWith,
+    t, lang, setLang, theme, setTheme, uiMode, setUiMode: changeUiMode, analystLevel, setAnalystLevel, modeNotice, setModeNotice, route, go, goWith,
+    // Site names in the reader's language (ids and API requests are unchanged).
+    siteName: (site) => localSiteName(t, site, sites),
+    siteShort: (site) => shortSiteName(localSiteName(t, site, sites)),
     sites, siteA, siteB, setSiteA, setSiteB, A, B, custom, setCustom,
     start, setStart, days, setDays, horizonMode, setHorizonMode, earthMargin, setEarthMargin, delayDays, setDelayDays,
     cursor, setCursor, playing, setPlaying, results, reload: load, terrain,

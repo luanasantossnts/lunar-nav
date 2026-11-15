@@ -70,7 +70,7 @@ function Mic({ onText }) {
 }
 
 export default function Analyst() {
-  const { t, lang, analystLog, setAnalystLog, setReportNotes, health, uiMode, siteA, siteB, start, days, horizonMode, delayDays, earthMargin, power } = useApp();
+  const { t, lang, analystLog, setAnalystLog, setReportNotes, health, analystLevel, setAnalystLevel, siteA, siteB, start, days, horizonMode, delayDays, earthMargin, power } = useApp();
   const [q, setQ] = useState('');
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -153,7 +153,7 @@ export default function Analyst() {
     try {
       // The scenario on screen is part of the question (and of its cache key); Learn adds the glossary.
       const scenario = { a: siteA, b: siteB, start: dateInput(start), days, mode: horizonMode, delay: delayDays, earth_margin: earthMargin, power };
-      const r = await api.analyst({ question: text, history, lang, mode: uiMode === 'learn' ? 'learn' : 'technical', scenario });
+      const r = await api.analyst({ question: text, history, lang, mode: analystLevel === 'learn' ? 'learn' : 'technical', scenario });
       setAnalystLog((l) => [...l, { question: text, ...r }]);
       if (speak && r.answer) listen(r.answer, analystLog.length);
     } catch (e) {
@@ -249,9 +249,14 @@ export default function Analyst() {
           <label className="tap flex justify-between items-center gap-3">{t('analyst.readAloud')}
             <input type="checkbox" checked={speak} onChange={(e) => setSpeak(e.target.checked)} disabled={health && !health.voice?.tts && !hasBrowserVoice} className="w-[18px] h-[18px]" style={{ accentColor: 'var(--ink)' }} />
           </label>
-          <div className="flex justify-between items-baseline gap-3">
-            <span>{t('analyst.level')}</span>
-            <span className="text-right"><span className="font-medium">{t(uiMode === 'learn' ? 'top.learn' : 'top.technical')}</span><br /><span className="text-xs text-dim">{t('analyst.levelFollows')}</span></span>
+          {/* Explanation level: set by Technical / Learn in the top bar; can be changed here. */}
+          <div className="flex flex-col gap-1.5">
+            <span id="analyst-level" className="label">{t('analyst.level')}</span>
+            <div className="seg self-start" role="group" aria-labelledby="analyst-level">
+              <button type="button" aria-pressed={analystLevel !== 'learn'} onClick={() => setAnalystLevel('technical')}>{t('analyst.levelTechnical')}</button>
+              <button type="button" aria-pressed={analystLevel === 'learn'} onClick={() => setAnalystLevel('learn')}>{t('analyst.levelClassroom')}</button>
+            </div>
+            <span className="text-xs text-dim">{t('analyst.levelFollows')}</span>
           </div>
           <p className="m-0 pt-3 border-t border-line text-xs text-dim leading-relaxed">{t('analyst.disclosureText')}; {health?.voice?.tts ? t('analyst.voiceEleven') : t('analyst.voiceBrowser')}.</p>
         </section>

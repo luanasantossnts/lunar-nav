@@ -7,7 +7,7 @@ import { FakeBanner, Logo, LangSwitch, ThemeToggle } from '../components/Shell.j
 import SkyPanorama from '../components/SkyPanorama.jsx';
 
 export default function Briefing() {
-  const { t, go, results, terrain, setPlaying, cursor } = useApp();
+  const { t, go, results, terrain, setPlaying, cursor, siteName } = useApp();
   const A = results.A;
   const B = results.B;
   useEffect(() => { setPlaying(true); return () => setPlaying(false); }, [setPlaying]);
@@ -69,7 +69,7 @@ export default function Briefing() {
             <dl className="m-0 grid grid-cols-2 max-w-[480px] border-t border-line">
               {[A, B].map((r, i) => (
                 <div key={r.site.id} className={`py-3.5 ${i === 0 ? 'pr-4 border-r' : 'pl-4'} border-b border-line`}>
-                  <dt className="text-xs text-muted">{r.site.name}</dt>
+                  <dt className="text-xs text-muted">{siteName(r.site)}</dt>
                   <dd className="m-0 mt-1 font-mono text-[15px] tabular">
                     {/* Sun and Earth on separate lines; label and value never split. */}
                     <span className="block whitespace-nowrap" style={{ color: 'var(--sun)' }}>{t('common.sun')}{'\u00A0'}{pct(r.metrics.sun.fraction)}</span>
@@ -85,7 +85,7 @@ export default function Briefing() {
 
         <figure className="flex-[999_1_520px] m-0 flex flex-col gap-3 p-6 md:p-8 md:pt-14 [@media(max-height:760px)]:md:pt-12">
           <figcaption className="flex flex-wrap justify-between gap-2 text-[13px] text-muted">
-            <span>{A ? t('brief.figure', { site: A.site.name }) : t('common.loading')}</span>
+            <span>{A ? t('brief.figure', { site: siteName(A.site) }) : t('common.loading')}</span>
             {cursor && <span className="font-mono text-ink">{isoMin(cursor)}</span>}
           </figcaption>
           <div className="border border-line bg-bg2 p-2">

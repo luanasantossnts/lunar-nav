@@ -6,13 +6,12 @@ import { ChartFrame, EARTH, Grid, MONO, SUN, Swatch, darker, pctTick } from './C
 
 const COLOR = { sun: SUN, earth: EARTH, comm: EARTH };
 const metricLabel = (t, k) => ({ sun: t('common.sunlight'), earth: t('common.earthInView'), comm: t('common.comm') }[k]);
-const shortName = (s) => (s?.name || '').split(/,| at /)[0];
 const cap = (x) => (x ? x[0].toUpperCase() + x.slice(1) : x);
 const metricShort = (t, k) => cap({ sun: t('common.sun'), earth: t('common.earth'), comm: t('common.commShort') }[k]);
 
 /* ---------- 1 · Original vs +N days ---------- */
 function OriginalVsDelayed({ groups, delayDays, names }) {
-  const { t } = useApp();
+  const { t, siteName, siteShort } = useApp();
   const when = (b) => (b.when === 'original' ? t('compare.original') : t('compare.delayed', { n: delayDays }));
   const summary = t('compare.charts.c1.summary', {
     n: delayDays,
@@ -83,13 +82,13 @@ function OriginalVsDelayed({ groups, delayDays, names }) {
 
 /* ---------- 2 · What the delay changes ---------- */
 function DelayChanges({ rows, delayDays }) {
-  const { t } = useApp();
+  const { t, siteName, siteShort } = useApp();
   const hoursMax = divergingMax(rows.flatMap((r) => Object.values(r.hours)));
   const kwhMax = divergingMax(rows.map((r) => r.battery?.value));
   const batt = (r) => (r.battery ? `${r.battery.qualifier ? `${r.battery.qualifier}${NBSP}` : ''}${signed(r.battery.value, 2, 'kWh')}` : '—');
   const summary = t('compare.charts.c2.summary', {
     n: delayDays,
-    list: rows.map((r) => `${r.who} ${shortName(r.site)}: ${t('common.sun')} ${signed(r.hours.sun)}, ${t('common.earth')} ${signed(r.hours.earth)}, ${t('common.commShort')} ${signed(r.hours.comm)}, ${t('power.batteryShort')} ${batt(r)}`).join('; '),
+    list: rows.map((r) => `${r.who} ${siteShort(r.site)}: ${t('common.sun')} ${signed(r.hours.sun)}, ${t('common.earth')} ${signed(r.hours.earth)}, ${t('common.commShort')} ${signed(r.hours.comm)}, ${t('power.batteryShort')} ${batt(r)}`).join('; '),
   });
 
   /** One diverging panel: rows of [label, value, colour, text, light]. */
@@ -130,13 +129,13 @@ function DelayChanges({ rows, delayDays }) {
       ]}
       table={{
         head: [t('charts.site'), `${t('common.sun')} (h)`, `${t('common.earth')} (h)`, `${t('common.commShort')} (h)`, `${t('power.batteryShort')} (kWh)`],
-        rows: rows.map((r) => [`${r.who} · ${r.site?.name}`, signed(r.hours.sun), signed(r.hours.earth), signed(r.hours.comm), batt(r)]),
+        rows: rows.map((r) => [`${r.who} · ${siteName(r.site)}`, signed(r.hours.sun), signed(r.hours.earth), signed(r.hours.comm), batt(r)]),
       }}>
       {(w) => {
         const two = w >= 760; const pw = two ? (w - 24) * 0.62 : w; const bw = two ? (w - 24) * 0.38 : w;
         const hourItems = ['sun', 'earth', 'comm'].flatMap((k) => rows.map((r) => [`${r.who} · ${metricShort(t, k)}`, r.hours[k], COLOR[k], signed(r.hours[k]), k === 'comm']));
         // On narrow screens the battery rows are labelled A / B only (the names are in the legend of chart 1 and the table).
-        const battItems = rows.filter((r) => r.battery).map((r) => [bw < 480 ? r.who : `${r.who} · ${shortName(r.site)}`, r.battery.value, SUN, batt(r), false]);
+        const battItems = rows.filter((r) => r.battery).map((r) => [bw < 480 ? r.who : `${r.who} · ${siteShort(r.site)}`, r.battery.value, SUN, batt(r), false]);
         return (
           <div role="img" aria-label={summary} className={`flex ${two ? 'flex-row gap-6' : 'flex-col gap-4'}`}>
             {panel(pw, t('compare.charts.c2.hours'), hourItems, hoursMax)}
@@ -150,11 +149,11 @@ function DelayChanges({ rows, delayDays }) {
 
 /** The two charts above the Compare table (same data as the table; no new request). */
 export default function CompareCharts({ a, b, resultA, resultB, delayDays }) {
-  const { t } = useApp();
+  const { t, siteName, siteShort } = useApp();
   const groups = groupedBars(a, b, resultA, resultB);
   const rows = deltaRows(a, b);
   if (!groups.length || !rows.length) return null;
-  const names = { A: shortName(a?.scenarios?.[0]?.site), B: shortName(b?.scenarios?.[0]?.site) };
+  const names = { A: siteShort(a?.scenarios?.[0]?.site), B: siteShort(b?.scenarios?.[0]?.site) };
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-2" aria-label={t('compare.charts.region')} role="region">
       <OriginalVsDelayed groups={groups} delayDays={delayDays} names={names} />

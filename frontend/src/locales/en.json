@@ -29,7 +29,11 @@
     "scenario": "Scenario",
     "menu": "Open menu",
     "closeMenu": "Close menu",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "modeNotice": {
+      "learn": "short explanations appear in Explorer, Compare, Sky view and Charts, and the Analyst explains at classroom level.",
+      "technical": "explanations are hidden and the Analyst answers at technical level."
+    }
   },
   "common": {
     "sun": "Sun",
@@ -241,14 +245,16 @@
     "disclosureText": "Text by an AI model from Lunar Nav tool results",
     "voiceEleven": "speech by ElevenLabs (AI voice)",
     "voiceBrowser": "speech by your browser's built-in voice",
-    "levelFollows": "Follows Technical / Learn in the top bar",
+    "levelFollows": "Changes with Technical / Learn in the top bar; you can also choose here.",
     "readFull": "Read full answer",
     "cachedAnswer": "cached answer",
     "cachedTitle": "Answer saved on {d} for this exact question, scenario and mode; no new AI call.",
     "voiceLimit": "Read by your browser's built-in voice: the AI voice is not available right now.",
     "micMax": "Recording stopped at 30 s.",
     "privacyNote": "Do not include personal data. Questions are sent to Anthropic (USA) to generate the answer and identical questions may be cached for 90 days.",
-    "micNotice": "Your recording is sent to ElevenLabs (USA) for transcription and is not stored by Lunar Nav."
+    "micNotice": "Your recording is sent to ElevenLabs (USA) for transcription and is not stored by Lunar Nav.",
+    "levelTechnical": "Technical",
+    "levelClassroom": "Classroom"
   },
   "method": {
     "title": "Methodology and validation",
@@ -401,7 +407,11 @@
   "learn": {
     "polar": "At the poles the Sun never rises high: it circles the horizon once a lunar day (about 29.5 Earth days).",
     "libration": "Earth stays almost fixed in the lunar sky, but libration makes it rock a few degrees up and down over about a month. Near the pole that is enough to hide it.",
-    "terrain": "With no atmosphere, the horizon is just the terrain. A ridge one degree high can block the Sun completely."
+    "terrain": "With no atmosphere, the horizon is just the terrain. A ridge one degree high can block the Sun completely.",
+    "delay": "A delay of a few days moves the landing to another part of the lunar day: the same place can start in sunlight or in the middle of a night of about two weeks.",
+    "spread": "Published coordinates are approximate, and a landing can miss by hundreds of metres. The ±300 m range shows how much that changes sunlight and Earth in view.",
+    "charts": "Each chart has a one-line reading above it and a table with the same numbers below. Bars show the value at the site; whiskers and dashed boxes show the ranges.",
+    "seasons": "The Moon’s axis is only slightly tilted, but at the pole that is enough: over a year the Sun’s path rises and sinks, so a site can stay dark for months. Malapert gets no sunlight from January to June 2030."
   },
   "svs": {
     "title": "Context from NASA's Scientific Visualization Studio",
@@ -619,6 +629,38 @@
       ],
       "answersTitle": "What Lunar Nav answers",
       "answers": "For a site and dates you choose: how much of the time the Sun is up and Earth is in view, when contact with Earth through the Deep Space Network is possible, how long the longest night lasts and what battery it needs, how much a delay or a landing a few hundred metres off changes the picture, and how the model compares with NASA’s long-term maps."
+    },
+    "toc": {
+      "title": "On this page",
+      "who": "Who it’s for",
+      "how": "How to use",
+      "glossary": "Glossary",
+      "faq": "Questions",
+      "refs": "References"
+    },
+    "start": {
+      "title": "Start here",
+      "steps": [
+        [
+          "Choose a site",
+          "Pick sites A and B in the bar at the top or on the polar map."
+        ],
+        [
+          "Choose a date",
+          "Set the landing date and how many days to analyse."
+        ],
+        [
+          "See Sun, Earth and battery",
+          "Explorer shows sunlight, Earth in view, contact and the battery for the longest night."
+        ]
+      ]
+    },
+    "groups": {
+      "position": "Sun and Earth position",
+      "terrain": "Terrain",
+      "comm": "Communication",
+      "energy": "Energy",
+      "uncertainty": "Uncertainty"
     }
   },
   "validation": {
@@ -831,5 +873,18 @@
     "factorHorizontal": "sin(elevation), horizontal panel",
     "battery": "battery = survival load × longest night / DoD; mass = capacity / Wh/kg",
     "cache": "cache"
+  },
+  "siteNames": {
+    "shackleton_ridge": "Shackleton rim at the de Gerlache ridge",
+    "im2_athena": "IM-2 Athena, Mons Mouton region",
+    "im1_odysseus": "IM-1 Odysseus, Malapert A",
+    "malapert_m1": "Malapert Mountain, point M1",
+    "chandrayaan3": "Chandrayaan-3, Statio Shiv Shakti",
+    "apollo11": "Apollo 11, Tranquility Base",
+    "apollo12": "Apollo 12",
+    "apollo14": "Apollo 14",
+    "apollo15": "Apollo 15",
+    "apollo16": "Apollo 16",
+    "apollo17": "Apollo 17"
   }
 }

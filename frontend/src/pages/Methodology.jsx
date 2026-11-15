@@ -89,7 +89,7 @@ function PgdaTable({ check, siteName }) {
 }
 
 export default function Methodology() {
-  const { t, results, sites, health } = useApp();
+  const { t, results, sites, health, siteName } = useApp();
   const [v, setV] = useState(null);
   useEffect(() => { api.validation().then(setV).catch(() => setV({ status: 'not run', checks: [] })); }, []);
   // Help → References links here with ?section=sources.
@@ -100,8 +100,7 @@ export default function Methodology() {
   const premises = t('method.p');
   // Validation checks carry a key and language-neutral params; the text is built here.
   // Older files (no key) and error messages fall back to the stored English text.
-  const siteName = (id) => sites.find((s) => s.id === id)?.name || id;
-  const known = (k) => typeof t(k) === 'string' && t(k) !== k;
+    const known = (k) => typeof t(k) === 'string' && t(k) !== k;
   const checkName = (c) => (c.key && known(`validation.names.${c.key}`) ? t(`validation.names.${c.key}`, { ...c.params, site: siteName(c.params?.site) }) : c.name);
   // Results are built here from the stored numbers, with the screen's formatter (decimal
   // separator of the language, no-break space, true minus sign U+2212).

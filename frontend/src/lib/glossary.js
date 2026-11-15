@@ -10,6 +10,21 @@ export const TERMS = [
   'libration', 'set', 'provenance', 'validation-status', 'pgda-average', 'psr',
 ];
 
+/**
+ * Help glossary groups (theme → term ids). Every term is in exactly one group (tested).
+ * Group titles: help.groups.<key>.
+ */
+export const TERM_GROUPS = [
+  ['position', ['azimuth', 'elevation', 'horizons', 'libration', 'set']],
+  ['terrain', ['horizon-mask', 'geometric-terrain', 'dem', 'lola', 'psr']],
+  ['comm', ['earth-in-view', 'dsn', 'longest-gap']],
+  ['energy', ['panel-factor', 'dod', 'longest-dark']],
+  ['uncertainty', ['disc-range', 'p10-p90', 'pgda-average', 'provenance', 'validation-status']],
+];
+
+/** Group key of a term id (null if none). */
+export const groupOf = (id) => TERM_GROUPS.find(([, ids]) => ids.includes(id))?.[0] ?? null;
+
 export const LABEL_TERMS = {
   // Explorer readout and Compare table
   'common.sunlight': 'disc-range',

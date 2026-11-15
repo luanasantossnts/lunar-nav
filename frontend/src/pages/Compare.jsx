@@ -7,11 +7,11 @@ import ScenarioBar from '../components/ScenarioBar.jsx';
 import { Label } from '../components/HelpLink.jsx';
 import Bound from '../components/Bound.jsx';
 import { longTermLine } from '../lib/reference.js';
-import { ErrorBox, HorizonNote, Loading } from '../components/States.jsx';
+import { ErrorBox, HorizonNote, LearnNotes, Loading } from '../components/States.jsx';
 import CompareCharts from '../components/CompareCharts.jsx';
 
 function useDelay(site) {
-  const { start, days, delayDays, horizonMode, earthMargin, power } = useApp();
+  const { start, days, delayDays, horizonMode, earthMargin, power, siteName } = useApp();
   const [s, set] = useState({ data: null, error: null, loading: false });
   useEffect(() => {
     if (!site) return;
@@ -26,7 +26,7 @@ function useDelay(site) {
 }
 
 function DelayTable({ a, b }) {
-  const { t, delayDays } = useApp();
+  const { t, delayDays, siteName } = useApp();
   // Rows are [label key, formatter, data colour]; the key also gives the "?" glossary link.
   const rows = [
     ['common.sunlight', (m) => pct(m.sun.fraction), 'var(--sun)'],
@@ -51,7 +51,7 @@ function DelayTable({ a, b }) {
           <tr className="text-left text-xs text-muted">
             <th scope="col" className="py-3 pr-3 font-medium border-b border-line">{t('compare.metric')}</th>
             {cols.map(([d, w, c]) => (
-              <th key={w} scope="col" colSpan={2} className="p-3 font-medium border-b border-l border-line"><span style={{ color: c }}>{w}</span> {d.data.scenarios[0].site.name}</th>
+              <th key={w} scope="col" colSpan={2} className="p-3 font-medium border-b border-l border-line"><span style={{ color: c }}>{w}</span> {siteName(d.data.scenarios[0].site)}</th>
             ))}
           </tr>
           <tr className="text-right text-[11px] text-dim">
@@ -84,7 +84,7 @@ function DelayTable({ a, b }) {
 }
 
 function WindowSearch() {
-  const { t, A, start, horizonMode, earthMargin, power } = useApp();
+  const { t, A, start, horizonMode, earthMargin, power, siteName } = useApp();
   const [form, setForm] = useState({ from: dateInput(start), to: dateInput(start + 60 * 86400), duration: 14, minSun: 90, minEarth: '', minComm: '', maxDark: '', maxBattery: '' });
   const [res, setRes] = useState({ data: null, error: null, loading: false });
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -107,7 +107,7 @@ function WindowSearch() {
   );
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="text-[15px] font-semibold m-0">{t('compare.search')} · <span style={{ color: 'var(--sun)' }}>A</span> {A?.name}</h2>
+      <h2 className="text-[15px] font-semibold m-0">{t('compare.search')} · <span style={{ color: 'var(--sun)' }}>A</span> {A ? siteName(A) : ''}</h2>
       <form className="flex flex-wrap items-end gap-3" onSubmit={run}>
         {field('from', `${t('compare.from')} (UTC)`, 'date')}
         {field('to', `${t('compare.to')} (UTC)`, 'date')}
@@ -147,7 +147,7 @@ export function seqColor(f) {
 }
 
 function Sensitivity() {
-  const { t, A, start, days, power } = useApp();
+  const { t, A, start, days, power, siteName } = useApp();
   const [s, set] = useState({ data: null, loading: false, error: null });
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
@@ -216,7 +216,7 @@ function Sensitivity() {
 }
 
 export default function Compare() {
-  const { t, A, B, siteA, siteB, delayDays, days, results } = useApp();
+  const { t, A, B, siteA, siteB, delayDays, days, results, siteName } = useApp();
   const a = useDelay(A);
   const b = useDelay(B);
   const deltas = [[a, 'A', 'var(--sun)'], [b, 'B', 'var(--earth)']].filter(([d]) => d.data);
@@ -227,6 +227,7 @@ export default function Compare() {
         <div>
           <h1 className="m-0 text-[28px] font-semibold tracking-tight">{t('compare.title', { n: delayDays })}</h1>
           <p className="m-0 mt-1 text-sm text-muted">{t('compare.subtitle', { d: days })}</p>
+          <LearnNotes className="mt-3" notes={[t('learn.delay'), t('learn.spread')]} />
         </div>
         {(a.loading || b.loading) && <Loading />}
         {a.error && <ErrorBox message={a.error} />}
@@ -245,7 +246,7 @@ export default function Compare() {
                 </div>
                 {deltas.map(([d, w, c]) => (
                   <div key={w} className="contents">
-                    <dt><span style={{ color: c }}>{w}</span> {d.data.scenarios[0].site.name}</dt>
+                    <dt><span style={{ color: c }}>{w}</span> {siteName(d.data.scenarios[0].site)}</dt>
                     <dd className="m-0 font-mono text-right">{signed(d.data.delta.sun_hours)}</dd>
                     <dd className="m-0 font-mono text-right">{signed(d.data.delta.earth_hours)}</dd>
                     <dd className="m-0 font-mono text-right">{d.data.delta.comm_hours !== undefined ? signed(d.data.delta.comm_hours) : '—'}</dd>

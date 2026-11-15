@@ -7,11 +7,12 @@ import {
   CHART_SITES, SHORT, batteryRows, delayRows, monthlyLines, pgdaRows, siteBars, spreadLabels, sunHistogram, whereVsWhen, yearMean,
 } from '../lib/charts.js';
 
+import { LearnNotes } from '../components/States.jsx';
 import { ChartFrame, DASH, EARTH, Grid, MONO, SUN, Swatch, pctTick, pts } from '../components/ChartKit.jsx';
 
 /* ---------- 1 · Sites side by side ---------- */
 function SitesChart({ data, n }) {
-  const { t, start, days } = useApp();
+  const { t, start, days, siteName } = useApp();
   const label = { sun: t('common.sunlight'), earth: t('common.earthInView'), comm: t('common.comm') };
   const color = { sun: SUN, earth: EARTH, comm: EARTH };
   const summary = data ? t('charts.c1.summary', { d: dateInput(start), n: days, list: data.map((s) => `${SHORT[s.id]}: ${s.bars.map((b) => `${label[b.key]} ${pct(b.value)}`).join(', ')}`).join('; ') }) : '';
@@ -20,7 +21,7 @@ function SitesChart({ data, n }) {
       status={!data ? t('common.loading') : null}
       legend={[[<Swatch key="s" color={SUN} />, label.sun], [<Swatch key="e" color={EARTH} />, label.earth], [<Swatch key="c" color={EARTH} kind="light" />, label.comm], [<Swatch key="w" kind="whisker" />, t('charts.discRange')], [<Swatch key="b" kind="box" />, t('charts.posRange')]]}
       table={data && { head: [t('charts.site'), t('charts.metric'), t('charts.value'), t('charts.discRange'), t('charts.posRange')],
-        rows: data.flatMap((s) => s.bars.map((b) => [`${s.name}${s.mode === 'geometric' ? ` (${t('common.geometric')})` : ''}`, label[b.key], pct(b.value), b.disc ? pctSpan(b.disc[0], b.disc[1]) : '—', b.pos ? pctSpan(b.pos[0], b.pos[1]) : '—'])) }}>
+        rows: data.flatMap((s) => s.bars.map((b) => [`${siteName(s)}${s.mode === 'geometric' ? ` (${t('common.geometric')})` : ''}`, label[b.key], pct(b.value), b.disc ? pctSpan(b.disc[0], b.disc[1]) : '—', b.pos ? pctSpan(b.pos[0], b.pos[1]) : '—'])) }}>
       {(w) => {
         const H = 280; const m = { l: 44, r: 6, t: 10, b: 44 };
         const ih = H - m.t - m.b; const gw = (w - m.l - m.r) / data.length;
@@ -37,7 +38,7 @@ function SitesChart({ data, n }) {
                     const x = gx + k * (bw + 2); const cx = x + bw / 2;
                     return (
                       <g key={b.key}>
-                        <title>{`${s.name} · ${label[b.key]} ${pct(b.value)}`}</title>
+                        <title>{`${siteName(s)} · ${label[b.key]} ${pct(b.value)}`}</title>
                         <rect x={x} y={y(b.value)} width={bw} height={Math.max(0.5, y(0) - y(b.value))} style={{ fill: color[b.key], stroke: color[b.key] }} fillOpacity={b.key === 'comm' ? 0.35 : 1} strokeWidth={b.key === 'comm' ? 1.5 : 0} />
                         {b.pos && <rect x={x - 2} y={y(b.pos[1])} width={bw + 4} height={Math.max(1, y(b.pos[0]) - y(b.pos[1]))} fill="none" style={{ stroke: 'var(--ink)' }} strokeDasharray="3 2" strokeWidth="1.2" />}
                         {b.disc && (
@@ -64,13 +65,13 @@ function SitesChart({ data, n }) {
 
 /** Under chart 1 on narrow screens: what the short label and the horizon modes are. */
 function SitesNote() {
-  const { t } = useApp();
+  const { t, siteName } = useApp();
   return <p className="m-0 -mt-1 text-xs text-dim sm:hidden">{t('charts.c1.narrowNote')}</p>;
 }
 
 /* ---------- 2 · 2030 month by month ---------- */
 function MonthlyChart({ lines, year, n }) {
-  const { t, lang } = useApp();
+  const { t, lang, siteName } = useApp();
   const months = useMemo(() => Array.from({ length: 12 }, (_, i) => new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : lang, { month: 'short', timeZone: 'UTC' }).format(Date.UTC(2030, i, 15)).replace('.', '')), [lang]);
   const narrow = useMemo(() => Array.from({ length: 12 }, (_, i) => new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : lang, { month: 'narrow', timeZone: 'UTC' }).format(Date.UTC(2030, i, 15))), [lang]);
   const summary = lines?.length ? t('charts.c2.summary', { year, list: lines.map((l) => {
@@ -90,7 +91,7 @@ function MonthlyChart({ lines, year, n }) {
         {lines.map((l, k) => (
           <g key={l.id}>
             <path d={l[key].map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v ?? 0).toFixed(1)}`).join(' ')} fill="none" style={{ stroke: color }} strokeWidth="2" strokeDasharray={DASH[k]} />
-            {l[key].map((v, i) => <circle key={i} cx={x(i)} cy={y(v ?? 0)} r="2.5" style={{ fill: color }}><title>{`${l.name} · ${months[i]} ${year}: ${pct(v)}`}</title></circle>)}
+            {l[key].map((v, i) => <circle key={i} cx={x(i)} cy={y(v ?? 0)} r="2.5" style={{ fill: color }}><title>{`${siteName(l)} · ${months[i]} ${year}: ${pct(v)}`}</title></circle>)}
           </g>
         ))}
         {ends.map((e) => <text key={e.id} x={m.l + iw + 8} y={e.y} fontSize="11" style={{ fill: 'var(--text2)' }}>{SHORT[e.id]}</text>)}
@@ -100,7 +101,7 @@ function MonthlyChart({ lines, year, n }) {
   return (
     <ChartFrame id="chart-monthly" n={n} title={t('charts.c2.title', { year })} what={t('charts.c2.what', { year })}
       status={!lines ? t('common.loading') : lines.length === 0 ? t('charts.unavailable') : null}
-      legend={lines?.map((l, k) => [<Swatch key={l.id} color="var(--text2)" kind={`dash${k}`} />, `${l.name}${l.mode === 'geometric' ? ` (${t('common.geometric')})` : ''}`])}
+      legend={lines?.map((l, k) => [<Swatch key={l.id} color="var(--text2)" kind={`dash${k}`} />, `${siteName(l)}${l.mode === 'geometric' ? ` (${t('common.geometric')})` : ''}`])}
       table={lines?.length && { head: [t('charts.month'), ...lines.flatMap((l) => [`${SHORT[l.id]} · ${t('common.sun')}`, `${SHORT[l.id]} · ${t('common.earth')}`])],
         rows: [...months.map((mo, i) => [`${mo} ${year}`, ...lines.flatMap((l) => [pct(l.sun[i]), pct(l.earth[i])])]),
           [t('charts.yearMean'), ...lines.flatMap((l) => [pct(yearMean(l.sun, year)), pct(yearMean(l.earth, year))])]] }}>
@@ -159,13 +160,13 @@ function PgdaChart({ data, siteName, n }) {
 
 /* ---------- 4 · Battery needed by site ---------- */
 function BatteryChart({ rows, wv, delayDays, n }) {
-  const { t, power } = useApp();
+  const { t, power, siteName } = useApp();
   const summary = rows ? t('charts.c4.summary', { list: rows.map((r) => `${SHORT[r.id]}: ${ge(num(r.kwh, 2, 'kWh'), r.lowerBound)}${r.pos ? ` (±300${NBSP}m ${numSpanBound(r.pos[0], r.posLowerBound[0], r.pos[1], r.posLowerBound[1], 2, 'kWh')})` : ''}`).join('; ') }) : '';
   return (
     <ChartFrame id="chart-battery" n={n} title={t('charts.c4.title')} what={t('charts.c4.what', { panel: power.panel_w, surv: power.survival_w, dod: plain(power.dod) })}
       status={!rows ? t('common.loading') : null}
       legend={[[<Swatch key="b" color={SUN} />, t('power.battery')], [<Swatch key="x" kind="box" />, t('charts.posRange')]]}
-      table={rows && { head: [t('charts.site'), t('power.battery'), t('charts.posRange'), t('common.longestDark')], rows: rows.map((r) => [r.name, ge(num(r.kwh, 2, 'kWh'), r.lowerBound), r.pos ? numSpanBound(r.pos[0], r.posLowerBound[0], r.pos[1], r.posLowerBound[1], 2, 'kWh') : '—', ge(hrs(r.nightH), r.lowerBound)]) }}>
+      table={rows && { head: [t('charts.site'), t('power.battery'), t('charts.posRange'), t('common.longestDark')], rows: rows.map((r) => [siteName(r), ge(num(r.kwh, 2, 'kWh'), r.lowerBound), r.pos ? numSpanBound(r.pos[0], r.posLowerBound[0], r.pos[1], r.posLowerBound[1], 2, 'kWh') : '—', ge(hrs(r.nightH), r.lowerBound)]) }}>
       {(w) => {
         const rowH = 34; const m = { l: 100, r: 96, t: 6, b: 24 };
         const H = m.t + rows.length * rowH + m.b; const iw = w - m.l - m.r;
@@ -194,7 +195,7 @@ function BatteryChart({ rows, wv, delayDays, n }) {
                 const y0 = m.t + i * rowH;
                 return (
                   <g key={r.id}>
-                    <title>{`${r.name} · ${ge(num(r.kwh, 2, 'kWh'), r.lowerBound)}`}</title>
+                    <title>{`${siteName(r)} · ${ge(num(r.kwh, 2, 'kWh'), r.lowerBound)}`}</title>
                     <text x={0} y={y0 + 20} fontSize="12" style={{ fill: 'var(--text2)' }}>{SHORT[r.id]}</text>
                     <rect x={m.l} y={y0 + 8} width={Math.max(0.5, x(r.kwh) - m.l)} height="16" style={{ fill: SUN }} />
                     {r.pos && <rect x={x(r.pos[0])} y={y0 + 4} width={Math.max(1, x(r.pos[1]) - x(r.pos[0]))} height="24" fill="none" style={{ stroke: 'var(--ink)' }} strokeDasharray="3 2" strokeWidth="1.2" />}
@@ -212,7 +213,7 @@ function BatteryChart({ rows, wv, delayDays, n }) {
 
 /* ---------- 5 · What a delay changes ---------- */
 function DelayChart({ rows, delayDays, n }) {
-  const { t } = useApp();
+  const { t, siteName } = useApp();
   const dl = (d) => ge(hrs(d.hours), d.lowerBound);
   const summary = rows ? t('charts.c5.summary', { n: delayDays, list: rows.map((r) => `${SHORT[r.id]}: ${dl(r.daylight[0])} → ${dl(r.daylight[1])}, ${t('common.comm')} ${pct(r.comm[0])} → ${pct(r.comm[1])}`).join('; ') }) : '';
   const panel = (w, title, color, vals, max, fmt) => {
@@ -227,8 +228,8 @@ function DelayChart({ rows, delayDays, n }) {
           return (
             <g key={r.id}>
               <text x={0} y={y0 + 19} fontSize="12" style={{ fill: 'var(--text2)' }}>{SHORT[r.id]}</text>
-              <rect x={m.l} y={y0 + 3} width={Math.max(0.5, x(a.v) - m.l)} height="11" style={{ fill: color }}><title>{`${r.name} · ${t('compare.original')} ${fmt(a)}`}</title></rect>
-              <rect x={m.l} y={y0 + 16} width={Math.max(0.5, x(b.v) - m.l)} height="11" style={{ fill: color, stroke: color }} fillOpacity="0.3" strokeWidth="1.2"><title>{`${r.name} · ${t('compare.delayed', { n: delayDays })} ${fmt(b)}`}</title></rect>
+              <rect x={m.l} y={y0 + 3} width={Math.max(0.5, x(a.v) - m.l)} height="11" style={{ fill: color }}><title>{`${siteName(r)} · ${t('compare.original')} ${fmt(a)}`}</title></rect>
+              <rect x={m.l} y={y0 + 16} width={Math.max(0.5, x(b.v) - m.l)} height="11" style={{ fill: color, stroke: color }} fillOpacity="0.3" strokeWidth="1.2"><title>{`${siteName(r)} · ${t('compare.delayed', { n: delayDays })} ${fmt(b)}`}</title></rect>
               <text x={w} y={y0 + 12} textAnchor="end" fontSize="11" fontFamily={MONO} style={{ fill: 'var(--text2)' }}>{fmt(a)}</text>
               <text x={w} y={y0 + 25} textAnchor="end" fontSize="11" fontFamily={MONO} style={{ fill: 'var(--dim)' }}>{fmt(b)}</text>
             </g>
@@ -242,7 +243,7 @@ function DelayChart({ rows, delayDays, n }) {
       status={!rows ? t('common.loading') : null}
       legend={[[<Swatch key="o" color="var(--text2)" />, t('compare.original')], [<Swatch key="d" color="var(--text2)" kind="light" />, t('compare.delayed', { n: delayDays })]]}
       table={rows && { head: [t('charts.site'), `${t('charts.c5.daylight')} · ${t('compare.original')}`, `${t('charts.c5.daylight')} · ${t('compare.delayed', { n: delayDays })}`, `${t('common.comm')} · ${t('compare.original')}`, `${t('common.comm')} · ${t('compare.delayed', { n: delayDays })}`],
-        rows: rows.map((r) => [r.name, `${dl(r.daylight[0])}${r.daylight[0].darkAtLanding ? ` (${t('charts.c5.dark')})` : ''}`, `${dl(r.daylight[1])}${r.daylight[1].darkAtLanding ? ` (${t('charts.c5.dark')})` : ''}`, pct(r.comm[0]), pct(r.comm[1])]) }}>
+        rows: rows.map((r) => [siteName(r), `${dl(r.daylight[0])}${r.daylight[0].darkAtLanding ? ` (${t('charts.c5.dark')})` : ''}`, `${dl(r.daylight[1])}${r.daylight[1].darkAtLanding ? ` (${t('charts.c5.dark')})` : ''}`, pct(r.comm[0]), pct(r.comm[1])]) }}>
       {(w) => {
         const two = w >= 760; const pw = two ? (w - 24) / 2 : w;
         const maxH = Math.max(1, ...rows.flatMap((r) => r.daylight.map((d) => d.hours)));
@@ -259,10 +260,10 @@ function DelayChart({ rows, delayDays, n }) {
 
 /* ---------- 6 · Sensitivity histogram ---------- */
 function HistogramChart({ h, site, n }) {
-  const { t } = useApp();
-  const summary = h ? t('charts.c6.summary', { site: site?.name ?? '', n: h.n, m: h.radius, p10: pct(h.p10), p90: pct(h.p90), point: pct(h.sitePoint) }) : '';
+  const { t, siteName } = useApp();
+  const summary = h ? t('charts.c6.summary', { site: site ? siteName(site) : '', n: h.n, m: h.radius, p10: pct(h.p10), p90: pct(h.p90), point: pct(h.sitePoint) }) : '';
   return (
-    <ChartFrame id="chart-hist" n={n} title={t('charts.c6.title')} what={t('charts.c6.what', { site: site?.name ?? '—', m: h?.radius ?? 300 })}
+    <ChartFrame id="chart-hist" n={n} title={t('charts.c6.title')} what={t('charts.c6.what', { site: site ? siteName(site) : '—', m: h?.radius ?? 300 })}
       status={h === undefined ? t('common.loading') : h === null ? t('charts.c6.none') : null}
       legend={[[<Swatch key="b" color={SUN} />, t('charts.c6.points')], [<Swatch key="v" kind="vline" />, t('charts.c6.sitePoint')], [<Swatch key="d" kind="vdash" />, 'P10 · P90']]}
       table={h && { head: [t('common.sunlight'), t('charts.c6.count')], rows: h.counts.map((c, i) => [pctSpan(h.edges[i], h.edges[i + 1], 0), String(c)]) }}>
@@ -299,7 +300,7 @@ function HistogramChart({ h, site, n }) {
 }
 
 export default function Charts() {
-  const { t, sites, A, start, days, delayDays, earthMargin, power } = useApp();
+  const { t, sites, A, start, days, delayDays, earthMargin, power, siteName } = useApp();
   const [metrics, setMetrics] = useState(null);
   const [delays, setDelays] = useState(null);
   const [year, setYear] = useState(null);
@@ -326,8 +327,7 @@ export default function Charts() {
     return () => { live = false; };
   }, [A, start, days, power]);
 
-  const siteName = (id) => sites.find((s) => s.id === id)?.name || id;
-  const bars = metrics ? siteBars(metrics) : null;
+    const bars = metrics ? siteBars(metrics) : null;
   const battery = metrics ? batteryRows(metrics) : null;
   const wv = battery && delays ? whereVsWhen(battery, delays) : null;
   const lines = year ? monthlyLines(year) : null;
@@ -340,6 +340,7 @@ export default function Charts() {
         <h1 className="m-0 text-[28px] font-semibold tracking-tight">{t('charts.title')}</h1>
         <p className="m-0 mt-2 text-[15px] leading-relaxed text-text2 max-w-[78ch]">{t('charts.intro', { d: dateInput(start), n: days })}</p>
         {metrics?.[0] && <p className="m-0 mt-2 font-mono text-xs text-dim">{metrics[0].provenance.source} · {isoMin(metrics[0].metrics.period.start)} → {isoMin(metrics[0].metrics.period.end)} · {t('charts.modeNote')}</p>}
+        <LearnNotes className="mt-3" notes={[t('learn.charts'), t('learn.seasons')]} />
       </div>
       {err && <p role="alert" className="m-0 text-sm text-warntext">{err}</p>}
       <SitesChart data={bars} n={1} />

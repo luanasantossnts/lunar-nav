@@ -4,7 +4,7 @@ import { useApp } from '../lib/store.jsx';
 import { dateInput, fx, parseDateInput } from '../lib/format.js';
 
 function SiteSelect({ label, value, onChange, accent }) {
-  const { sites, t } = useApp();
+  const { sites, t, siteName } = useApp();
   const groups = ['south_pole', 'south_high_latitude', 'near_side'].map((g) => [g, t(`common.regions.${g}`)]);
   return (
     <label className="flex flex-col gap-1">
@@ -12,7 +12,7 @@ function SiteSelect({ label, value, onChange, accent }) {
       <select className="field min-w-[220px]" value={value || ''} onChange={(e) => onChange(e.target.value)}>
         {groups.map(([g, name]) => (
           <optgroup key={g} label={name}>
-            {sites.filter((s) => s.region === g).map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            {sites.filter((s) => s.region === g).map((s) => <option key={s.id} value={s.id}>{siteName(s)}</option>)}
           </optgroup>
         ))}
         <option value="custom">{t('common.custom')}…</option>

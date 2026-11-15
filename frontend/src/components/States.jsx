@@ -25,6 +25,13 @@ export function HorizonNote({ provenance }) {
   return <span className={`text-xs ${h.terrain === 'unavailable for this site' ? 'text-warntext' : 'text-muted'}`}>{text}</span>;
 }
 
+/** A group of Learn notes in its own box (nothing at all in Technical mode). */
+export function LearnNotes({ notes, className = '' }) {
+  const { uiMode } = useApp();
+  if (uiMode !== 'learn' || !notes?.length) return null;
+  return <div className={`flex flex-col gap-2 max-w-[78ch] ${className}`}>{notes.map((n) => <LearnNote key={n}>{n}</LearnNote>)}</div>;
+}
+
 export function LearnNote({ children }) {
   const { uiMode } = useApp();
   if (uiMode !== 'learn') return null;

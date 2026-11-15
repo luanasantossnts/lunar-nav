@@ -12,7 +12,7 @@ import { ErrorBox, HorizonNote, LearnNote, Loading } from '../components/States.
 const Terrain3D = lazy(() => import('../components/Terrain3D.jsx'));
 
 export default function SkyView() {
-  const { t, results, terrain, cursor, earthMargin, go, reload } = useApp();
+  const { t, results, terrain, cursor, earthMargin, go, reload, siteName } = useApp();
   const [which, setWhich] = useState('A');
   const [tab, setTab] = useState('panorama');
   const [present, setPresent] = useState(false);
@@ -24,7 +24,7 @@ export default function SkyView() {
   return (
     <div className={present ? 'fixed inset-0 z-50 bg-bg overflow-auto' : ''}>
       <div className="no-print flex flex-wrap items-center gap-3 px-4 py-3 border-b border-line">
-        <h1 className="m-0 text-sm font-semibold">{r ? t('sky.title', { site: r.site.name }) : t('nav.sky')}</h1>
+        <h1 className="m-0 text-sm font-semibold">{r ? t('sky.title', { site: siteName(r.site) }) : t('nav.sky')}</h1>
         {r && <span className="font-mono text-xs text-muted">{coord(r.site.lat, r.site.lon)}</span>}
         <span className="flex-grow" />
         <div className="seg" role="group" aria-label={t('sky.siteGroup')}>

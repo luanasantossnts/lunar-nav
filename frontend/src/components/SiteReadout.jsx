@@ -38,7 +38,7 @@ export function statusWord(t, s) {
 }
 
 export default function SiteReadout({ which }) {
-  const { t, results, cursor, terrain, earthMargin } = useApp();
+  const { t, results, cursor, terrain, earthMargin, siteName } = useApp();
   const r = results[which];
   if (!r) return <section className="p-4 border-b border-line text-sm text-muted">{results.loading ? t('common.loading') : '—'}</section>;
   const m = r.metrics;
@@ -52,7 +52,7 @@ export default function SiteReadout({ which }) {
   return (
     <section className="px-4 py-4 border-b border-line">
       <div className="flex justify-between items-baseline gap-2">
-        <h2 className="panel-title m-0"><span style={{ color: accent }}>{which}</span> {r.site.name}</h2>
+        <h2 className="panel-title m-0"><span style={{ color: accent }}>{which}</span> {siteName(r.site)}</h2>
         <span className="font-mono text-xs text-muted whitespace-nowrap">{coord(r.site.lat, r.site.lon)}</span>
       </div>
       <dl className="mt-3 grid grid-cols-[minmax(8.5rem,1fr)_auto] gap-x-3 gap-y-2 text-[13px]">

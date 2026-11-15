@@ -52,7 +52,7 @@ export function ChartFrame({ id, n, title, what, legend, table, status, children
           <summary className="tap inline-flex items-center cursor-pointer text-[13px] text-text2">{t('charts.table')}</summary>
           <div className="mt-2 overflow-x-auto" tabIndex={0} role="region" aria-label={`${title} · ${t('charts.table')}`}>
             <table className="w-full min-w-[520px] border-collapse text-[13px]">
-              <thead><tr className="text-left text-xs text-muted">{table.head.map((h) => <th key={h} scope="col" className="py-2 pr-3 font-medium border-b border-line">{h}</th>)}</tr></thead>
+              <thead><tr className="text-left text-xs text-muted">{table.head.map((h, i) => <th key={i} scope="col" className="py-2 pr-3 font-medium border-b border-line">{h}</th>)}</tr></thead>
               <tbody className="font-mono tabular">
                 {table.rows.map((r, i) => (
                   <tr key={i}>{r.map((c, j) => (j === 0

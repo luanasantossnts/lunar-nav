@@ -61,7 +61,7 @@ const ROWS = (t) => [
 ];
 
 export default function Report() {
-  const { t, results, reportNotes, lang } = useApp();
+  const { t, results, reportNotes, lang, siteName } = useApp();
   const list = ['A', 'B'].map((w) => results[w]).filter(Boolean);
   const rows = ROWS(t);
   const generated = new Date().toISOString().slice(0, 16).replace('T', ' ') + 'Z';
@@ -72,13 +72,13 @@ export default function Report() {
   const asJson = () => JSON.stringify({ generated, lang, scenarios: list.map((r) => ({ site: r.site, metrics: { ...r.metrics, sun: { ...r.metrics.sun, elevation: round2(r.metrics.sun.elevation) }, earth: { ...r.metrics.earth, elevation: round2(r.metrics.earth.elevation) } }, position_spread: spreadOf(r) ?? null, provenance: r.provenance })), analyst: reportNotes }, null, 2);
   // CSV keeps "." decimals in every language (spreadsheets and scripts read it as data).
   const asCsv = () => withPoint(() => {
-    const head = ['metric', ...list.map((r) => r.site.name)];
+    const head = ['metric', ...list.map((r) => siteName(r.site))];
     const lines = rows.map(([label, f]) => [label, ...list.map((r) => f(r.metrics, r))]);
     return [head, ...lines].map((l) => l.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
   });
   const asMd = () => [
     `# ${t('report.title')}`, '', `${t('report.generated')}: ${generated}`, '',
-    `| ${t('compare.metric')} | ${list.map((r) => r.site.name).join(' | ')} |`,
+    `| ${t('compare.metric')} | ${list.map((r) => siteName(r.site)).join(' | ')} |`,
     `|---|${list.map(() => '---').join('|')}|`,
     ...rows.map(([label, f]) => `| ${label} | ${list.map((r) => f(r.metrics, r)).join(' | ')} |`),
     '', `## ${t('report.assumptions')}`, '', t('report.assumptionsText'), ...(powerInputs ? ['', powerInputs] : []),
@@ -103,11 +103,11 @@ export default function Report() {
           <div className="text-right font-mono text-xs leading-relaxed text-[#4b5563]">{t('report.title')}<br />{t('report.generated')} {generated}<br />{t('report.method', { v: list[0]?.provenance.method_version ?? '—' })}</div>
         </header>
         {list.map((r) => (
-          <p key={r.site.id} className="m-0 text-sm text-[#374151]"><strong className="text-[#080b12]">{r.site.name}</strong> · {coord(r.site.lat, r.site.lon)} · {horizonLabel(t, r.provenance.horizon)} · {t('common.source')}: {r.site.source}</p>
+          <p key={r.site.id} className="m-0 text-sm text-[#374151]"><strong className="text-[#080b12]">{siteName(r.site)}</strong> · {coord(r.site.lat, r.site.lon)} · {horizonLabel(t, r.provenance.horizon)} · {t('common.source')}: {r.site.source}</p>
         ))}
         {list[0] && <p className="m-0 text-sm text-[#374151]">{isoMin(list[0].metrics.period.start)} → {isoMin(list[0].metrics.period.end)} · {list[0].provenance.source}, {t('report.step', { n: list[0].provenance.step_minutes })}</p>}
         <table className="w-full border-collapse text-sm">
-          <thead><tr className="text-left text-xs text-[#4b5563]"><th className="py-2 pr-2 font-medium border-b border-[#d1d5db]">{t('compare.metric')}</th>{list.map((r) => <th key={r.site.id} className="p-2 font-medium border-b border-[#d1d5db]">{r.site.name}</th>)}</tr></thead>
+          <thead><tr className="text-left text-xs text-[#4b5563]"><th className="py-2 pr-2 font-medium border-b border-[#d1d5db]">{t('compare.metric')}</th>{list.map((r) => <th key={r.site.id} className="p-2 font-medium border-b border-[#d1d5db]">{siteName(r.site)}</th>)}</tr></thead>
           <tbody className="font-mono">
             {rows.map(([label, f]) => (
               <tr key={label}><th scope="row" className="py-2.5 pr-2 text-left font-sans font-medium border-b border-[#e5e7eb]">{label}</th>{list.map((r) => <td key={r.site.id} className="p-2.5 border-b border-[#e5e7eb]">{f(r.metrics, r)}</td>)}</tr>

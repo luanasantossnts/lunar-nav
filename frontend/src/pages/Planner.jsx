@@ -9,10 +9,10 @@ import ElevationChart from '../components/ElevationChart.jsx';
 import { ErrorBox, LearnNote, Loading } from '../components/States.jsx';
 
 export default function Planner() {
-  const { t, results, reload, go, delayDays, A, B } = useApp();
+  const { t, results, reload, go, delayDays, A, B, siteName } = useApp();
   return (
     <>
-      <h1 className="sr-only">{t('planner.h1', { a: A?.name ?? '…', b: B?.name ?? '…' })}</h1>
+      <h1 className="sr-only">{t('planner.h1', { a: A ? siteName(A) : '…', b: B ? siteName(B) : '…' })}</h1>
       <ScenarioBar />
       {results.error && <ErrorBox message={results.error} onRetry={reload} />}
       <div className="flex flex-wrap border-b border-line">

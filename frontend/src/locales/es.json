@@ -29,7 +29,11 @@
     "scenario": "Escenario",
     "menu": "Abrir menú",
     "closeMenu": "Cerrar menú",
-    "skip": "Saltar al contenido"
+    "skip": "Saltar al contenido",
+    "modeNotice": {
+      "learn": "aparecen explicaciones breves en Explorador, Comparar, Vista del cielo y Gráficos, y el Analista explica en nivel de aula.",
+      "technical": "las explicaciones se ocultan y el Analista responde en nivel técnico."
+    }
   },
   "common": {
     "sun": "Sol",
@@ -241,14 +245,16 @@
     "disclosureText": "Texto de un modelo de IA a partir de los resultados de las herramientas de Lunar Nav",
     "voiceEleven": "voz de ElevenLabs (voz de IA)",
     "voiceBrowser": "voz integrada del navegador",
-    "levelFollows": "Sigue Técnico / Aprender en la barra superior",
+    "levelFollows": "Cambia con Técnico / Aprender en la barra superior; también puedes elegir aquí.",
     "readFull": "Leer la respuesta completa",
     "cachedAnswer": "respuesta en caché",
     "cachedTitle": "Respuesta guardada el {d} para esta misma pregunta, escenario y modo; sin nueva llamada a la IA.",
     "voiceLimit": "Leído por la voz de tu navegador: la voz de IA no está disponible ahora.",
     "micMax": "Grabación detenida a los 30 s.",
     "privacyNote": "No incluyas datos personales. Las preguntas se envían a Anthropic (EE. UU.) para generar la respuesta, y las preguntas idénticas pueden quedar en caché durante 90 días.",
-    "micNotice": "Tu grabación se envía a ElevenLabs (EE. UU.) para transcribirla y Lunar Nav no la almacena."
+    "micNotice": "Tu grabación se envía a ElevenLabs (EE. UU.) para transcribirla y Lunar Nav no la almacena.",
+    "levelTechnical": "Técnico",
+    "levelClassroom": "Aula"
   },
   "method": {
     "title": "Metodología y validación",
@@ -401,7 +407,11 @@
   "learn": {
     "polar": "En los polos el Sol nunca sube mucho: da una vuelta al horizonte por día lunar (unos 29,5 días terrestres).",
     "libration": "La Tierra está casi fija en el cielo lunar, pero la libración la hace oscilar unos grados en un mes. Cerca del polo, eso basta para ocultarla.",
-    "terrain": "Sin atmósfera, el horizonte es solo el relieve. Una cresta de un grado puede tapar el Sol por completo."
+    "terrain": "Sin atmósfera, el horizonte es solo el relieve. Una cresta de un grado puede tapar el Sol por completo.",
+    "delay": "Unos días de retraso llevan el alunizaje a otra parte del día lunar: el mismo lugar puede empezar con Sol o en medio de una noche de unas dos semanas.",
+    "spread": "Las coordenadas publicadas son aproximadas, y un alunizaje puede desviarse cientos de metros. El rango de ±300 m muestra cuánto cambia eso la luz del Sol y la Tierra visible.",
+    "charts": "Cada gráfico tiene una frase de lectura arriba y, debajo, una tabla con los mismos números. Las barras muestran el valor en el sitio; los bigotes y las cajas discontinuas muestran los rangos.",
+    "seasons": "El eje de la Luna está poco inclinado, pero en el polo basta: a lo largo del año la trayectoria del Sol sube y baja, y un sitio puede quedar a oscuras durante meses. Malapert no recibe Sol de enero a junio de 2030."
   },
   "svs": {
     "title": "Contexto del Scientific Visualization Studio de la NASA",
@@ -619,6 +629,38 @@
       ],
       "answersTitle": "Qué responde Lunar Nav",
       "answers": "Para un sitio y unas fechas que eliges: cuánto tiempo el Sol está sobre el horizonte y la Tierra está visible, cuándo hay contacto con la Tierra por la Deep Space Network, cuánto dura la noche más larga y qué batería exige, cuánto cambia el panorama un retraso o un alunizaje a unos cientos de metros, y cómo se compara el modelo con los mapas de largo plazo de la NASA."
+    },
+    "toc": {
+      "title": "En esta página",
+      "who": "Para quién es",
+      "how": "Cómo usar",
+      "glossary": "Glosario",
+      "faq": "Preguntas",
+      "refs": "Referencias"
+    },
+    "start": {
+      "title": "Empieza aquí",
+      "steps": [
+        [
+          "Elige el sitio",
+          "Define los sitios A y B en la barra superior o en el mapa polar."
+        ],
+        [
+          "Elige la fecha",
+          "Define la fecha de alunizaje y cuántos días analizar."
+        ],
+        [
+          "Mira Sol, Tierra y batería",
+          "El Explorador muestra la luz del Sol, la Tierra visible, el contacto y la batería para la noche más larga."
+        ]
+      ]
+    },
+    "groups": {
+      "position": "Posición del Sol y de la Tierra",
+      "terrain": "Relieve",
+      "comm": "Comunicación",
+      "energy": "Energía",
+      "uncertainty": "Incertidumbre"
     }
   },
   "validation": {
@@ -831,5 +873,18 @@
     "factorHorizontal": "sen(elevación), panel horizontal",
     "battery": "batería = carga de supervivencia × noche más larga / DoD; masa = capacidad / Wh/kg",
     "cache": "caché"
+  },
+  "siteNames": {
+    "shackleton_ridge": "Borde de Shackleton en la cresta de Gerlache",
+    "im2_athena": "IM-2 Athena, región del Mons Mouton",
+    "im1_odysseus": "IM-1 Odysseus, Malapert A",
+    "malapert_m1": "Monte Malapert, punto M1",
+    "chandrayaan3": "Chandrayaan-3, Statio Shiv Shakti",
+    "apollo11": "Apollo 11, Tranquility Base",
+    "apollo12": "Apollo 12",
+    "apollo14": "Apollo 14",
+    "apollo15": "Apollo 15",
+    "apollo16": "Apollo 16",
+    "apollo17": "Apollo 17"
   }
 }
