@@ -2,7 +2,7 @@
 
 **Landing-site navigator for the lunar south pole.** Lunar Nav compares landing sites and dates by where the Sun and Earth sit against the local horizon, for how long, and what a schedule change does to both. Built for the NASA Space Apps Challenge 2026, challenge *Lunar Landing Site Navigator*.
 
-Team **Lumi Lunar** · Luana Santos — individual project · Licence: Apache-2.0 · Languages: English, Español, Português
+Team **Lumi Lunar** · Luana Santos — individual project · Licence: Apache-2.0 · Languages: English, Español, Português (the first visit opens in English; the choice is remembered; `?lang=es` or `?lang=pt` in a link opens that language and saves it)
 
 > Lunar Nav is an independent project. It is not affiliated with or endorsed by NASA. It uses NASA and JPL public data and services, cited in [REFERENCES.md](REFERENCES.md).
 

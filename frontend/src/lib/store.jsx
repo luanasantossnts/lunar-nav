@@ -1,7 +1,7 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { api, POWER_DEFAULTS } from './api.js';
-import { detectLang, makeT } from './i18n.js';
+import { htmlLang, initialLang, makeT, urlLang, withoutLangParam } from './i18n.js';
 import { parseDateInput, setNumberLang } from './format.js';
 import { localSiteName, shortSiteName } from './siteNames.js';
 
@@ -32,7 +32,23 @@ export const initialMode = (param) => (param === 'geometric' || param === 'terra
 export function AppProvider({ children }) {
   const initial = readHash().params;
   const [route, setRoute] = useState(readHash().route);
-  const [lang, setLang] = useState(() => storage.get('lang', detectLang()));
+  // Language: ?lang= in the URL wins (and is saved), then the saved choice, then English.
+  const [lang, setLang] = useState(() => initialLang(storage.get('lang', null), urlLang()));
+  // Once applied, ?lang= leaves the URL, so a later choice in the selector survives a reload.
+  // Also when only the hash changes (a link pasted in an open tab). Any ?lang=, valid or not, leaves the URL.
+  useEffect(() => {
+    const apply = () => {
+      const l = urlLang();
+      if (l) setLang(l);
+      try {
+        const clean = withoutLangParam(location.href);
+        if (clean !== location.href) history.replaceState(null, '', clean);
+      } catch { /* old browser */ }
+    };
+    apply();
+    window.addEventListener('hashchange', apply);
+    return () => window.removeEventListener('hashchange', apply);
+  }, []);
   const [theme, setTheme] = useState(() => storage.get('theme', 'dark'));
   const [uiMode, setUiMode] = useState(() => storage.get('uiMode', 'technical'));
   const [sites, setSites] = useState([]);
@@ -60,7 +76,7 @@ export function AppProvider({ children }) {
   const t = useMemo(() => { setNumberLang(lang); return makeT(lang); }, [lang]);
 
   useEffect(() => { document.documentElement.classList.toggle('light', theme === 'light'); storage.set('theme', theme); }, [theme]);
-  useEffect(() => { document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang; storage.set('lang', lang); }, [lang]);
+  useEffect(() => { document.documentElement.lang = htmlLang(lang); storage.set('lang', lang); }, [lang]);
   useEffect(() => { storage.set('uiMode', uiMode); }, [uiMode]);
 
   // Analyst explanation level: follows Technical / Learn ('technical' / 'learn' = classroom level)

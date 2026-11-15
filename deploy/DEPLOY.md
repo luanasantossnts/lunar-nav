@@ -150,7 +150,9 @@ php api/bin/usage.php --reset            # zera os contadores de hoje (os limite
 - [ ] Metodologia (`/#/methodology`): tabela de validação (19 checagens, incluindo a do DEM de 60 m) e a tabela PGDA.
 
 **Idiomas e tema:**
-- [ ] EN, ES e PT no topo: textos, números com vírgula em PT/ES e nomes dos locais traduzidos.
+- [ ] Primeira visita (aba anônima) abre em **inglês**, mesmo num navegador em português.
+- [ ] `https://lunarnav.space/?lang=pt` abre em português e a escolha fica salva (o `?lang=` some da barra de endereço).
+- [ ] EN, ES e PT no topo: textos, números com vírgula em PT/ES e nomes dos locais traduzidos; a escolha continua depois de recarregar.
 - [ ] Tema claro e escuro (botão do sol/lua); a escolha é lembrada.
 - [ ] Técnico / Aprender: aparece o aviso curto, e as notas do Aprender aparecem no Explorador, Comparar, Vista do céu e Gráficos.
 
