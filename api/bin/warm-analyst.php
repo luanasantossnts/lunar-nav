@@ -10,6 +10,7 @@
  *   php api/bin/warm-analyst.php --yes              run it
  *   php api/bin/warm-analyst.php --mode=geometric   warm the geometric-horizon scenario instead
  *   php api/bin/warm-analyst.php --no-tts           answers only, no audio
+ *   php api/bin/warm-analyst.php --audio-only       audio for answers already cached; never calls Claude
  *
  * Keys come from the environment (docker run --env-file ~/lunar-dem/secrets.env) or config.php.
  * Run it where the live demo's cache lives (or upload api/data/cache afterwards).
@@ -21,8 +22,9 @@ use LunarNav\Agent\Analyst;
 use LunarNav\Agent\Tools;
 use LunarNav\Voice\Voice;
 
-$opts = getopt('', ['yes', 'no-tts', 'mode:']);
+$opts = getopt('', ['yes', 'no-tts', 'mode:', 'audio-only']);
 $run = isset($opts['yes']);
+$audioOnly = isset($opts['audio-only']);
 $withTts = !isset($opts['no-tts']);
 $horizon = ($opts['mode'] ?? 'terrain') === 'geometric' ? 'geometric' : 'terrain';
 
@@ -44,35 +46,60 @@ $voice = new Voice($config);
 $todo = [];
 foreach ($questions as $x) {
     $x['key'] = $analyst->cacheKey($x['q'], $x['lang'], $x['mode'], $scenario, []);
-    $x['hit'] = $analyst->cached($x['key']);
+    $x['hit'] = $analyst->cached($x['key'], false); // looking only: not counted as a cache hit
+    // Audio state of a cached answer: is the MP3 of its spoken summary already on disk?
+    $x['audio'] = null;
+    if ($x['hit'] !== null) {
+        $text = Voice::spoken($x['hit']['answer'], 'summary');
+        $x['chars'] = mb_strlen($text);
+        $x['audio'] = $voice->configured() ? is_file($voice->ttsPath($voice->ttsHash($text, $x['lang']))) : null;
+    }
     $todo[] = $x;
 }
 $missing = array_values(array_filter($todo, static fn($x) => $x['hit'] === null));
+$askClaude = $audioOnly ? [] : $missing;
 $maxSteps = max(1, min(6, (int) ($config['ai']['max_steps'] ?? 6)));
+$audioMissing = array_values(array_filter($todo, static fn($x) => $x['audio'] === false));
 
-echo "Scenario: Shackleton ridge × IM-2 Athena, {$horizon} horizon, 2030-07-01, 30 days, delay 10 d, default power inputs.\n";
-echo "Questions: 3 suggested × 3 languages × 2 modes = " . count($todo) . "; already cached: " . (count($todo) - count($missing)) . "; to generate: " . count($missing) . ".\n";
-printf("Real Claude API requests: at least %d, at most %d (each question needs 1 request per tool round + 1 for the answer, capped at %d); typically about %d.\n",
-    count($missing) * 2, count($missing) * $maxSteps, $maxSteps, count($missing) * 3);
-printf("Model: %s · max_tokens %d · today's Claude requests so far: %d of %d.\n", $config['ai']['model'], (int) $config['ai']['max_tokens'], (int) $usage->get('claude_requests'), (int) $config['ai']['daily_claude_requests']);
-if ($withTts) {
-    printf("ElevenLabs: %s. One MP3 per answer summary (≤ %d characters each): at most %d calls and %s characters; summaries already cached are skipped.\n",
-        $voice->configured() ? 'configured' : 'NOT configured (no audio will be generated)', Voice::SUMMARY_MAX, count($todo), number_format(count($todo) * Voice::SUMMARY_MAX));
+echo "Scenario: Shackleton ridge × IM-2 Athena, {$horizon} horizon, 2030-07-01, 30 days, delay 10 d, default power inputs.\n\n";
+printf("%-4s %-3s %-9s %-8s %-10s %s\n", '#', 'lng', 'mode', 'answer', 'audio', 'question');
+foreach ($todo as $i => $x) {
+    $audio = $x['hit'] === null ? '—' : ($x['audio'] === null ? 'n/a' : ($x['audio'] ? 'cached' : 'to make'));
+    printf("%-4d %-3s %-9s %-8s %-10s %s\n", $i + 1, $x['lang'], $x['mode'], $x['hit'] !== null ? 'cached' : ($audioOnly ? 'skip' : 'ASK'), $audio, mb_substr($x['q'], 0, 60));
 }
-if (($config['ai']['api_key'] ?? '') === '') {
-    echo "ANTHROPIC_API_KEY is not set: nothing can be generated.\n";
+echo "\nAnswers: " . (count($todo) - count($missing)) . " of " . count($todo) . " cached.\n";
+if ($askClaude) {
+    printf("Claude: %d question(s) to ask → at least %d, at most %d real API requests (typically about %d).\n", count($askClaude), count($askClaude) * 2, count($askClaude) * $maxSteps, count($askClaude) * 3);
+} else {
+    echo "Claude: NO calls" . ($missing && $audioOnly ? ' (--audio-only: ' . count($missing) . ' uncached question(s) skipped)' : '') . ".\n";
+}
+printf("Model: %s · today's Claude requests so far: %d of %d.\n", $config['ai']['model'], (int) $usage->get('claude_requests'), (int) $config['ai']['daily_claude_requests']);
+if ($withTts) {
+    if (!$voice->configured()) {
+        echo "ElevenLabs: NOT configured (ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID): no audio will be generated.\n";
+    } else {
+        $chars = array_sum(array_map(static fn($x) => $x['chars'], $audioMissing));
+        printf("ElevenLabs: %d audio file(s) to make for cached answers (%s characters), plus one per newly answered question; 2 s pause between files; 429/5xx retried after 2, 5 and 10 s.\n", count($audioMissing), number_format($chars));
+    }
+}
+if (($config['ai']['api_key'] ?? '') === '' && $askClaude) {
+    echo "ANTHROPIC_API_KEY is not set: questions cannot be answered (use --audio-only for audio only).\n";
     exit(1);
 }
 if (!$run) {
-    echo "\nPlan only. Nothing was sent. Run again with --yes to generate.\n";
+    echo "\nPlan only. Nothing was sent. Run again with --yes" . ($missing && !$audioOnly ? ' (or --yes --audio-only to skip Claude)' : '') . " to generate.\n";
     exit(0);
 }
 
-$t0 = microtime(true); $before = $usage->day();
+$t0 = microtime(true); $before = $usage->day(); $made = 0;
 foreach ($todo as $i => $x) {
     $label = sprintf('[%2d/%d] %s %-9s %s', $i + 1, count($todo), $x['lang'], $x['mode'], mb_substr($x['q'], 0, 50));
     $resp = $x['hit'];
     if ($resp === null) {
+        if ($audioOnly) {
+            echo "$label … skipped (not cached, --audio-only)\n";
+            continue;
+        }
         try {
             $resp = $analyst->ask($x['q'], [], $x['lang'], $x['mode'], $scenario, $x['key']);
             echo "$label … answered ({$resp['steps']} requests)\n";
@@ -81,20 +108,28 @@ foreach ($todo as $i => $x) {
             continue;
         }
     } else {
-        echo "$label … already cached\n";
+        echo "$label … answer cached\n";
     }
     if ($withTts && $voice->configured()) {
+        $text = Voice::spoken($resp['answer'], 'summary');
+        if (!is_file($voice->ttsPath($voice->ttsHash($text, $x['lang'])))) {
+            if ($made > 0) {
+                sleep(2); // spacing between real ElevenLabs calls
+            }
+            $made++;
+        }
         try {
-            $text = Voice::spoken($resp['answer'], 'summary');
             $r = $voice->speakCached($text, $x['lang'], fn(int $c) => $usage->ensure('tts_chars', $c, (int) $config['voice']['tts_chars_per_day'], 'tts_daily'));
+            // Only successful syntheses count as usage; failed attempts are not recorded.
             $usage->add($r['cached'] ? ['tts_cache_hits' => 1] : ['tts_requests' => 1, 'tts_chars' => $r['chars']]);
-            echo "        audio summary: {$r['chars']} characters" . ($r['cached'] ? ' (already cached)' : '') . "\n";
+            echo "        audio summary: {$r['chars']} characters" . ($r['cached'] ? ' (already cached)' : ' (generated)') . "\n";
         } catch (Throwable $e) {
+            // e.g. "ElevenLabs HTTP 429: too_many_concurrent_requests (after 3 retries)"; never includes the key.
             echo "        audio FAILED: " . $e->getMessage() . "\n";
         }
     }
 }
 $after = $usage->day();
 $d = static fn($k) => (int) (($after[$k] ?? 0) - ($before[$k] ?? 0));
-printf("\nDone in %.0f s: %d Claude requests, %d input + %d cache-read + %d cache-write tokens, %d output tokens; %d TTS characters.\n",
-    microtime(true) - $t0, $d('claude_requests'), $d('claude_input_tokens'), $d('claude_cache_read_tokens'), $d('claude_cache_write_tokens'), $d('claude_output_tokens'), $d('tts_chars'));
+printf("\nDone in %.0f s: %d Claude requests, %d input + %d cache-read + %d cache-write tokens, %d output tokens; %d TTS files, %d TTS characters.\n",
+    microtime(true) - $t0, $d('claude_requests'), $d('claude_input_tokens'), $d('claude_cache_read_tokens'), $d('claude_cache_write_tokens'), $d('claude_output_tokens'), $d('tts_requests'), $d('tts_chars'));

@@ -649,5 +649,64 @@ check('STT global daily limit → stt_daily', $code(fn() => $vApp->voice('/stt',
 check('STT: an oversized clip is refused before any call', $code(fn() => $vApp->voice('/stt', ['duration' => '45'], $clip)) === 'stt_too_long' && $fakeEleven->stt === 3);
 unset($_SERVER['REMOTE_ADDR']);
 
+echo "Spoken summary: title variants; TTS retries\n";
+// A made-up key, built at run time so no key-shaped literal sits in the source (it only proves redaction).
+const FAKE_KEY = 'sk' . '_' . 'NOTAREALKEY' . 'XXXXXXXXXX';
+$sv = static fn(string $md) => Voice::summary($md);
+$variants = [
+    'EN Bottom line' => ["**Bottom line:** A is better [1].\n\n**Trade-off:** B sees Earth.\n\n**Assumptions:** x.", 'Bottom line: A is better.'],
+    'EN Summary heading' => ["## Summary\nA is better [1].\n\n## Trade-off\nB sees Earth.\n\n## Assumptions\nx", 'Summary'],
+    'PT Resultado' => ["**Resultado:** A é melhor.\n\n**Compromisso:** B vê a Terra.\n\n**Premissas:** x.", 'Resultado: A é melhor.'],
+    'PT Em resumo' => ["Em resumo: A é melhor.\n\nCompensação: B vê a Terra.\n\nPremissas: x.", 'Em resumo: A é melhor.'],
+    'ES Conclusión principal' => ["**Conclusión principal:** A es mejor.\n\n**Compensación:** B ve la Tierra.\n\n**Supuestos:** x.", 'Conclusión principal: A es mejor.'],
+    'ES En resumen' => ["**En resumen**: A es mejor.\n\n**Compromiso**: B ve la Tierra.\n\n**Supuestos**: x.", 'En resumen: A es mejor.'],
+];
+$okV = true; $bad = [];
+foreach ($variants as $name => [$md, $startsWith]) {
+    $x = $sv($md);
+    if (!str_starts_with($x, $startsWith) || str_contains($x, ': x') || str_contains($x, "\nx") || $x === '') { $okV = false; $bad[] = "$name → $x"; }
+}
+check('summary: conclusion titles in EN/PT/ES (incl. Bottom line, Summary, Resultado, Em resumo, En resumen, Conclusión principal), up to the assumptions', $okV, implode(' | ', $bad));
+check('summary: trade-off variants are kept (Compromisso / Compensación / Compromiso)', str_contains($sv($variants['PT Resultado'][0]), 'Compromisso: B vê a Terra.') && str_contains($sv($variants['ES Conclusión principal'][0]), 'Compensación: B ve la Tierra.'));
+check('summary: only a trade-off title → from the start of the answer to the assumptions', $sv("A is better [1].\n\n**Trade-off:** B sees Earth.\n\n**Assumptions:** x.") === "A is better.\n\nTrade-off: B sees Earth.");
+check('summary: no title → first paragraph (no table, no citations), ≤ 900', $sv("| a | b |\n|---|---|\n| 1 | 2 |\n\nFirst real paragraph [3][4].\n\nSecond.") === 'First real paragraph.' && mb_strlen($sv(str_repeat('Long sentence here. ', 100))) <= 900);
+check('summary: a word that merely starts a sentence is not a title ("Summary of…" without colon)', $sv("Summary of the run is good.\n\nMore.") === 'Summary of the run is good.');
+check('summary: snake_case ids are read as words, _emphasis_ removed', $sv('**Conclusion:** shackleton_ridge is _best_ [1].') === 'Conclusion: shackleton ridge is best.');
+
+$flaky = new class extends LunarNav\Http\HttpClient {
+    public array $plan = []; public int $calls = 0; public array $headersSeen = [];
+    public function request(string $method, string $url, array $headers = [], ?string $body = null, ?array $multipart = null): array
+    {
+        $this->calls++; $this->headersSeen = $headers;
+        $s = array_shift($this->plan) ?? 200;
+        return $s === 200 ? ['status' => 200, 'body' => 'ID3-mp3', 'headers' => []]
+            : ['status' => $s, 'body' => json_encode(['detail' => ['status' => $s === 429 ? 'too_many_concurrent_requests' : 'server_error', 'message' => 'Upstream says busy; key ' . FAKE_KEY . ' was used']]), 'headers' => []];
+    }
+};
+$waited = [];
+$cvr = $cv; $cvr['voice']['elevenlabs']['api_key'] = FAKE_KEY;
+$vr = new Voice($cvr, $flaky, $tmp . '/tts-retry', function (int $s) use (&$waited) { $waited[] = $s; });
+$flaky->plan = [429, 503];
+$rr1 = $vr->speakCached('Retry me please.', 'en');
+check('TTS retry: 429 then 503 then success → 3 calls, waits 2 s and 5 s, file written', $flaky->calls === 3 && $waited === [2, 5] && $rr1['cached'] === false);
+$flaky->calls = 0; $waited = []; $flaky->plan = [503, 503, 503, 503];
+$err = '';
+try { $vr->speakCached('Always busy.', 'en'); } catch (ApiError $e) { $err = $e->getMessage(); }
+check('TTS retry: gives up after 3 retries (2, 5, 10 s), error has HTTP code and short message, never the key', $flaky->calls === 4 && $waited === [2, 5, 10] && str_contains($err, 'ElevenLabs HTTP 503') && str_contains($err, 'after 3 retries') && !str_contains($err, 'NOTAREALKEY'), $err);
+$flaky->calls = 0; $waited = []; $flaky->plan = [401];
+try { $vr->speakCached('Bad key.', 'en'); } catch (ApiError $e) { $err = $e->getMessage(); }
+check('TTS retry: a 4xx other than 429 is not retried', $flaky->calls === 1 && $waited === [] && str_contains($err, 'HTTP 401'));
+// Failed attempts do not count as usage (route level).
+$vApp2 = new App($cvr + ['_' => 1], new HorizonsClient(new FileCache($tmp . '/cache2'), 'unused', 5, $fake2));
+$vApp2->voiceHttp = $flaky; $vApp2->ttsDir = $tmp . '/tts-retry2';
+$vApp2->voiceSleep = function (int $s) use (&$waited) { $waited[] = $s; };
+$flaky->plan = [503, 503, 503, 503];
+$_SERVER['REMOTE_ADDR'] = '192.0.2.50';
+$before2 = $vApp2->usage()->day();
+$failedCode = $code(fn() => (new ReflectionClass($vApp2))->getMethod('voice')->invoke($vApp2, '/tts', ['text' => '**Conclusion:** never spoken.', 'lang' => 'en']));
+$after2 = $vApp2->usage()->day();
+check('TTS: failed attempts are not counted as usage (no tts_requests / tts_chars added)', $failedCode === 'tts_unavailable' && ($after2['tts_requests'] ?? 0) === ($before2['tts_requests'] ?? 0) && ($after2['tts_chars'] ?? 0) === ($before2['tts_chars'] ?? 0));
+unset($_SERVER['REMOTE_ADDR']);
+
 echo "\n{$count} checks, {$failures} failed\n";
 exit($failures === 0 ? 0 : 1);

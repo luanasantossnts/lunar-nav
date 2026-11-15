@@ -231,6 +231,8 @@ final class App
     /** For tests: a fake HTTP client for ElevenLabs, and a temporary MP3 folder. */
     public ?\LunarNav\Http\HttpClient $voiceHttp = null;
     public ?string $ttsDir = null;
+    /** For tests: replaces the real wait between ElevenLabs retries. */
+    public ?\Closure $voiceSleep = null;
 
     private function voiceStatus(): array
     {
@@ -264,7 +266,7 @@ final class App
     public function voice(string $route, array $in = [], ?array $file = null): array
     {
         $v = $this->config['voice'];
-        $voice = new Voice($this->config, $this->voiceHttp, $this->ttsDir);
+        $voice = new Voice($this->config, $this->voiceHttp, $this->ttsDir, $this->voiceSleep);
         $usage = $this->usage();
         if ($route === '/tts') {
             $this->perClient('tts', (int) ($v['tts_per_ip_per_hour'] ?? 20), 'tts_ip');

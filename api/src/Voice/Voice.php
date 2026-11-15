@@ -25,11 +25,17 @@ final class Voice
     public const STT_MAX_BYTES = 2_000_000;
     public const STT_MAX_SECONDS = 30;
 
-    private string $ttsDir;
+    /** Waits before each new attempt after a 429 or 5xx from ElevenLabs (seconds). */
+    public const RETRY_WAITS = [2, 5, 10];
 
-    public function __construct(private array $config, private ?HttpClient $http = null, ?string $ttsDir = null)
+    private string $ttsDir;
+    /** @var callable(int):void */
+    private $sleep;
+
+    public function __construct(private array $config, private ?HttpClient $http = null, ?string $ttsDir = null, ?callable $sleep = null)
     {
         $this->http ??= new HttpClient(90);
+        $this->sleep = $sleep ?? static function (int $s): void { sleep($s); };
         $this->ttsDir = $ttsDir ?? (string) ($config['voice']['tts_cache_path'] ?? (LUNARNAV_ROOT . '/data/cache/tts'));
     }
 
@@ -49,7 +55,9 @@ final class Voice
         $t = implode("\n", $lines);
         $t = preg_replace('/\[(\d+)\]/u', '', $t);                    // citations [n]
         $t = preg_replace('/\[([^\]]+)\]\([^)]+\)/u', '$1', $t);      // links
-        $t = preg_replace('/(\*\*|__|\*|_|`)/u', '', $t);             // emphasis, code
+        $t = str_replace(['**', '*', '`'], '', $t);                   // bold, italics, code
+        $t = preg_replace('/(?<![\p{L}\p{N}])__?(?=\S)|(?<=\S)__?(?![\p{L}\p{N}])/u', '', $t); // _emphasis_, not snake_case ids
+        $t = preg_replace('/(?<=[\p{L}\p{N}])_(?=[\p{L}\p{N}])/u', ' ', $t);   // snake_case ids are read as words
         $t = preg_replace('/[ \t]+([.,;:!?)])/u', '$1', $t);           // space left before punctuation
         $t = preg_replace('/[ \t]{2,}/u', ' ', $t);
         $t = preg_replace('/\n{3,}/u', "\n\n", $t);
@@ -68,29 +76,61 @@ final class Voice
         return rtrim(mb_substr($cut, 0, $sp ?: $max), ' ,;:') . '…';
     }
 
+    /** Section titles the answers use (English, Portuguese, Spanish), as regex alternations. */
+    public const START_LABELS = 'conclusion|conclusión principal|conclusion principal|conclusión|conclusão|conclusao|bottom line|summary|in summary|em resumo|en resumen|resultado';
+    public const TRADE_LABELS = 'trade-off|tradeoff|trade off|compromiso|compensación|compensacion|compromisso|compensação|compensacao';
+    public const STOP_LABELS = 'assumptions|premissas|premisas|supuestos|hipóteses|hipoteses|hipótesis|hipotesis';
+
     /**
-     * The spoken summary: the paragraphs labelled Conclusion/Conclusão/Conclusión and Trade-off,
-     * up to the Assumptions/Premissas/Supuestos label; without labels, the first paragraph.
+     * A section title at the start of a line: bold (**Title:** / **Title**:), a Markdown heading
+     * (## Title), or plain "Title:". A bare word without colon or emphasis does not count.
+     */
+    private static function labelRegex(string $words): string
+    {
+        $w = '(?:' . $words . ')';
+        return '/(?:^|\n)[ \t]*(?:'
+            . '#{1,6}[ \t]*(?:\*\*|__)?' . $w . '(?:\*\*|__)?[ \t]*:?'            // heading
+            . '|(?:\*\*|__)[ \t]*' . $w . '[ \t]*:?[ \t]*(?:\*\*|__)[ \t]*:?'      // **Title:** or **Title**:
+            . '|' . $w . '[ \t]*:'                                                  // Title:
+            . ')/iu';
+    }
+
+    /**
+     * The spoken summary: from the conclusion title (or, with only a trade-off title, from the
+     * start) up to the assumptions title — i.e. conclusion + trade-off. Without any title, the
+     * first paragraph. Always without tables, citations or Markdown, at most 900 characters.
      */
     public static function summary(string $md): string
     {
-        $label = static fn(string $words) => '/(?:^|\n)\s*(?:\*\*|__)?\s*(?:' . $words . ')\s*:?\s*(?:\*\*|__)?\s*:?/iu';
-        $start = $label('conclusion|conclusão|conclusao|conclusión|conclusion');
-        $stop = $label('assumptions|premissas|supuestos|premisas');
-        $text = $md;
+        $start = self::labelRegex(self::START_LABELS);
+        $trade = self::labelRegex(self::TRADE_LABELS);
+        $stop = self::labelRegex(self::STOP_LABELS);
+        $text = null;
         if (preg_match($start, $md, $m, PREG_OFFSET_CAPTURE)) {
             $text = substr($md, $m[0][1]);
+        } elseif (preg_match($trade, $md)) {
+            $text = $md;
         }
-        if (preg_match($stop, $text, $m, PREG_OFFSET_CAPTURE) && $m[0][1] > 0) {
+        if ($text !== null && preg_match($stop, $text, $m, PREG_OFFSET_CAPTURE) && $m[0][1] > 0) {
             $text = substr($text, 0, $m[0][1]);
         }
-        $plain = self::plain($text);
-        if ($plain === '' || !preg_match($start, $md)) {
-            // No labels: the first paragraph that is not a table.
-            $paras = array_values(array_filter(array_map('trim', preg_split('/\n\s*\n/u', self::plain($md))), static fn($p) => $p !== ''));
-            $plain = $paras[0] ?? '';
+        $plain = $text === null ? '' : self::plain($text);
+        if ($plain === '') {
+            $plain = self::firstParagraph($md);
         }
         return self::clip($plain, self::SUMMARY_MAX);
+    }
+
+    /** The first paragraph that is not a table, a heading-only line or empty. */
+    public static function firstParagraph(string $md): string
+    {
+        foreach (preg_split('/\n\s*\n/u', $md) as $p) {
+            $t = trim(self::plain($p));
+            if ($t !== '' && mb_strlen(preg_replace('/[^\p{L}]/u', '', $t)) >= 3) {
+                return $t;
+            }
+        }
+        return '';
     }
 
     public static function spoken(string $answer, string $part): string
@@ -152,19 +192,42 @@ final class Voice
         return ['hash' => $hash, 'cached' => false, 'chars' => mb_strlen($text)];
     }
 
-    /** @return string MP3 bytes */
+    /**
+     * @return string MP3 bytes. A 429 or 5xx is retried up to 3 times (2 s, 5 s, 10 s); only a
+     * success counts as usage (the caller records it). The error says the HTTP status and
+     * ElevenLabs' own short message, never the key.
+     */
     private function synthesize(string $text): string
     {
         $c = $this->config['voice']['elevenlabs'];
-        $res = $this->http->request('POST', 'https://api.elevenlabs.io/v1/text-to-speech/' . rawurlencode($c['voice_id']), [
-            'xi-api-key' => $c['api_key'],
-            'Content-Type' => 'application/json',
-            'Accept' => 'audio/mpeg',
-        ], json_encode(['text' => $text, 'model_id' => $c['tts_model'] ?? 'eleven_multilingual_v2']));
-        if ($res['status'] >= 400 || $res['body'] === '') {
-            throw new ApiError('tts_unavailable', 'Text-to-speech is not available right now.', 502);
+        $waits = self::RETRY_WAITS;
+        for ($attempt = 0; ; $attempt++) {
+            $res = $this->http->request('POST', 'https://api.elevenlabs.io/v1/text-to-speech/' . rawurlencode($c['voice_id']), [
+                'xi-api-key' => $c['api_key'],
+                'Content-Type' => 'application/json',
+                'Accept' => 'audio/mpeg',
+            ], json_encode(['text' => $text, 'model_id' => $c['tts_model'] ?? 'eleven_multilingual_v2']));
+            $status = (int) $res['status'];
+            if ($status < 400 && $res['body'] !== '') {
+                return $res['body'];
+            }
+            $retryable = $status === 429 || $status >= 500;
+            if (!$retryable || $attempt >= count($waits)) {
+                throw new ApiError('tts_unavailable', sprintf('ElevenLabs HTTP %d: %s', $status, self::upstreamMessage((string) $res['body'])) . ($attempt > 0 ? sprintf(' (after %d retries)', $attempt) : ''), 502);
+            }
+            ($this->sleep)($waits[$attempt]);
         }
-        return $res['body'];
+    }
+
+    /** ElevenLabs' error message, short, with anything that looks like a key removed. */
+    public static function upstreamMessage(string $body): string
+    {
+        $j = json_decode($body, true);
+        $d = is_array($j) ? ($j['detail'] ?? $j) : null;
+        $msg = is_array($d) ? (string) ($d['message'] ?? $d['status'] ?? json_encode($d)) : (is_string($d) ? $d : trim(strip_tags($body)));
+        $msg = (string) preg_replace('/\b(sk_|xi-|key[=:\s]+)[A-Za-z0-9_\-]{8,}/i', '[redacted]', $msg);
+        $msg = trim((string) preg_replace('/\s+/', ' ', $msg));
+        return $msg === '' ? 'no message' : mb_substr($msg, 0, 160);
     }
 
     /* ---------- Speech-to-text ---------- */

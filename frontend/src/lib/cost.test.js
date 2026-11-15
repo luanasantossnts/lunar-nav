@@ -107,3 +107,20 @@ describe('horizon mode default', async () => {
     for (const l of LANGS) expect(makeT(l)('brief.note'), l).toMatch(/LOLA/);
   });
 });
+
+describe('spoken summary: title variants (browser voice, same rules as the server)', () => {
+  it('accepts the conclusion and trade-off titles in EN/PT/ES, stops at assumptions', () => {
+    expect(summary('**Bottom line:** A is better [1].\n\n**Trade-off:** B.\n\n**Assumptions:** x.')).toBe('Bottom line: A is better.\n\nTrade-off: B.');
+    expect(summary('**Resultado:** A é melhor.\n\n**Compromisso:** B.\n\n**Premissas:** x.')).toBe('Resultado: A é melhor.\n\nCompromisso: B.');
+    expect(summary('Em resumo: A é melhor.\n\nCompensação: B.\n\nPremissas: x.')).toBe('Em resumo: A é melhor.\n\nCompensação: B.');
+    expect(summary('**Conclusión principal:** A.\n\n**Compensación:** B.\n\n**Supuestos:** x.')).toBe('Conclusión principal: A.\n\nCompensación: B.');
+    expect(summary('**En resumen**: A.\n\n**Compromiso**: B.\n\n**Supuestos**: x.')).toBe('En resumen: A.\n\nCompromiso: B.');
+    expect(summary('## Summary\nA is better.\n\n## Assumptions\nx')).toBe('Summary\nA is better.');
+  });
+  it('only a trade-off title → from the start; no title → first paragraph; never a sentence-start word', () => {
+    expect(summary('A is better [1].\n\n**Trade-off:** B.\n\n**Assumptions:** x.')).toBe('A is better.\n\nTrade-off: B.');
+    expect(summary('| a | b |\n|---|---|\n\nFirst real paragraph [3][4].\n\nSecond.')).toBe('First real paragraph.');
+    expect(summary('Summary of the run is good.\n\nMore.')).toBe('Summary of the run is good.');
+    expect(summary('**Conclusion:** shackleton_ridge is _best_ [1].')).toBe('Conclusion: shackleton ridge is best.');
+  });
+});

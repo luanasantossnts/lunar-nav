@@ -22,7 +22,9 @@ export function plain(md) {
     .join('\n')
     .replace(/\[(\d+)\]/g, '')
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/(\*\*|__|\*|_|`)/g, '')
+    .replace(/\*\*|\*|`/g, '')
+    .replace(/(?<![\p{L}\p{N}])__?(?=\S)|(?<=\S)__?(?![\p{L}\p{N}])/gu, '') // _emphasis_, not snake_case ids
+    .replace(/(?<=[\p{L}\p{N}])_(?=[\p{L}\p{N}])/gu, ' ') // snake_case ids are read as words
     .replace(/[ \t]+([.,;:!?)])/g, '$1')
     .replace(/[ \t]{2,}/g, ' ')
     .replace(/\n{3,}/g, '\n\n')
@@ -39,20 +41,41 @@ export function clip(t, max) {
   return `${cut.slice(0, sp > 0 ? sp : max).replace(/[ ,;:]+$/, '')}…`;
 }
 
-const START = /(?:^|\n)\s*(?:\*\*|__)?\s*(?:conclusion|conclusão|conclusao|conclusión)\s*:?\s*(?:\*\*|__)?\s*:?/i;
-const STOP = /(?:^|\n)\s*(?:\*\*|__)?\s*(?:assumptions|premissas|supuestos|premisas)\s*:?\s*(?:\*\*|__)?\s*:?/i;
+// Section titles in English, Portuguese and Spanish (same lists as Voice.php).
+export const START_LABELS = 'conclusion|conclusión principal|conclusion principal|conclusión|conclusão|conclusao|bottom line|summary|in summary|em resumo|en resumen|resultado';
+export const TRADE_LABELS = 'trade-off|tradeoff|trade off|compromiso|compensación|compensacion|compromisso|compensação|compensacao';
+export const STOP_LABELS = 'assumptions|premissas|premisas|supuestos|hipóteses|hipoteses|hipótesis|hipotesis';
 
+/** A section title at the start of a line: **Title:**, **Title**:, ## Title, or Title: (a bare word does not count). */
+const label = (words) => {
+  const w = `(?:${words})`;
+  return new RegExp(`(?:^|\\n)[ \\t]*(?:#{1,6}[ \\t]*(?:\\*\\*|__)?${w}(?:\\*\\*|__)?[ \\t]*:?|(?:\\*\\*|__)[ \\t]*${w}[ \\t]*:?[ \\t]*(?:\\*\\*|__)[ \\t]*:?|${w}[ \\t]*:)`, 'iu');
+};
+const START = label(START_LABELS);
+const TRADE = label(TRADE_LABELS);
+const STOP = label(STOP_LABELS);
+
+export function firstParagraph(md) {
+  for (const p of String(md || '').split(/\n\s*\n/)) {
+    const t = plain(p).trim();
+    if (t && t.replace(/[^\p{L}]/gu, '').length >= 3) return t;
+  }
+  return '';
+}
+
+/** Conclusion + trade-off (up to the assumptions title); without any title, the first paragraph. ≤ 900 characters. */
 export function summary(md) {
   const text = String(md || '');
+  let part = null;
   const s = text.search(START);
-  if (s < 0) {
-    const first = plain(text).split(/\n\s*\n/).map((p) => p.trim()).find(Boolean) || '';
-    return clip(first, SUMMARY_MAX);
+  if (s >= 0) part = text.slice(s);
+  else if (TRADE.test(text)) part = text;
+  if (part !== null) {
+    const e = part.search(STOP);
+    if (e > 0) part = part.slice(0, e);
   }
-  let part = text.slice(s);
-  const e = part.search(STOP);
-  if (e > 0) part = part.slice(0, e);
-  return clip(plain(part), SUMMARY_MAX);
+  const p = part === null ? '' : plain(part);
+  return clip(p || firstParagraph(text), SUMMARY_MAX);
 }
 
 export const spoken = (md, part) => (part === 'full' ? clip(plain(md), FULL_MAX) : summary(md));

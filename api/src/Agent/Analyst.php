@@ -77,14 +77,16 @@ final class Analyst
         return 'analyst:v1:' . hash('sha256', json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
-    /** A cached answer, or null (missing or older than 90 days). */
-    public function cached(string $key): ?array
+    /** A cached answer, or null (missing or older than 90 days). $count=false: look without counting a hit. */
+    public function cached(string $key, bool $count = true): ?array
     {
         $hit = $this->cache->get($key);
         if (!is_array($hit) || !isset($hit['response'], $hit['stored_at']) || $hit['stored_at'] < time() - self::CACHE_TTL) {
             return null;
         }
-        $this->usage->add(['analyst_cache_hits' => 1]);
+        if ($count) {
+            $this->usage->add(['analyst_cache_hits' => 1]);
+        }
         return $hit['response'] + ['cached' => true, 'cached_at' => gmdate('Y-m-d', (int) $hit['stored_at'])];
     }
 
