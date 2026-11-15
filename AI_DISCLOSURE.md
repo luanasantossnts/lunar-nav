@@ -1,5 +1,30 @@
 # Use of AI in Lunar Nav
 
+NASA Space Apps refers to these tools as Super Intelligence (SI). This file uses "AI" and "SI" interchangeably.
+
+## Authorship
+
+Created by Luana Santos. The idea, research, product decisions, design and validation are the author's own. AI tools, which NASA Space Apps calls Super Intelligence (SI), were used under her direction to speed up implementation (Claude by Anthropic); every change was reviewed and approved by her.
+
+- **Idea and concept.** She chose the challenge, had the idea and defined the problem: the landing decision, and how a delay of a few days or a few metres changes it.
+- **Research.** She studied the subject and the NASA sources (JPL Horizons, LOLA, PGDA, DSN) and chose which to use.
+- **Decisions.** She defined:
+  - the features and what sets the project apart (uncertainty ranges, the ±300 m range, DSN contact, the battery, validation against PGDA);
+  - the audience and the persona Ana;
+  - the visual design and the privacy approach;
+  - the Kids edition and its mascot, Lumi.
+- **Direction and validation.** She directed every step, reviewed and approved every change, ran the tests with real data, commissioned the audits of the numbers and published the project.
+- **Use of SI.** Claude (Anthropic) was a tool to speed up implementation under her direction: writing and reviewing code, tests and documentation. Every number comes from deterministic code and NASA data, not from SI.
+
+**Where SI was used:**
+- code, tests and documentation (Claude);
+- the Analyst inside the app (Claude);
+- read-aloud and speech input (ElevenLabs).
+
+No SI-generated images or video are used.
+
+The record below is kept as written during the project.
+
 Space Apps asks every team to declare how AI was used. This file is the declaration; the same text is summarised on the Methodology screen and in the submission form.
 
 ## 0. What AI did not do

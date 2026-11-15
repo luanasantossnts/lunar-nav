@@ -26,3 +26,6 @@ __pycache__/
 deploy/*.zip
 # Extracted copies of the deploy zip (local only)
 deploy/*/
+
+# Submission kit: kept locally, not published
+SUBMISSION.md
