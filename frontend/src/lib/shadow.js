@@ -39,24 +39,27 @@ export function sunVisibility(z, n, cell, azDeg, elDeg, disc = 0.267) {
   const dr = -Math.cos(a); // north → −row
   let zmax = -Infinity;
   for (let i = 0; i < z.length; i++) if (z[i] > zmax) zmax = z[i];
-  const top = elDeg + disc;
-  const bottom = elDeg - disc;
+  const rad = Math.PI / 180;
+  // Angles are compared through their tangents (monotonic for −90°…90°): no atan per step.
+  const topTan = Math.tan((elDeg + disc) * rad);
+  const bottomTan = Math.tan((elDeg - disc) * rad);
+  const k2 = 1 / (2 * MOON_R);
   for (let r = 0; r < n; r++) {
     for (let c = 0; c < n; c++) {
       const z0 = z[r * n + c];
-      let best = -90;
+      let bestTan = -Infinity;
       for (let k = 1; ; k++) {
         const d = k * cell;
         const h = sample(z, n, r + k * dr, c + k * dc);
         if (h === null) break;
-        const ang = (Math.atan2(h - z0 - (d * d) / (2 * MOON_R), d) * 180) / Math.PI;
-        if (ang > best) best = ang;
-        if (best >= top) break; // whole disc hidden
+        const tn = (h - z0 - d * d * k2) / d;
+        if (tn > bestTan) bestTan = tn;
+        if (bestTan >= topTan) break; // whole disc hidden
         // Stop when even the highest point of the tile, this far away, could neither raise the
         // skyline nor reach the lower edge of the disc (curvature would only lower it further).
-        const maxPossible = (Math.atan2(zmax - z0, d) * 180) / Math.PI;
-        if (maxPossible <= Math.max(best, bottom)) break;
+        if ((zmax - z0) / d <= Math.max(bestTan, bottomTan)) break;
       }
+      const best = bestTan === -Infinity ? -90 : Math.atan(bestTan) / rad;
       out[r * n + c] = Math.max(0, Math.min(1, (elDeg - best) / (2 * disc) + 0.5));
     }
   }

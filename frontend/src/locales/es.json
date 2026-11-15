@@ -186,7 +186,7 @@
     "skyline": "perfil del relieve",
     "terrainSummary": "Relieve 3D alrededor de {site}, iluminado por el Sol a las {time}. Sol visible {p} del período.",
     "panoramaSummary": "{title}: Sol visible {p} del período. Ahora: Sol {s}, Tierra {e}.",
-    "caption3d": "NASA LOLA · exageración vertical ×{n} · {light} · sombras del relieve calculadas del mapa de alturas",
+    "caption3d": "NASA LOLA · exageración vertical ×{n} · {light} · sombras del relieve calculadas del mapa de alturas · Sol y Tierra en su dirección real · horizonte lejano de la máscara de 150 km",
     "sunBelow": "Sol bajo el horizonte",
     "sunBehindTerrain": "Sol detrás del relieve",
     "earthlight": "relieve iluminado por la luz de la Tierra",

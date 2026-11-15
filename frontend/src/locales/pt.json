@@ -186,7 +186,7 @@
     "skyline": "perfil do relevo",
     "terrainSummary": "Relevo 3D em volta de {site}, iluminado pelo Sol em {time}. Sol visível {p} do período.",
     "panoramaSummary": "{title}: Sol visível {p} do período. Agora: Sol {s}, Terra {e}.",
-    "caption3d": "NASA LOLA · exagero vertical ×{n} · {light} · sombras do relevo calculadas do heightmap",
+    "caption3d": "NASA LOLA · exagero vertical ×{n} · {light} · sombras do relevo calculadas do heightmap · Sol e Terra na direção real · horizonte distante da máscara de 150 km",
     "sunBelow": "Sol abaixo do horizonte",
     "sunBehindTerrain": "Sol atrás do relevo",
     "earthlight": "relevo iluminado pela luz da Terra",

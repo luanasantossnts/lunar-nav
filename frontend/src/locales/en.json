@@ -186,7 +186,7 @@
     "skyline": "terrain skyline",
     "terrainSummary": "3D terrain around {site}, lit by the Sun at {time}. Sun visible {p} of the period.",
     "panoramaSummary": "{title}: Sun visible {p} of the period. Now: Sun {s}, Earth {e}.",
-    "caption3d": "NASA LOLA · vertical exaggeration ×{n} · {light} · terrain shadows from the heightmap",
+    "caption3d": "NASA LOLA · vertical exaggeration ×{n} · {light} · terrain shadows from the heightmap · Sun and Earth at their real direction · distant skyline from the 150 km horizon mask",
     "sunBelow": "Sun below the horizon",
     "sunBehindTerrain": "Sun behind the terrain",
     "earthlight": "terrain lit by earthlight",
