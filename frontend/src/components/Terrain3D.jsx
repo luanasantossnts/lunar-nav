@@ -8,7 +8,7 @@ import { isoMin, pct } from '../lib/format.js';
 import { bodyStatus, positionAt } from '../lib/visibility.js';
 import { direction, sunVisibility } from '../lib/shadow.js';
 import { cameraPosition } from '../lib/camera3d.js';
-import { openingView, regolith, ringProfile, skyPosition } from '../lib/sky3d.js';
+import { darkFraction, loadViewMode, openingView, regolith, ringProfile, saveViewMode, sideView, skyPosition } from '../lib/sky3d.js';
 
 /** Vertical exaggeration: ×2 for gentle tiles; ×1 where the relief is deep (Shackleton, Malapert). */
 export const exaggeration = (reliefM) => (reliefM > 2500 ? 1 : 2);
@@ -81,6 +81,10 @@ export default function Terrain3D({ site, result, mask }) {
   const [state, setState] = useState('loading');
   const [exag, setExag] = useState(2);
   const [light, setLight] = useState(null); // { text, sun } describing what lights the terrain now
+  const [view, setView] = useState(loadViewMode); // 'side' (side light, default) or 'sun' (toward the Sun)
+  const [dark, setDark] = useState(false); // most of the frame black in side light (very low Sun)
+  const viewRef = useRef(view);
+  viewRef.current = view;
 
   useEffect(() => {
     let disposed = false;
@@ -181,7 +185,17 @@ export default function Terrain3D({ site, result, mask }) {
           draw();
           if (moving) raf = requestAnimationFrame(frame);
           clearTimeout(idleTimer);
-          if (meshLo.visible) idleTimer = setTimeout(() => { meshLo.visible = false; mesh.visible = true; draw(); }, 250);
+          if (meshLo.visible) idleTimer = setTimeout(() => { meshLo.visible = false; mesh.visible = true; draw(); measure(); }, 250);
+          else if (!moving) measure();
+        };
+        // Share of near-black pixels, read right after an idle full-detail frame (not every frame).
+        const measure = () => {
+          if (!k.onDark || !k.vis) return;
+          const gl = renderer.getContext();
+          const px = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
+          gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, px);
+          k.darkFrac = darkFraction(px);
+          k.onDark(k.darkFrac);
         };
         const request = () => { if (!raf) raf = requestAnimationFrame(frame); };
         controls.addEventListener('change', request);
@@ -198,9 +212,11 @@ export default function Terrain3D({ site, result, mask }) {
           worker.postMessage({ type: 'heights', z, n, cell: meta.cell_m });
         } catch { worker = null; }
 
-        const k = {
+        let k = null;
+        k = {
           scene, geo, geoLo, nLo, mesh, meshLo, z, n, cell: meta.cell_m, normals: geo.attributes.normal.array, camera, controls, target, ext,
-          sunDisc, sunGlow, earth, skyR, request, worker, reqId: 0, framed: false,
+          sunDisc, sunGlow, earth, skyR, request, worker, reqId: 0, framed: false, darkFrac: null,
+          hm: { z, n, ext, min: meta.min_m, exag: EXAG },
           // For checks: average render time over a few frames, at the current size.
           bench: (frames = 30, low = false) => {
             mesh.visible = !low; meshLo.visible = low;
@@ -219,6 +235,7 @@ export default function Terrain3D({ site, result, mask }) {
         if (worker) {
           worker.onmessage = (e) => { if (e.data.id === k.reqId && k.applyVis) k.applyVis(e.data.vis); };
         }
+        k.onDark = (f) => setDark(f > 0.6);
         el.__lunar3d = k;
         ctx.current = k;
         setExag(EXAG);
@@ -244,19 +261,26 @@ export default function Terrain3D({ site, result, mask }) {
       const S = direction(sun.az, sun.el);
       const E = direction(earth.az, earth.el);
 
-      if (!k.framed) {
-        // Low view behind the site, looking towards the Sun, horizon and sky in the frame.
-        const v = openingView(sun.az, k.ext, { aspect: k.camera.aspect, fovDeg: k.camera.fov });
+      // Opening view for the chosen mode: side light (camera at the Sun's azimuth ± 90°, ~30° up,
+      // the side that shows more sunlit terrain) or toward the Sun (low, behind the site).
+      k.frame = (mode) => {
+        const opts = { aspect: k.camera.aspect, fovDeg: k.camera.fov };
+        const v = mode === 'sun' || !k.vis ? openingView(k.sunPos.az, k.ext, opts) : sideView(k.hm, k.normals, k.vis, k.S, k.sunPos.az, k.target, opts);
         k.camera.position.set(...cameraPosition(k.target, v.az, v.el, v.d));
         k.controls.maxDistance = v.d * 1.8;
         k.controls.minDistance = v.d * 0.15;
-        const marker = new THREE.Mesh(new THREE.ConeGeometry(v.d / 120, v.d / 30, 12), new THREE.MeshBasicMaterial({ color: 0xfacc15 }));
-        marker.position.set(k.target[0], k.target[1] + v.d / 60, k.target[2]);
-        marker.rotation.x = Math.PI;
-        k.scene.add(marker);
+        if (!k.marker) {
+          k.marker = new THREE.Mesh(new THREE.ConeGeometry(v.d / 120, v.d / 30, 12), new THREE.MeshBasicMaterial({ color: 0xfacc15 }));
+          k.marker.position.set(k.target[0], k.target[1] + v.d / 60, k.target[2]);
+          k.marker.rotation.x = Math.PI;
+          k.scene.add(k.marker);
+        }
         k.controls.update();
         k.framed = true;
-      }
+        k.request();
+      };
+      k.sunPos = sun;
+      k.S = S;
 
       k.sunDisc.position.set(...skyPosition(k.target, sun.az, sun.el, k.skyR));
       k.sunGlow.position.copy(k.sunDisc.position);
@@ -286,6 +310,7 @@ export default function Terrain3D({ site, result, mask }) {
           lo[j] = col[i]; lo[j + 1] = col[i + 1]; lo[j + 2] = col[i + 2];
         }
         k.geoLo.attributes.color.needsUpdate = true;
+        if (!k.framed) k.frame(viewRef.current); // needs the shadows to pick the side-light side
         k.request();
       };
       // The ray-march is redone only when the Sun has moved enough to matter.
@@ -305,6 +330,14 @@ export default function Terrain3D({ site, result, mask }) {
     return () => clearTimeout(id);
   }, [cursor, result, state, mask, t]);
 
+  // Switching the framing: re-frame now (the choice is remembered for the browser session).
+  useEffect(() => {
+    saveViewMode(view);
+    const k = ctx.current;
+    if (k.frame && k.vis) k.frame(view);
+    if (view === 'sun') setDark(false);
+  }, [view]);
+
   return (
     <div className="w-full border border-line">
       <div className="relative w-full h-[520px]" style={{ background: SKY_HEX }}>
@@ -313,8 +346,22 @@ export default function Terrain3D({ site, result, mask }) {
         {/* Fixed light-on-dark text: the 3D sky is black in both themes. */}
         {state === 'loading' && <p className="absolute left-3 top-3 text-sm" style={{ color: '#b8b9bc' }}>{t('common.loading')}</p>}
         {state === 'missing' && <p className="absolute inset-0 grid place-items-center text-sm p-6 text-center" style={{ color: '#b8b9bc' }}>{t('sky.noTerrain')}</p>}
+        {state === 'ready' && (
+          <div role="group" aria-label={t('sky.viewGroup')} className="absolute right-2 top-2 flex text-xs">
+            {[['side', t('sky.viewSide')], ['sun', t('sky.viewSun')]].map(([m, label], i) => (
+              <button key={m} type="button" aria-pressed={view === m} onClick={() => setView(m)}
+                className={`hit44 min-h-[32px] px-2.5 border ${i === 0 ? 'rounded-l' : 'rounded-r -ml-px'}`}
+                style={view === m ? { color: '#0b0c0e', background: '#eceae6', borderColor: '#eceae6' } : { color: '#eceae6', background: 'rgba(20,21,24,0.85)', borderColor: '#3a3d44' }}>
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
+        {state === 'ready' && view === 'side' && dark && (
+          <p role="status" className="absolute left-3 bottom-3 right-3 sm:right-auto sm:max-w-[60%] m-0 px-2.5 py-1.5 text-xs rounded" style={{ color: '#eceae6', background: '#141518', border: '1px solid #3a3d44' }}>{t('sky.lowSun')}</p>
+        )}
         {state === 'ready' && light && !light.sun && (
-          <p role="status" className="absolute left-3 top-3 m-0 px-2.5 py-1.5 text-xs rounded" style={{ color: '#eceae6', background: '#141518', border: '1px solid #3a3d44' }}>{light.text}</p>
+          <p role="status" className="absolute left-3 right-3 sm:right-auto top-[52px] sm:top-3 sm:max-w-[55%] m-0 px-2.5 py-1.5 text-xs rounded" style={{ color: '#eceae6', background: '#141518', border: '1px solid #3a3d44' }}>{light.text}</p>
         )}
       </div>
       {state === 'ready' && <p className="m-0 px-3 py-2 border-t border-line bg-panel text-xs text-dim">{t('sky.caption3d', { n: exag, light: light?.text ?? t('sky.litSun') })}</p>}

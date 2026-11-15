@@ -77,3 +77,81 @@ export function openingView(sunAzDeg, extent, { elevationDeg = 16, distanceFrac 
   const az = Number.isFinite(sunAzDeg) ? (sunAzDeg + 180 + offsetDeg) % 360 : 180;
   return { az, el: elevationDeg, d: extent * distanceFrac };
 }
+
+/* ---------- Side-light framing ---------- */
+
+const RAD = Math.PI / 180;
+
+/** Camera position for an azimuth (from the site towards the camera), elevation and distance. */
+const camAt = (target, azDeg, elDeg, d) => [
+  target[0] + d * Math.cos(elDeg * RAD) * Math.sin(azDeg * RAD),
+  target[1] + d * Math.sin(elDeg * RAD),
+  target[2] - d * Math.cos(elDeg * RAD) * Math.cos(azDeg * RAD),
+];
+
+/**
+ * Share of the vertices in the camera's frame (and facing it) that the Sun lights: visible
+ * disc > 50 % and the surface turned towards the Sun. hm: {z, n, ext, min, exag}; normals: the
+ * mesh normals (east, north, up per vertex); vis: visible fraction of the solar disc per vertex.
+ * Every `step`-th vertex is used (fast enough to compare two candidate views).
+ */
+export function litFractionInView(hm, normals, vis, S, cam, target, fovDeg, aspect, step = 4) {
+  const { z, n, ext, min, exag } = hm;
+  const f = [target[0] - cam[0], target[1] - cam[1], target[2] - cam[2]];
+  const fl = Math.hypot(...f); f[0] /= fl; f[1] /= fl; f[2] /= fl;
+  const r = [f[1] * 0 - f[2] * 1, f[2] * 0 - f[0] * 0, f[0] * 1 - f[1] * 0]; // f × up
+  const rl = Math.hypot(...r); r[0] /= rl; r[1] /= rl; r[2] /= rl;
+  const u = [r[1] * f[2] - r[2] * f[1], r[2] * f[0] - r[0] * f[2], r[0] * f[1] - r[1] * f[0]];
+  const tv = Math.tan((fovDeg / 2) * RAD); const th = tv * aspect;
+  let inView = 0; let lit = 0;
+  for (let row = 0; row < n; row += step) {
+    for (let col = 0; col < n; col += step) {
+      const i = row * n + col;
+      const p = [-ext / 2 + (col * ext) / (n - 1), (z[i] - min) * exag, -(ext / 2 - (row * ext) / (n - 1))];
+      const v = [p[0] - cam[0], p[1] - cam[1], p[2] - cam[2]];
+      const depth = v[0] * f[0] + v[1] * f[1] + v[2] * f[2];
+      if (depth <= 0) continue;
+      const x = (v[0] * r[0] + v[1] * r[1] + v[2] * r[2]) / (depth * th);
+      const y = (v[0] * u[0] + v[1] * u[1] + v[2] * u[2]) / (depth * tv);
+      if (Math.abs(x) > 1 || Math.abs(y) > 1) continue;
+      const nE = normals[i * 3]; const nN = normals[i * 3 + 1]; const nU = normals[i * 3 + 2];
+      const ns = [nE, nU, -nN]; // to scene axes
+      if (ns[0] * -v[0] + ns[1] * -v[1] + ns[2] * -v[2] <= 0) continue; // faces away from the camera
+      inView++;
+      if (vis[i] > 0.5 && nE * S[0] + nN * S[1] + nU * S[2] > 0.02) lit++;
+    }
+  }
+  return inView ? lit / inView : 0;
+}
+
+/**
+ * Side-light opening view: the camera at the Sun's azimuth ± 90°, ~30° up, centred on the site;
+ * the side whose frame shows more sunlit terrain wins. The Sun is then at the frame edge or just outside.
+ */
+export function sideView(hm, normals, vis, S, sunAzDeg, target, { fovDeg = 45, aspect = 2, elevationDeg = 30, distanceFrac = 0.16 } = {}) {
+  const d = hm.ext * distanceFrac;
+  const options = [90, -90].map((off) => {
+    const az = (((sunAzDeg + off) % 360) + 360) % 360;
+    return { az, el: elevationDeg, d, lit: litFractionInView(hm, normals, vis, S, camAt(target, az, elevationDeg, d), target, fovDeg, aspect) };
+  });
+  return options[0].lit >= options[1].lit ? options[0] : options[1];
+}
+
+/** Share of near-black pixels in an RGBA buffer (sampled every `step`-th pixel). */
+export function darkFraction(rgba, step = 7, threshold = 14) {
+  let dark = 0; let all = 0;
+  for (let p = 0; p < rgba.length; p += 4 * step) {
+    all++;
+    if (Math.max(rgba[p], rgba[p + 1], rgba[p + 2]) < threshold) dark++;
+  }
+  return all ? dark / all : 0;
+}
+
+/** The 3D framing chosen in this browser session: 'side' (default) or 'sun'. */
+export const VIEW_KEY = 'lunarnav.view3d';
+export function loadViewMode(store) {
+  try { return (store ?? window.sessionStorage).getItem(VIEW_KEY) === 'sun' ? 'sun' : 'side'; } catch { return 'side'; }
+}
+export function saveViewMode(mode, store) {
+  try { (store ?? window.sessionStorage).setItem(VIEW_KEY, mode === 'sun' ? 'sun' : 'side'); } catch { /* storage blocked */ }
+}

@@ -193,13 +193,16 @@
     "noDirectLight": "sin luz directa",
     "skylineReference": "línea del relieve (referencia)",
     "siteGroup": "Sitio",
-    "viewGroup": "Vista",
+    "viewGroup": "Encuadre 3D",
     "litSun": "iluminado por el Sol en el cursor",
     "litEarth": "{where} — iluminado por la luz de la Tierra",
     "litNone": "{where} — sin luz directa",
     "trackStart": "inicio",
     "trackEnd": "fin",
-    "trackLegend": "○ inicio · ● fin del período"
+    "trackLegend": "○ inicio · ● fin del período",
+    "viewSide": "Luz lateral",
+    "viewSun": "Hacia el Sol",
+    "lowSun": "Sol bajo: la mayoría de las laderas están en sombra — así se ve el polo sur lunar."
   },
   "analyst": {
     "title": "Analista",

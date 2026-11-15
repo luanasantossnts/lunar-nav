@@ -193,13 +193,16 @@
     "noDirectLight": "no direct light",
     "skylineReference": "terrain skyline (reference)",
     "siteGroup": "Site",
-    "viewGroup": "View",
+    "viewGroup": "3D framing",
     "litSun": "lit by the Sun at the cursor",
     "litEarth": "{where} — lit by earthlight",
     "litNone": "{where} — no direct light",
     "trackStart": "start",
     "trackEnd": "end",
-    "trackLegend": "○ start · ● end of the period"
+    "trackLegend": "○ start · ● end of the period",
+    "viewSide": "Side light",
+    "viewSun": "Toward the Sun",
+    "lowSun": "Low Sun: most slopes are in shadow — this is how the lunar south pole looks."
   },
   "analyst": {
     "title": "Analyst",

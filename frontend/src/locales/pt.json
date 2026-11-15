@@ -193,13 +193,16 @@
     "noDirectLight": "sem luz direta",
     "skylineReference": "linha do relevo (referência)",
     "siteGroup": "Local",
-    "viewGroup": "Vista",
+    "viewGroup": "Enquadramento 3D",
     "litSun": "iluminado pelo Sol no cursor",
     "litEarth": "{where} — iluminado pela luz da Terra",
     "litNone": "{where} — sem luz direta",
     "trackStart": "início",
     "trackEnd": "fim",
-    "trackLegend": "○ início · ● fim do período"
+    "trackLegend": "○ início · ● fim do período",
+    "viewSide": "Luz lateral",
+    "viewSun": "Contra o Sol",
+    "lowSun": "Sol baixo: a maioria das encostas está na sombra — é assim que o polo sul lunar se parece."
   },
   "analyst": {
     "title": "Analista",

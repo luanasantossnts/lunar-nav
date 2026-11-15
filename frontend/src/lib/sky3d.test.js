@@ -87,3 +87,47 @@ describe('heightmaps 512 × 512 and the shadow ray-march', () => {
     expect(vis[10 * n + 20]).toBe(0); // west of the ridge: in its shadow
   });
 });
+
+describe('side-light framing', async () => {
+  const { darkFraction, litFractionInView, loadViewMode, saveViewMode, sideView } = await import('./sky3d.js');
+  // A tile with one slope facing east (lit by an eastern Sun) on the east half, flat elsewhere.
+  const n = 64; const ext = 20000; const cell = ext / (n - 1);
+  const z = new Float32Array(n * n);
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) z[r * n + c] = c > 32 ? -(c - 32) * cell * 0.3 : 0; // descends to the east
+  const normals = new Float32Array(n * n * 3);
+  for (let i = 0; i < n * n; i++) { const c = i % n; const s = c > 32 ? 0.3 : 0; const l = Math.hypot(s, 1); normals[i * 3] = s / l; normals[i * 3 + 1] = 0; normals[i * 3 + 2] = 1 / l; }
+  const hm = { z, n, ext, min: Math.min(...z), exag: 1 };
+  const S = direction(90, 1);
+  const vis = new Float32Array(n * n).fill(1);
+  const target = [0, -hm.min, 0];
+  it('counts lit, camera-facing vertices in the frame', () => {
+    const f = litFractionInView(hm, normals, vis, S, [0, 3000, 5000], target, 45, 2);
+    expect(f).toBeGreaterThan(0);
+    expect(f).toBeLessThanOrEqual(1);
+    expect(litFractionInView(hm, normals, new Float32Array(n * n), S, [0, 3000, 5000], target, 45, 2)).toBe(0);
+  });
+  it('puts the camera at the Sun azimuth ± 90°, ~30° up, on the side that shows more sunlight', () => {
+    const v = sideView(hm, normals, vis, S, 90, target, { aspect: 2 });
+    expect([0, 180]).toContain(Math.round(v.az));
+    expect(v.el).toBe(30);
+    expect(v.d).toBeCloseTo(3200, 6);
+  });
+  it('measures the share of near-black pixels', () => {
+    const px = new Uint8Array(4 * 100);
+    for (let i = 0; i < 70; i++) px.set([0, 0, 0, 255], i * 4);
+    for (let i = 70; i < 100; i++) px.set([180, 175, 160, 255], i * 4);
+    expect(darkFraction(px, 1)).toBeCloseTo(0.7, 6);
+  });
+  it('remembers the framing for the session; side light by default', () => {
+    const m = new Map(); const st = { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, v) };
+    expect(loadViewMode(st)).toBe('side');
+    saveViewMode('sun', st);
+    expect(loadViewMode(st)).toBe('sun');
+    expect(loadViewMode({ getItem: () => { throw new Error('blocked'); } })).toBe('side');
+  });
+  it('low-Sun notice and the two buttons exist in three languages', async () => {
+    const { makeT } = await import('./i18n.js');
+    expect(makeT('en')('sky.lowSun')).toBe('Low Sun: most slopes are in shadow — this is how the lunar south pole looks.');
+    for (const l of ['pt', 'es']) for (const k of ['sky.viewSide', 'sky.viewSun', 'sky.lowSun', 'sky.viewGroup']) expect(makeT(l)(k), `${l} ${k}`).not.toBe(k);
+  });
+});
