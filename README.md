@@ -6,6 +6,22 @@ Team **Lumi Lunar** · Luana Santos — individual project · Licence: Apache-2.
 
 > Lunar Nav is an independent project. It is not affiliated with or endorsed by NASA. It uses NASA and JPL public data and services, cited in [REFERENCES.md](REFERENCES.md).
 
+## Why Lunar Nav
+
+**The problem.** At the lunar south pole the Sun skims the horizon, so a few hundred metres or a few days can decide whether a lander has sunlight, can see Earth, or sits in the dark. The tools that answer this in detail are built for specialists and take time to learn. Space agencies are heading there: NASA plans a Moon Base in the south polar region, and the Canadian Space Agency's first lunar rover "was set to land on the south pole of the Moon" to help find water ice (the project has since ended; see [REFERENCES.md](REFERENCES.md)).
+
+**Who it's for** (fictional examples):
+- *Ana, mission planner:* the landing slipped 10 days and she needs a clear answer by tomorrow.
+- *Carlos, science teacher:* he wants to show his class why the lunar south pole is so hard.
+- *Júlia, university student:* she needs numbers she can trust and cite.
+
+**What it reveals** (30 days from 1 July 2030, terrain horizon, unless noted):
+- Shackleton rim ridge: 99.8 % sunlight at the published point, but 48–73 % (P10–P90) within 300 m.
+- Malapert: 0 % sunlight from January to June 2030, and again in December.
+- IM-2: landing on 1 July 2030 means arriving in darkness; landing 10 days later gives 250.8 h of daylight before the first night.
+
+**How it compares.** LROC QuickMap, NASA Moon Trek and JPL Horizons are built for detailed analysis. Lunar Nav is for the quick decision: it builds on them (Horizons ephemerides, NASA LOLA terrain) and is checked against NASA PGDA's long-term illumination maps (Methodology → Validation).
+
 ---
 
 ## What it does
@@ -122,7 +138,7 @@ php bin/validate.php 2030-07-01 30     # writes data/validation.json, shown on M
 php bin/warm-cache.php 2030-07-01 30   # pre-fetches the default scenarios
 ```
 
-`validate.php` runs: an Apollo 11 control (equatorial site: Sun about half the time, Earth always up); step convergence 60/10/1 minutes; terrain presence per site. Reference numbers from earlier manual runs (July 2030, geometric): Apollo 11 Sun 49.2 %, Earth 100 % at 59.6–71.7° elevation.
+`validate.php` runs: an Apollo 11 control (equatorial site: Sun about half the time, Earth always up); step convergence 60/10/1 minutes; terrain presence per site; a DEM resolution sensitivity check (Shackleton ridge with the 60 m mask). Reference numbers from earlier manual runs (July 2030, geometric): Apollo 11 Sun 49.2 %, Earth 100 % at 59.6–71.7° elevation.
 
 ## Terrain (NASA LOLA)
 
@@ -140,6 +156,8 @@ python build_site_assets.py \
   --product "<exact LOLA product name and version>" \
   --max-dist-km 150 --grid-n 7 --grid-spacing 250
 ```
+
+DEM resolution check: `api/data/terrain-dem60/shackleton_ridge/mask.json` is the Shackleton ridge mask rebuilt from LDEM_75S_60M with the same options (`--ids shackleton_ridge --max-dist-km 150 --az-step 0.5 --observer-height 2 --skip-grid`). It is used only by `validate.php` (check *DEM resolution sensitivity*: 91.4 % vs 99.8 % sunlight with the 40 m DEM, default scenario), never by the app.
 
 Check `--units`/`--scale` against the product label (some DEMs store half-metres or kilometres). Sites outside the DEM are skipped and shown in the app as *terrain unavailable for this site*. The output records, per ray, how much of the ray the DEM covered, so a truncated horizon is never presented as complete.
 

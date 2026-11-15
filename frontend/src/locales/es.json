@@ -73,7 +73,7 @@
     "antennaMargin": "Margen de elevación de la antena",
     "panelVertical": "Factor de panel (vertical)",
     "horizon": "Horizonte",
-    "status": "{source} · {mode} · centro del astro · paso {step} min",
+    "status": "{source} · {mode} · centro del astro · paso {step} min",
     "never": "ninguna en el período",
     "close": "Cerrar",
     "back": "Atrás",
@@ -103,7 +103,7 @@
       "near_side": "Cara visible"
     },
     "longTerm": "Promedio a largo plazo (NASA PGDA, 18,6 años)",
-    "psrNear": "Sombra permanente a menos de 300 m",
+    "psrNear": "Sombra permanente a menos de 300 m",
     "ok": "OK"
   },
   "brief": {
@@ -125,13 +125,14 @@
     "setB": "Fijar como B",
     "elevation": "Elevación durante la estancia",
     "h1": "Explorador: {a} y {b}",
-    "siteConditions": "Condiciones de los sitios"
+    "siteConditions": "Condiciones de los sitios",
+    "outsideMap": "Fuera de este mapa: {list}"
   },
   "compare": {
     "title": "Alunizaje original vs. {n} días después",
     "subtitle": "{d} días en la superficie desde cada fecha",
     "original": "Original",
-    "delayed": "Retrasado +{n} d",
+    "delayed": "Retrasado +{n} d",
     "metric": "Métrica",
     "change": "Qué cambia con el retraso",
     "delta": "Cambio",
@@ -202,7 +203,13 @@
     "trackLegend": "○ inicio · ● fin del período",
     "viewSide": "Luz lateral",
     "viewSun": "Hacia el Sol",
-    "lowSun": "Sol bajo: la mayoría de las laderas están en sombra — así se ve el polo sur lunar."
+    "lowSun": "Sol bajo: la mayoría de las laderas están en sombra — así se ve el polo sur lunar.",
+    "axis": {
+      "n": "N",
+      "e": "E",
+      "s": "S",
+      "w": "O"
+    }
   },
   "analyst": {
     "title": "Analista",
@@ -292,7 +299,7 @@
       "Posición del sitio: las coordenadas publicadas son aproximadas, y los alunizajes reales pueden desviarse cientos de metros del objetivo. Hasta 300 m, el Sol en la cresta de Shackleton tiene P10–P90 de 48–73 % (centro 99,8 %); en Malapert, 0–97 %.",
       "El rango de ±300 m usa una malla de 100 m sobre un DEM de 40 m (~2,5 píxeles de separación), así que mezcla microrrelieve real con el límite de resolución del DEM.",
       "Discos del Sol y de la Tierra: los valores usan el centro del cuerpo. Del disco completo al primer borde: Sol en Shackleton 94,3–100 %, en Malapert 13,3–30,6 %; los ±0,95° de la Tierra cambian la Tierra visible en 4–8 puntos.",
-      "Resolución del DEM: Sol en Shackleton 99,8 % con LOLA 40 m/px frente a 91,4 % con 60 m/px; Malapert 21,1 % frente a 29,8 %.",
+      "Resolución del DEM: Sol en Shackleton 99,8 % con LOLA 40 m/px frente a 91,4 % con 60 m/px (mismo método y fechas; ver Validación, “Sensibilidad a la resolución del DEM”).",
       "Tierra visible es el centro del disco de la Tierra. El contacto (DSN) también exige que un complejo de 70 m de la DSN vea la Luna.",
       "Solo la DSN (3 complejos, ≥ 10°); las misiones reales pueden usar otras redes; sin balance de enlace.",
       "Observador a 2 m de la superficie. En Malapert el horizonte se forma a menos de 1 km en todas las direcciones, así que la pendiente local y la altura del mástil importan.",
@@ -359,7 +366,7 @@
     "batteryPos": "Batería, ±300 m (P10–P90)",
     "h1": "Informe del escenario",
     "method": "método {v}",
-    "step": "paso de {n} min",
+    "step": "paso de {n} min",
     "terrainState": {
       "applied": "relieve aplicado",
       "notRequested": "horizonte plano de 0°",
@@ -468,7 +475,7 @@
     "faqTitle": "Preguntas frecuentes",
     "faq": [
       [
-        "¿Por qué Shackleton muestra 99,8 % de Sol, pero 48–73 % a menos de 300 m?",
+        "¿Por qué Shackleton muestra 99,8 % de Sol, pero 48–73 % a menos de 300 m?",
         "El punto publicado está en lo alto de una cresta estrecha. A pocos cientos de metros el relieve oculta el Sol bajo durante más tiempo, así que la precisión del alunizaje importa tanto como la elección del sitio. Las coordenadas publicadas son aproximadas, y los alunizajes reales pueden desviarse cientos de metros del objetivo."
       ],
       [
@@ -501,7 +508,7 @@
       "elevation": {
         "title": "Elevación",
         "def": "Ángulo de un cuerpo sobre el horizonte matemático (0°). En el polo sur lunar el Sol se mantiene dentro de unos ±1,5°.",
-        "example": "En la cresta de Shackleton, en julio de 2030, el Sol se mantiene entre 0,6° y 1,5°."
+        "example": "En la cresta de Shackleton, en julio de 2030, el Sol se mantiene entre 0,58° y 1,53°."
       },
       "horizon-mask": {
         "title": "Máscara de horizonte (línea del horizonte)",
@@ -587,6 +594,31 @@
         "def": "Terreno que nunca ve ninguna parte del Sol a lo largo del ciclo de 18,6 años, según el mapa de la NASA PGDA. Trampas frías donde puede haber hielo; oscuras para un módulo de alunizaje.",
         "example": "A menos de 300 m de Malapert, el 20 % de los píxeles de la PGDA son sombra permanente."
       }
+    },
+    "who": {
+      "title": "Para quién es",
+      "note": "Las personas de abajo son ejemplos ficticios.",
+      "painLabel": "Problema",
+      "fixLabel": "Con Lunar Nav",
+      "people": [
+        [
+          "Ana, planificadora de misiones",
+          "El alunizaje se retrasó 10 días y necesita una respuesta clara para mañana.",
+          "Comparar y Gráficos muestran qué cambia el retraso en la luz del Sol, el contacto con la Tierra y la batería, con el rango para un alunizaje a unos cientos de metros."
+        ],
+        [
+          "Carlos, profesor de ciencias",
+          "Quiere mostrar a su clase por qué el polo sur lunar es tan difícil, sin necesitar un título en física.",
+          "La Vista del cielo y el recorrido guiado muestran el Sol rozando el horizonte y el relieve bloqueando la luz, en palabras sencillas."
+        ],
+        [
+          "Júlia, estudiante universitaria",
+          "Necesita números fiables que pueda citar en un trabajo.",
+          "Cada resultado lleva su procedencia, y la Metodología muestra la validación con la NASA PGDA."
+        ]
+      ],
+      "answersTitle": "Qué responde Lunar Nav",
+      "answers": "Para un sitio y unas fechas que eliges: cuánto tiempo el Sol está sobre el horizonte y la Tierra está visible, cuándo hay contacto con la Tierra por la Deep Space Network, cuánto dura la noche más larga y qué batería exige, cuánto cambia el panorama un retraso o un alunizaje a unos cientos de metros, y cómo se compara el modelo con los mapas de largo plazo de la NASA."
     }
   },
   "validation": {
@@ -598,7 +630,8 @@
       "failed": "falló",
       "error": "error",
       "needs smaller step": "necesita un paso menor",
-      "needs investigation": "necesita investigación"
+      "needs investigation": "necesita investigación",
+      "informative": "informativo"
     },
     "names": {
       "control": "Sitio de control, {site}",
@@ -614,22 +647,24 @@
       "position": "Rango de posición ±{radius} m, {site}",
       "position_missing": "Rango de posición, {site}",
       "terrain_checks": "Comprobaciones de relieve, {site}",
-      "pgda": "Comprobación independiente con la NASA PGDA"
+      "pgda": "Comprobación independiente con la NASA PGDA",
+      "dem_resolution": "Sensibilidad a la resolución del DEM, {site}"
     },
     "results": {
-      "control": "Tierra visible {earth}%, elevación de {min}° a {max}°",
-      "dsn_convergence": "Luna ≥ {el}° en la unión de la DSN: 60 min {u60} frente a 10 min {u10}; |Δ| máx. {diff} (tolerancia {tol}); paso de la app {step} min",
-      "dsn_coverage": "unión {union}% de {days} días, mayor intervalo {gap} h; {stations}",
+      "control": "Tierra visible {earth} %, elevación de {min}° a {max}°",
+      "dsn_convergence": "Luna ≥ {el}° en la unión de la DSN: 60 min {u60} frente a 10 min {u10}; |Δ| máx. {diff} (tolerancia {tol}); paso de la app {step} min",
+      "dsn_coverage": "unión {union} % de {days} días, mayor intervalo {gap} h; {stations}",
       "convergence": "|Δ fracción| máx. 60 min frente a 10 min = {diff} (tolerancia {tol})",
       "convergence_terrain": "|Δ fracción| máx. 60 min frente a 10 min = {diff} (tolerancia {tol})",
       "terrain_mask": "máscara presente",
       "terrain_missing": "aún no generada",
-      "sun_disc": "primer borde {first}% · centro {centre}% · disco completo {full}% (r = {r}°)",
-      "power": "energía {energy} Wh frente a P × factor del panel × horas = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel}%, tolerancia 0,1%); batería {battery} kWh para una noche de {night} h",
+      "sun_disc": "primer borde {first} % · centro {centre} % · disco completo {full} % (r = {r}°)",
+      "power": "energía {energy} Wh frente a P × factor del panel × horas = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel} %, tolerancia 0,1 %); batería {battery} kWh para una noche de {night} h",
       "full_nights": "noche más larga {full} h completa frente a {period} h solo dentro del período; aún mínimos: {bounds} de 3 (Sol, Tierra, contacto)",
-      "position": "Sol P10–P90 {s10}–{s90}% (mediana {smed}%) · Tierra {e10}–{e90}% · {points} puntos cada {spacing} m",
+      "position": "Sol P10–P90 {s10}–{s90} % (mediana {smed} %) · Tierra {e10}–{e90} % · {points} puntos cada {spacing} m",
       "position_missing": "sin malla de relieve para este sitio",
-      "pgda": "nuestro {year} (primer borde) frente a PGDA 18,6 años: mismo orden de Sol: {same}; |Δ Sol| máx. en los sitios con DEM de 40 m {max40} puntos; Δ Sol por sitio: {list}"
+      "pgda": "nuestro {year} (primer borde) frente a PGDA 18,6 años: mismo orden de Sol: {same}; |Δ Sol| máx. en los sitios con DEM de 40 m {max40} puntos; Δ Sol por sitio: {list}",
+      "dem_resolution": "Sol (centro del disco) {sun40} % con LOLA 40 m/px frente a {sun60} % con 60 m/px ({delta} puntos); Tierra {earth40} % frente a {earth60} %"
     }
   },
   "charts": {
@@ -767,5 +802,34 @@
         ]
       ]
     ]
+  },
+  "prov": {
+    "labels": {
+      "source": "fuente",
+      "method": "método",
+      "bodies": "cuerpos",
+      "ephemeris": "efemérides",
+      "nights": "noches",
+      "horizon": "horizonte",
+      "visibility": "visibilidad",
+      "margins": "márgenes",
+      "DSN": "DSN",
+      "dsnCoords": "coords. DSN",
+      "power": "energía",
+      "powerModel": "modelo de energía",
+      "computed": "calculado"
+    },
+    "step": "paso de {n} min",
+    "bodies": "Sol {sun}, Tierra {earth}",
+    "nights": "periodo ±{d} d · La duración de las noches se mide completa para las noches que tocan el periodo (serie extendida {d} días a cada lado); las fracciones y la energía usan solo el periodo.",
+    "visibility": "centro del astro; rango = primer borde (margen − r) … disco completo (margen + r), r = {sun}° Sol, {earth}° Tierra",
+    "margins": "Sol {sun}°, Tierra {earth}°",
+    "dsnMoon": "Luna ≥ {el}°",
+    "off": "desactivada",
+    "power": "{panel} W, {orient}; carga {load} W, supervivencia {surv} W, DoD {dod}, {whkg} Wh/kg",
+    "factorVertical": "cos(elevación), panel vertical que gira hacia el Sol",
+    "factorHorizontal": "sen(elevación), panel horizontal",
+    "battery": "batería = carga de supervivencia × noche más larga / DoD; masa = capacidad / Wh/kg",
+    "cache": "caché"
   }
 }

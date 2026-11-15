@@ -121,7 +121,9 @@ export default function PolarMap() {
         </div>
       )}
       {[A, B].some((s) => s && s.lat > LAT_EDGE) && (
-        <p className="absolute left-3 bottom-3 text-xs text-muted">{[A, B].filter((s) => s && s.lat > LAT_EDGE).map((s) => s.name).join(', ')}: {coord([A, B].find((s) => s && s.lat > LAT_EDGE).lat, [A, B].find((s) => s && s.lat > LAT_EDGE).lon)} (outside this map)</p>
+        <p className="absolute left-3 bottom-3 text-xs text-muted">
+          {t('planner.outsideMap', { list: [A, B].filter((s, i, all) => s && s.lat > LAT_EDGE && all.findIndex((o) => o?.id === s.id) === i).map((s) => `${s.name} (${coord(s.lat, s.lon)})`).join('; ') })}
+        </p>
       )}
     </section>
   );

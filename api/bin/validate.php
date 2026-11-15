@@ -17,6 +17,7 @@ declare(strict_types=1);
  *  8. Power: API energy equals P × panel_factor × period hours (0.1 %).
  *  9. Full nights: measured over the period ±15 days, never shorter than within the period.
  * 10. Independent check vs NASA PGDA 69: a whole year of our model against 18.6-year averages.
+ * 11. DEM resolution sensitivity (informative): Shackleton with the 60 m (LDEM_75S_60M) mask.
  *
  * Each check carries a key and language-neutral params; the front end builds the text in
  * the user's language (name/result stay as an English fallback).
@@ -219,6 +220,46 @@ try {
     ];
 } catch (Throwable $ex) {
     $checks[] = ['id' => 'pgda_reference', 'key' => 'pgda', 'params' => [], 'name' => 'Independent check vs NASA PGDA', 'status' => 'error', 'result' => $ex->getMessage()];
+}
+
+// 11. DEM resolution sensitivity (informative): the default Shackleton scenario with the same
+// method and the horizon mask built from LOLA LDEM_75S_60M (data/terrain-dem60) instead of
+// LDEM_80S_40M. Reproduce the 60 m mask with preprocess/build_site_assets.py (see README, Terrain).
+try {
+    $dem60Dir = LUNARNAV_ROOT . '/data/terrain-dem60';
+    $cfg60 = lunarnav_config();
+    $cfg60['terrain']['path'] = $dem60Dir;
+    $app60 = new LunarNav\App($cfg60);
+    $q = ['site' => 'shackleton_ridge', 'start' => $start, 'days' => (string) $days, 'mode' => 'terrain'];
+    $r40 = $app->handle('GET', '/metrics', $q, []);
+    $m40 = $r40['metrics'];
+    $r60 = $app60->handle('GET', '/metrics', $q, []);
+    if (($r60['provenance']['horizon']['terrain'] ?? '') !== 'applied') {
+        throw new RuntimeException('60 m mask not applied (missing ' . $dem60Dir . '/shackleton_ridge/mask.json?)');
+    }
+    $m60 = $r60['metrics'];
+    $mask60 = $r60['provenance']['horizon']['mask'] ?? [];
+    $p = [
+        'site' => 'shackleton_ridge',
+        'sun40' => sprintf('%.1f', 100 * $m40['sun']['fraction']), 'sun60' => sprintf('%.1f', 100 * $m60['sun']['fraction']),
+        'delta' => sprintf('%.1f', 100 * ($m60['sun']['fraction'] - $m40['sun']['fraction'])),
+        'earth40' => sprintf('%.1f', 100 * $m40['earth']['fraction']), 'earth60' => sprintf('%.1f', 100 * $m60['earth']['fraction']),
+    ];
+    $checks[] = [
+        'id' => 'dem_resolution_shackleton_ridge',
+        'key' => 'dem_resolution',
+        'params' => $p,
+        'name' => 'DEM resolution sensitivity, shackleton_ridge',
+        'status' => 'informative',
+        'result' => sprintf('Sun (disc centre) %s%% with LOLA 40 m/px vs %s%% with 60 m/px (%s points); Earth %s%% vs %s%%', $p['sun40'], $p['sun60'], $p['delta'], $p['earth40'], $p['earth60']),
+        'detail' => [
+            'dem40' => ['product' => $r40['provenance']['horizon']['mask']['product'] ?? null, 'sun' => $m40['sun']['fraction'], 'sun_disc' => $m40['sun']['disc_range'], 'earth' => $m40['earth']['fraction']],
+            'dem60' => ['product' => $mask60['product'] ?? null, 'sun' => $m60['sun']['fraction'], 'sun_disc' => $m60['sun']['disc_range'], 'earth' => $m60['earth']['fraction']],
+            'method' => 'same ephemerides, 150 km great-circle rays every 0.5°, observer 2 m; only the DEM differs',
+        ],
+    ];
+} catch (Throwable $ex) {
+    $checks[] = ['id' => 'dem_resolution_shackleton_ridge', 'key' => 'dem_resolution', 'params' => ['site' => 'shackleton_ridge'], 'name' => 'DEM resolution sensitivity, shackleton_ridge', 'status' => 'error', 'result' => $ex->getMessage()];
 }
 
 $out = ['status' => 'run', 'generated_at' => gmdate('c'), 'method_version' => LUNARNAV_METHOD_VERSION, 'period' => ['start' => $start, 'days' => $days], 'checks' => $checks];

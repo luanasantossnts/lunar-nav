@@ -26,11 +26,12 @@ export default function SvsContext({ topics, compact = false }) {
           <li key={i.id} className="border border-line bg-bg2 hover:border-line2 transition-colors">
             <a href={i.url} target="_blank" rel="noopener noreferrer" className="flex flex-col h-full no-underline text-ink">
               {i.image
-                ? <img src={i.image.url} alt={i.image.alt || i.title} loading="lazy" className="block w-full aspect-video object-cover bg-bg" />
+                ? <img src={i.image.url} alt={i.image.alt || i.title} lang="en" loading="lazy" className="block w-full aspect-video object-cover bg-bg" />
                 : <div className="w-full aspect-video bg-bg flex items-center justify-center font-mono text-[11px] text-dim">SVS {i.id}</div>}
               <div className="p-3 flex flex-col gap-1">
-                <span className="text-[13px] font-medium leading-snug">{i.title}</span>
-                {!compact && i.summary && <span className="text-xs text-text2 leading-relaxed">{i.summary}</span>}
+                <span lang="en" className="text-[13px] font-medium leading-snug">{i.title}</span>
+                {/* Title, summary and image text are quoted from NASA SVS as published (English). */}
+                {!compact && i.summary && <span lang="en" className="text-xs text-text2 leading-relaxed">{i.summary}</span>}
                 <span className="font-mono text-[11px] text-dim">SVS {i.id}{i.release_date ? ` · ${i.release_date}` : ''}{i.live ? '' : ` · ${t('svs.offline')}`}</span>
               </div>
             </a>

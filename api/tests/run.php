@@ -753,5 +753,12 @@ check('IP salt: created outside the site folder (never inside the web root or th
     && LunarNav\Privacy\IpSalt::insideSite($siteDir . '/api/.x', $siteDir) && !LunarNav\Privacy\IpSalt::insideSite(dirname($siteDir) . '/.x', $siteDir));
 check('IP salt: IP_SALT from the environment wins', LunarNav\Privacy\IpSalt::resolve(['privacy' => ['ip_salt' => 'env-salt']]) === 'env-salt');
 
+echo "DEM resolution sensitivity: the 60 m reference mask\n";
+$m60 = json_decode((string) @file_get_contents(LUNARNAV_ROOT . '/data/terrain-dem60/shackleton_ridge/mask.json'), true) ?: [];
+check('60 m mask (validation only): LDEM_75S_60M, same method (150 km, 0.5°, 2 m), rays fully covered', str_contains($m60['meta']['product'] ?? '', 'LDEM_75S_60M') && ($m60['meta']['pixel_m'] ?? 0) == 60 && ($m60['meta']['max_distance_km'] ?? 0) == 150 && ($m60['az_step_deg'] ?? 0) == 0.5 && ($m60['meta']['observer_height_m'] ?? 0) == 2 && ($m60['meta']['rays_fully_covered'] ?? 0) == 1 && count($m60['elevations'] ?? []) === 720);
+$v = json_decode((string) file_get_contents(LUNARNAV_ROOT . '/data/validation.json'), true);
+$dc = array_values(array_filter($v['checks'] ?? [], static fn($c) => ($c['key'] ?? '') === 'dem_resolution'))[0] ?? null;
+check('validation.json: DEM resolution sensitivity recorded (informative, both values)', $dc !== null && $dc['status'] === 'informative' && isset($dc['params']['sun40'], $dc['params']['sun60']) && str_contains($dc['detail']['dem40']['product'] ?? '', 'LDEM_80S_40M'));
+
 echo "\n{$count} checks, {$failures} failed\n";
 exit($failures === 0 ? 0 : 1);

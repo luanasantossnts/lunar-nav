@@ -1,5 +1,5 @@
 {
- "notes": "Curated visualizations from NASA's Scientific Visualization Studio shown as context. Metadata is fetched from the public SVS API (https://svs.gsfc.nasa.gov/api/<id>) and cached; the fallback text below is used when it cannot be reached.",
+ "notes": "Curated visualizations from NASA's Scientific Visualization Studio shown as context. Metadata is fetched from the public SVS API (https://svs.gsfc.nasa.gov/api/<id>, for example https://svs.gsfc.nasa.gov/api/5228) and cached; the fallback text below is used when it cannot be reached.",
  "items": [
   {
    "id": 5013,

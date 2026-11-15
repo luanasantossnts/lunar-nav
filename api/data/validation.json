@@ -1,6 +1,6 @@
 {
     "status": "run",
-    "generated_at": "2026-11-15T10:24:33+00:00",
+    "generated_at": "2026-11-15T16:56:14+00:00",
     "method_version": "1.0.0",
     "period": {
         "start": "2030-07-01",
@@ -644,6 +644,64 @@
                 },
                 "max_abs_delta_sun_dem40": 10.7,
                 "status": "needs investigation"
+            }
+        },
+        {
+            "id": "dem_resolution_shackleton_ridge",
+            "key": "dem_resolution",
+            "params": {
+                "site": "shackleton_ridge",
+                "sun40": "99.8",
+                "sun60": "91.4",
+                "delta": "-8.3",
+                "earth40": "42.5",
+                "earth60": "42.4"
+            },
+            "name": "DEM resolution sensitivity, shackleton_ridge",
+            "status": "informative",
+            "result": "Sun (disc centre) 99.8% with LOLA 40 m/px vs 91.4% with 60 m/px (-8.3 points); Earth 42.5% vs 42.4%",
+            "detail": {
+                "dem40": {
+                    "product": "LOLA LDEM_80S_40M V2.0 (LRO-L-LOLA-4-GDR-V1.0, 40 m/px, south polar stereographic)",
+                    "sun": 0.9976,
+                    "sun_disc": {
+                        "first_limb": {
+                            "fraction": 1,
+                            "hours": 720
+                        },
+                        "centre": {
+                            "fraction": 0.9976,
+                            "hours": 718.25
+                        },
+                        "full_disc": {
+                            "fraction": 0.9431,
+                            "hours": 679.04
+                        },
+                        "radius_deg": 0.267
+                    },
+                    "earth": 0.4252
+                },
+                "dem60": {
+                    "product": "LOLA LDEM_75S_60M V2.0 (LRO-L-LOLA-4-GDR-V1.0, 60 m/px, south polar stereographic)",
+                    "sun": 0.9143,
+                    "sun_disc": {
+                        "first_limb": {
+                            "fraction": 0.9354,
+                            "hours": 673.5
+                        },
+                        "centre": {
+                            "fraction": 0.9143,
+                            "hours": 658.32
+                        },
+                        "full_disc": {
+                            "fraction": 0.8769,
+                            "hours": 631.38
+                        },
+                        "radius_deg": 0.267
+                    },
+                    "earth": 0.4243
+                },
+                "method": "same ephemerides, 150 km great-circle rays every 0.5°, observer 2 m; only the DEM differs"
             }
         }
     ]

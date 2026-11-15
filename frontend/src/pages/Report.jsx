@@ -4,7 +4,7 @@ import { Markdown } from '../lib/markdown.jsx';
 
 /** Fixed light palette: the report is a printable page in both themes. */
 const PAPER = { '--ink': '#111827', '--text2': '#1f2937', '--muted': '#4b5563', '--dim': '#6b7280', '--line': '#d1d5db', '--line2': '#9ca3af', '--bg2': '#f3f4f6' };
-import { coord, degRange, discSpan, round2, ge, hrs, isoMin, num, numSpan, numSpanBound, pct, spreadSpan } from '../lib/format.js';
+import { coord, degRange, discSpan, round2, ge, plain, withPoint, hrs, isoMin, num, numSpan, numSpanBound, pct, spreadSpan } from '../lib/format.js';
 import { longTermLine, longTermSpread } from '../lib/reference.js';
 import { Logo } from '../components/Shell.jsx';
 
@@ -66,15 +66,16 @@ export default function Report() {
   const rows = ROWS(t);
   const generated = new Date().toISOString().slice(0, 16).replace('T', ' ') + 'Z';
   const pw = list[0]?.metrics?.power?.params;
-  const powerInputs = pw ? t('power.inputs', { panel: pw.panel_w, orient: t(pw.orientation === 'horizontal' ? 'power.horizontal' : 'power.vertical'), load: pw.load_w, surv: pw.survival_w, dod: pw.dod, whkg: pw.wh_per_kg }) : null;
+  const powerInputs = pw ? t('power.inputs', { panel: pw.panel_w, orient: t(pw.orientation === 'horizontal' ? 'power.horizontal' : 'power.vertical'), load: pw.load_w, surv: pw.survival_w, dod: plain(pw.dod), whkg: pw.wh_per_kg }) : null;
 
   // metrics.{sun,earth,both} carry disc_range; position_spread is added per scenario.
   const asJson = () => JSON.stringify({ generated, lang, scenarios: list.map((r) => ({ site: r.site, metrics: { ...r.metrics, sun: { ...r.metrics.sun, elevation: round2(r.metrics.sun.elevation) }, earth: { ...r.metrics.earth, elevation: round2(r.metrics.earth.elevation) } }, position_spread: spreadOf(r) ?? null, provenance: r.provenance })), analyst: reportNotes }, null, 2);
-  const asCsv = () => {
+  // CSV keeps "." decimals in every language (spreadsheets and scripts read it as data).
+  const asCsv = () => withPoint(() => {
     const head = ['metric', ...list.map((r) => r.site.name)];
     const lines = rows.map(([label, f]) => [label, ...list.map((r) => f(r.metrics, r))]);
     return [head, ...lines].map((l) => l.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-  };
+  });
   const asMd = () => [
     `# ${t('report.title')}`, '', `${t('report.generated')}: ${generated}`, '',
     `| ${t('compare.metric')} | ${list.map((r) => r.site.name).join(' | ')} |`,

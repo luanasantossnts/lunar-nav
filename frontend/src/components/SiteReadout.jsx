@@ -1,6 +1,6 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
 import { useApp } from '../lib/store.jsx';
-import { coord, degRange, discSpan, hrs, isoMin, pct, spreadSpan } from '../lib/format.js';
+import { coord, degRange, discSpan, fixed, hrs, isoMin, pct, spreadSpan } from '../lib/format.js';
 import { bodyStatus } from '../lib/visibility.js';
 import { HorizonNote } from './States.jsx';
 import { Label } from './HelpLink.jsx';
@@ -74,7 +74,7 @@ export default function SiteReadout({ which }) {
         <Row label={<Label k="common.earthElevation" />} value={degRange(m.earth.elevation.min, m.earth.elevation.max)} />
         <Row label={<Label k="common.nextSunset" />} value={m.sun.first_set ? isoMin(m.sun.first_set) : t('common.never')} />
         <Row label={<Label k="common.nextEarthset" />} value={m.earth.first_set ? isoMin(m.earth.first_set) : t('common.never')} />
-        <Row label={<Label k="common.panelVertical" />} value={m.sun.panel_factor.vertical.toFixed(3)} />
+        <Row label={<Label k="common.panelVertical" />} value={fixed(m.sun.panel_factor.vertical, 3)} />
         {/* Independent of the chosen dates: NASA PGDA's 18.6-year average at the site. */}
         {lt?.available && <Row label={<Label k="common.longTerm" />} value={longTermLine(t, lt)} />}
         {showPsr(lt) && <Row label={<Label k="common.psrNear" />} value={pct(lt.psr_fraction_300m)} />}

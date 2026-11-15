@@ -37,6 +37,8 @@ https://lunarnav.space (live app) · `<GitHub link>` (source code, Apache-2.0)
 ### 5 · Detailed Project Description
 **Why now.** NASA plans a Moon Base in the lunar south pole region, where light, shadow and Earth visibility shape power, communications and operations. Lunar Nav gives a fast, transparent first look at those conditions for any site and date.
 
+**Who it's for:** mission planners deciding fast after a schedule change; teachers and students learning why the lunar south pole is so hard.
+
 **What it does.** Lunar Nav compares lunar south-pole landing sites and landing dates by when the Sun and Earth are above the local horizon:
 - **Explorer:** a polar map and a per-site readout. It shows sunlight %, Earth in view %, both at once, contact with Earth through NASA's Deep Space Network (DSN), the longest dark period, the longest gaps without Earth and without contact, the next sunset and Earthset, and a panel factor, plus a visibility timeline (with one lane per DSN complex) and an elevation chart.
 - **Compare:** original vs. delayed landing for two sites, with the change in each metric. It also searches for landing dates that meet constraints (minimum sunlight, minimum Earth hours per day, minimum DSN contact hours per day, maximum dark period), and shows a sensitivity map of how the result changes on a grid of nearby points.
@@ -47,7 +49,7 @@ https://lunarnav.space (live app) · `<GitHub link>` (source code, Apache-2.0)
 - **Charts:** six charts of the same data, each with a data table: sites side by side with their ranges, 2030 month by month, ours vs NASA PGDA, battery by site, what a 10-day delay changes, and the ±300 m sunlight histogram. They show that where you land matters: Malapert gets 0% sunlight from January to June 2030, and within 300 m its battery need ranges from 1.7 kWh to at least 108 kWh. At IM-2, when you land decides whether you arrive in daylight: 0 h of daylight before the first night on 1 July 2030, 250.8 h ten days later.
 - **Report:** a printable/PDF scenario report, with JSON, CSV and Markdown exports.
 - **Methodology:** premises, validation status, known limits and the full provenance of the current result.
-- **Help:** a how-to guide, a glossary of about 20 terms linked from "?" icons next to the labels, and an FAQ.
+- **Help:** who it's for (three fictional examples), a how-to guide, a glossary of about 20 terms linked from "?" icons next to the labels, and an FAQ.
 - **Accessibility:** works on phones; zero axe violations across all screens in both themes; keyboard navigation.
 
 **Honest numbers.** Each sunlight or Earth-visibility fraction is shown with two ranges:
@@ -103,6 +105,7 @@ Yes.
 - Site sources: LROC Featured Images 938, 1247 and 1401; Wikipedia (IM-1, Peak of eternal light, Statio Shiv Shakti).
 - Software: React, three.js, Vite, Tailwind CSS, numpy, rasterio, pyproj, Pillow; IBM Plex fonts (OFL).
 - NASA, "Lunar South Pole Region" (Moon Base), updated 3 Nov 2026 — context for the problem statement. https://www.nasa.gov/reference/moonbase-environment/
+- CSA — Moon Exploration portal, listed in this challenge's resources — context only: the CSA's first Canadian rover "was set to land on the south pole of the Moon" to "help find water ice" (page modified 2026-04-21; the project has ended). The pages give no landing coordinates, so no CSA site is used. Credit: Canadian Space Agency. https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/
 - AI services: Anthropic Claude (analyst) and ElevenLabs (AI voice and speech-to-text), both used in the live demo.
 
 The full list with links is in REFERENCES.md and THIRD_PARTY.md in the repository. No data, tools or services from China or Chinese-owned entities are used.

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useApp } from '../lib/store.jsx';
 import { api } from '../lib/api.js';
-import { dateInput, hrs, isoMin, num, parseDateInput, pct, signed, spreadSpan } from '../lib/format.js';
+import { NBSP, dateInput, fixed, hrs, isoMin, num, parseDateInput, pct, signed, spreadSpan } from '../lib/format.js';
 import ScenarioBar from '../components/ScenarioBar.jsx';
 import { Label } from '../components/HelpLink.jsx';
 import Bound from '../components/Bound.jsx';
@@ -181,11 +181,11 @@ function Sensitivity() {
                 const p = pts.find((q) => q.dx_m === x && q.dy_m === y);
                 const f = p ? seqColor(p.sun_fraction) : null;
                 const ring = p && inside(p) ? 'inset 0 0 0 1px color-mix(in srgb, var(--ink) 45%, transparent)' : undefined;
-                return <div key={`${x},${y}`} title={p ? `${x} m E, ${y} m N · ${pct(p.sun_fraction)}` : ''} className={`${xs.length > 9 ? 'h-[30px]' : 'h-9'} ${x === 0 && y === 0 ? 'outline outline-2 outline-ink' : ''}`}
+                return <div key={`${x},${y}`} title={p ? `${fixed(x)}${NBSP}m ${t('sky.axis.e')}, ${fixed(y)}${NBSP}m ${t('sky.axis.n')} · ${pct(p.sun_fraction)}` : ''} className={`${xs.length > 9 ? 'h-[30px]' : 'h-9'} ${x === 0 && y === 0 ? 'outline outline-2 outline-ink' : ''}`}
                   style={{ background: f || 'var(--bg2)', boxShadow: ring }} />;
               }))}
             </div>
-            <div className="flex justify-between font-mono text-[11px] text-dim" aria-hidden="true"><span>−{ext} m</span><span>0</span><span>+{ext} m</span></div>
+            <div className="flex justify-between font-mono text-[11px] text-dim" aria-hidden="true"><span>−{ext}{'\u00A0'}m</span><span>0</span><span>+{ext}{'\u00A0'}m</span></div>
             <div className="mt-2 flex flex-col gap-1" style={{ width: `${xs.length * (xs.length > 9 ? 31 : 37)}px`, maxWidth: '100%' }}>
               <span className="text-[11px] text-muted">{t('compare.sensitivityLegend')}</span>
               <div className="h-2.5 border border-line" aria-hidden="true" style={{ background: 'linear-gradient(to right, var(--seq0), var(--seq1), var(--seq2))' }} />

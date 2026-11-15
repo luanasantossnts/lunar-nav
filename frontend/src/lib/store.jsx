@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { api, POWER_DEFAULTS } from './api.js';
 import { detectLang, makeT } from './i18n.js';
-import { parseDateInput } from './format.js';
+import { parseDateInput, setNumberLang } from './format.js';
 
 const Ctx = createContext(null);
 
@@ -55,7 +55,8 @@ export function AppProvider({ children }) {
   useEffect(() => { storage.set('power', power); }, [power]);
   const reqId = useRef(0);
 
-  const t = useMemo(() => makeT(lang), [lang]);
+  // The decimal separator follows the language (set before anything renders with the new t).
+  const t = useMemo(() => { setNumberLang(lang); return makeT(lang); }, [lang]);
 
   useEffect(() => { document.documentElement.classList.toggle('light', theme === 'light'); storage.set('theme', theme); }, [theme]);
   useEffect(() => { document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang; storage.set('lang', lang); }, [lang]);

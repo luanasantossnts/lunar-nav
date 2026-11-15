@@ -73,7 +73,7 @@
     "antennaMargin": "Antenna elevation margin",
     "panelVertical": "Panel factor (vertical)",
     "horizon": "Horizon",
-    "status": "{source} · {mode} · body centre · step {step} min",
+    "status": "{source} · {mode} · body centre · step {step} min",
     "never": "none in period",
     "close": "Close",
     "back": "Back",
@@ -103,7 +103,7 @@
       "near_side": "Near side"
     },
     "longTerm": "Long-term average (NASA PGDA, 18.6 yr)",
-    "psrNear": "Permanent shadow within 300 m",
+    "psrNear": "Permanent shadow within 300 m",
     "ok": "OK"
   },
   "brief": {
@@ -125,13 +125,14 @@
     "setB": "Set as B",
     "elevation": "Elevation over the stay",
     "h1": "Explorer: {a} and {b}",
-    "siteConditions": "Site conditions"
+    "siteConditions": "Site conditions",
+    "outsideMap": "Outside this map: {list}"
   },
   "compare": {
     "title": "Original landing vs. {n} days later",
     "subtitle": "{d} days on the surface from each landing date",
     "original": "Original",
-    "delayed": "Delayed +{n} d",
+    "delayed": "Delayed +{n} d",
     "metric": "Metric",
     "change": "What the delay changes",
     "delta": "Change",
@@ -202,7 +203,13 @@
     "trackLegend": "○ start · ● end of the period",
     "viewSide": "Side light",
     "viewSun": "Toward the Sun",
-    "lowSun": "Low Sun: most slopes are in shadow — this is how the lunar south pole looks."
+    "lowSun": "Low Sun: most slopes are in shadow — this is how the lunar south pole looks.",
+    "axis": {
+      "n": "N",
+      "e": "E",
+      "s": "S",
+      "w": "W"
+    }
   },
   "analyst": {
     "title": "Analyst",
@@ -292,7 +299,7 @@
       "Site position: published coordinates are approximate, and real landings can miss their target by hundreds of metres. Within 300 m, Shackleton ridge Sun P10–P90 is 48–73 % (centre 99.8 %); Malapert 0–97 %.",
       "The ±300 m range uses a 100 m grid on a 40 m DEM (~2.5 pixels apart), so it mixes real micro-relief with the DEM's resolution limit.",
       "Sun and Earth discs: values use the body centre. Full disc to first limb: Shackleton Sun 94.3–100 %, Malapert 13.3–30.6 %; Earth ±0.95° moves Earth in view by 4–8 points.",
-      "DEM resolution: Shackleton Sun 99.8 % with LOLA 40 m/px vs 91.4 % with 60 m/px; Malapert 21.1 % vs 29.8 %.",
+      "DEM resolution: Shackleton Sun 99.8 % with LOLA 40 m/px vs 91.4 % with 60 m/px (same method and dates; see Validation, “DEM resolution sensitivity”).",
       "Earth in view is the centre of Earth's disc. Contact (DSN) also needs a DSN 70-m complex to see the Moon.",
       "DSN only (3 complexes, ≥ 10°); real missions may also use other networks; no link budget.",
       "Observer 2 m above the surface. At Malapert the skyline forms within 1 km in every direction, so local slope and mast height matter.",
@@ -300,7 +307,7 @@
       "Frames: Horizons and LOLA both use the Moon Mean Earth/polar axis (ME) frame; differences between ephemeris realisations are of the order of metres.",
       "Chandrayaan-3 (69.4°S) is outside the polar LOLA DEMs used here: no terrain horizon.",
       "Checked and negligible: time step 60 → 10 min (≤ 0.02 points), ray sampling (≤ 0.05°), horizon reach 150 → 300 km (≤ 0.19°).",
-      "Power: Sun–Moon distance taken as 1 AU; the ±3.4% yearly change in sunlight is ignored.",
+      "Power: Sun–Moon distance taken as 1 AU; the ±3.4 % yearly change in sunlight is ignored.",
       "Power: no dust and no panel degradation.",
       "Power: no thermal model; heaters belong in the survival load you enter.",
       "Power: the panel is never shadowed by the lander itself.",
@@ -359,7 +366,7 @@
     "batteryPos": "Battery, ±300 m (P10–P90)",
     "h1": "Scenario report",
     "method": "method {v}",
-    "step": "step {n} min",
+    "step": "step {n} min",
     "terrainState": {
       "applied": "terrain applied",
       "notRequested": "flat 0° horizon",
@@ -468,7 +475,7 @@
     "faqTitle": "Frequently asked questions",
     "faq": [
       [
-        "Why does Shackleton show 99.8% sunlight but 48–73% within 300 m?",
+        "Why does Shackleton show 99.8 % sunlight but 48–73 % within 300 m?",
         "The published point sits on top of a narrow ridge. A few hundred metres away the terrain hides the low Sun for longer, so landing precision matters as much as the choice of site. Published coordinates are approximate, and real landings can miss their target by hundreds of metres."
       ],
       [
@@ -501,7 +508,7 @@
       "elevation": {
         "title": "Elevation",
         "def": "Angle of a body above the mathematical horizon (0°). At the lunar south pole the Sun stays within about ±1.5°.",
-        "example": "At Shackleton ridge in July 2030 the Sun stays between 0.6° and 1.5°."
+        "example": "At Shackleton ridge in July 2030 the Sun stays between 0.58° and 1.53°."
       },
       "horizon-mask": {
         "title": "Horizon mask (skyline)",
@@ -527,12 +534,12 @@
       "disc-range": {
         "title": "First limb / centre / full disc",
         "def": "The Sun counts as visible when its first edge, its centre or its whole disc is above the skyline. The range between them is the disc range.",
-        "example": "Shackleton ridge: 94.3–100% sunlight from full disc to first limb."
+        "example": "Shackleton ridge: 94.3–100 % sunlight from full disc to first limb."
       },
       "p10-p90": {
         "title": "P10–P90",
-        "def": "The range that contains the middle 80% of values. Here, of the results at grid points within 300 m of the site.",
-        "example": "Shackleton ridge sunlight within 300 m: 48–73%."
+        "def": "The range that contains the middle 80 % of values. Here, of the results at grid points within 300 m of the site.",
+        "example": "Shackleton ridge sunlight within 300 m: 48–73 %."
       },
       "earth-in-view": {
         "title": "Earth in view",
@@ -541,7 +548,7 @@
       "dsn": {
         "title": "DSN (Deep Space Network)",
         "def": "NASA's Deep Space Network, with 70 m antennas at Goldstone (USA), Madrid (Spain) and Canberra (Australia). Contact with Earth here means Earth in view AND at least one DSN complex seeing the Moon at 10° or more.",
-        "example": "In July 2030 the three complexes together saw the Moon 99.1% of the time."
+        "example": "In July 2030 the three complexes together saw the Moon 99.1 % of the time."
       },
       "longest-dark": {
         "title": "Longest dark period",
@@ -580,13 +587,38 @@
       "pgda-average": {
         "title": "Long-term average (PGDA)",
         "def": "NASA PGDA's share of time a place sees the Sun (or Earth) over a full 18.6-year lunar cycle, hourly, from LOLA topography (Mazarico et al. 2011). Any fraction of the disc counts. It does not depend on the dates you choose.",
-        "example": "Shackleton ridge: Sun 72.7%, Earth 51.9% (60 m map)."
+        "example": "Shackleton ridge: Sun 72.7 %, Earth 51.9 % (60 m map)."
       },
       "psr": {
         "title": "Permanently shadowed region (PSR)",
         "def": "Ground that never sees any part of the Sun over the 18.6-year cycle, mapped by NASA PGDA. Cold traps where ice may survive; dark for a lander.",
-        "example": "Within 300 m of Malapert, 20% of the PGDA pixels are permanent shadow."
+        "example": "Within 300 m of Malapert, 20 % of the PGDA pixels are permanent shadow."
       }
+    },
+    "who": {
+      "title": "Who it’s for",
+      "note": "The people below are fictional examples.",
+      "painLabel": "Problem",
+      "fixLabel": "With Lunar Nav",
+      "people": [
+        [
+          "Ana, mission planner",
+          "The landing slipped 10 days and she needs a clear answer by tomorrow.",
+          "Compare and Charts show what the delay changes in sunlight, Earth contact and battery, with the range for a landing a few hundred metres off."
+        ],
+        [
+          "Carlos, science teacher",
+          "He wants to show his class why the lunar south pole is so hard, without a physics degree.",
+          "Sky view and the guided tour show the Sun skimming the horizon and the terrain blocking it, in plain words."
+        ],
+        [
+          "Júlia, university student",
+          "She needs numbers she can trust and cite in a project.",
+          "Every result carries its provenance, and Methodology shows the validation against NASA PGDA."
+        ]
+      ],
+      "answersTitle": "What Lunar Nav answers",
+      "answers": "For a site and dates you choose: how much of the time the Sun is up and Earth is in view, when contact with Earth through the Deep Space Network is possible, how long the longest night lasts and what battery it needs, how much a delay or a landing a few hundred metres off changes the picture, and how the model compares with NASA’s long-term maps."
     }
   },
   "validation": {
@@ -598,7 +630,8 @@
       "failed": "failed",
       "error": "error",
       "needs smaller step": "needs smaller step",
-      "needs investigation": "needs investigation"
+      "needs investigation": "needs investigation",
+      "informative": "informative"
     },
     "names": {
       "control": "Control site, {site}",
@@ -614,22 +647,24 @@
       "position": "Position spread ±{radius} m, {site}",
       "position_missing": "Position spread, {site}",
       "terrain_checks": "Terrain checks, {site}",
-      "pgda": "Independent check vs NASA PGDA"
+      "pgda": "Independent check vs NASA PGDA",
+      "dem_resolution": "DEM resolution sensitivity, {site}"
     },
     "results": {
-      "control": "Earth in view {earth}%, elevation {min}° to {max}°",
-      "dsn_convergence": "Moon ≥ {el}° at the DSN union: 60 min {u60} vs 10 min {u10}; max |Δ| {diff} (tolerance {tol}); app step {step} min",
-      "dsn_coverage": "union {union}% of {days} days, longest gap {gap} h; {stations}",
+      "control": "Earth in view {earth} %, elevation {min}° to {max}°",
+      "dsn_convergence": "Moon ≥ {el}° at the DSN union: 60 min {u60} vs 10 min {u10}; max |Δ| {diff} (tolerance {tol}); app step {step} min",
+      "dsn_coverage": "union {union} % of {days} days, longest gap {gap} h; {stations}",
       "convergence": "max |Δ fraction| 60 min vs 10 min = {diff} (tolerance {tol})",
       "convergence_terrain": "max |Δ fraction| 60 min vs 10 min = {diff} (tolerance {tol})",
       "terrain_mask": "mask present",
       "terrain_missing": "not built yet",
-      "sun_disc": "first limb {first}% · centre {centre}% · full disc {full}% (r = {r}°)",
-      "power": "energy {energy} Wh vs P × panel factor × hours = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel}%, tolerance 0.1%); battery {battery} kWh for a {night} h night",
+      "sun_disc": "first limb {first} % · centre {centre} % · full disc {full} % (r = {r}°)",
+      "power": "energy {energy} Wh vs P × panel factor × hours = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel} %, tolerance 0.1 %); battery {battery} kWh for a {night} h night",
       "full_nights": "longest night {full} h in full vs {period} h within the period only; still lower bounds: {bounds} of 3 (Sun, Earth, contact)",
-      "position": "Sun P10–P90 {s10}–{s90}% (median {smed}%) · Earth {e10}–{e90}% · {points} points at {spacing} m",
+      "position": "Sun P10–P90 {s10}–{s90} % (median {smed} %) · Earth {e10}–{e90} % · {points} points at {spacing} m",
       "position_missing": "no terrain grid for this site",
-      "pgda": "our {year} (first limb) vs PGDA 18.6 yr: Sun ranking the same: {same}; max |Δ Sun| at 40 m DEM sites {max40} points; Δ Sun per site: {list}"
+      "pgda": "our {year} (first limb) vs PGDA 18.6 yr: Sun ranking the same: {same}; max |Δ Sun| at 40 m DEM sites {max40} points; Δ Sun per site: {list}",
+      "dem_resolution": "Sun (disc centre) {sun40} % with LOLA 40 m/px vs {sun60} % with 60 m/px ({delta} points); Earth {earth40} % vs {earth60} %"
     }
   },
   "charts": {
@@ -767,5 +802,34 @@
         ]
       ]
     ]
+  },
+  "prov": {
+    "labels": {
+      "source": "source",
+      "method": "method",
+      "bodies": "bodies",
+      "ephemeris": "ephemeris",
+      "nights": "nights",
+      "horizon": "horizon",
+      "visibility": "visibility",
+      "margins": "margins",
+      "DSN": "DSN",
+      "dsnCoords": "DSN coords",
+      "power": "power",
+      "powerModel": "power model",
+      "computed": "computed"
+    },
+    "step": "step {n} min",
+    "bodies": "Sun {sun}, Earth {earth}",
+    "nights": "period ±{d} d · Night lengths are measured in full for nights that overlap the period (series extended by {d} days on each side); fractions and energy use the period only.",
+    "visibility": "body centre; range = first limb (margin − r) … full disc (margin + r), r = {sun}° Sun, {earth}° Earth",
+    "margins": "Sun {sun}°, Earth {earth}°",
+    "dsnMoon": "Moon ≥ {el}°",
+    "off": "off",
+    "power": "{panel} W, {orient}; load {load} W, survival {surv} W, DoD {dod}, {whkg} Wh/kg",
+    "factorVertical": "cos(elevation), vertical panel that turns to face the Sun",
+    "factorHorizontal": "sin(elevation), horizontal panel",
+    "battery": "battery = survival load × longest night / DoD; mass = capacity / Wh/kg",
+    "cache": "cache"
   }
 }

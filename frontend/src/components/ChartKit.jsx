@@ -5,7 +5,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { useApp } from '../lib/store.jsx';
-import { NBSP } from '../lib/format.js';
+import { NBSP, fx } from '../lib/format.js';
 
 export const SUN = 'var(--sun)';
 export const EARTH = 'var(--earth)';
@@ -28,7 +28,7 @@ export function useWidth() {
   return [ref, w];
 }
 
-export const pts = (v) => (v === null || v === undefined ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : '±'}${Math.abs(v).toFixed(1)}`);
+export const pts = (v) => (v === null || v === undefined ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : '±'}${fx(Math.abs(v), 1)}`);
 export const pctTick = (v) => `${v}${NBSP}%`;
 
 /** Frame shared by every chart: title, "what this shows", legend, the SVG and a data table. */

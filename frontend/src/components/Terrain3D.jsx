@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { api } from '../lib/api.js';
 import { useApp } from '../lib/store.jsx';
-import { isoMin, pct } from '../lib/format.js';
+import { isoMin, pct, plain } from '../lib/format.js';
 import { bodyStatus, positionAt } from '../lib/visibility.js';
 import { direction, sunVisibility } from '../lib/shadow.js';
 import { cameraPosition } from '../lib/camera3d.js';
@@ -364,7 +364,7 @@ export default function Terrain3D({ site, result, mask }) {
           <p role="status" className="absolute left-3 right-3 sm:right-auto top-[52px] sm:top-3 sm:max-w-[55%] m-0 px-2.5 py-1.5 text-xs rounded" style={{ color: '#eceae6', background: '#141518', border: '1px solid #3a3d44' }}>{light.text}</p>
         )}
       </div>
-      {state === 'ready' && <p className="m-0 px-3 py-2 border-t border-line bg-panel text-xs text-dim">{t('sky.caption3d', { n: exag, light: light?.text ?? t('sky.litSun') })}</p>}
+      {state === 'ready' && <p className="m-0 px-3 py-2 border-t border-line bg-panel text-xs text-dim">{t('sky.caption3d', { n: plain(exag), light: light?.text ?? t('sky.litSun') })}</p>}
     </div>
   );
 }

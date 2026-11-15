@@ -44,7 +44,7 @@
     {
       "id": "p10-p90",
       "title": "P10–P90",
-      "def": "The range that contains the middle 80% of values. Here, of the results at grid points within 300 m of the site."
+      "def": "The range that contains the middle 80 % of values. Here, of the results at grid points within 300 m of the site."
     },
     {
       "id": "earth-in-view",

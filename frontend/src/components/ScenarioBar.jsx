@@ -1,7 +1,7 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
 import { useState } from 'react';
 import { useApp } from '../lib/store.jsx';
-import { dateInput, parseDateInput } from '../lib/format.js';
+import { dateInput, fx, parseDateInput } from '../lib/format.js';
 
 function SiteSelect({ label, value, onChange, accent }) {
   const { sites, t } = useApp();
@@ -30,7 +30,7 @@ function CustomForm({ onDone }) {
     <form className="flex flex-wrap items-end gap-2" onSubmit={(e) => {
       e.preventDefault();
       if (!ok) return;
-      setCustom({ id: 'custom', name: `${t('common.custom')} ${Number(lat).toFixed(2)}°, ${Number(lon).toFixed(2)}°E`, lat: Number(lat), lon: Number(lon), alt_km: 0, source: 'User input', terrain: { mask: false } });
+      setCustom({ id: 'custom', name: `${t('common.custom')} ${fx(Number(lat), 2)}°, ${fx(Number(lon), 2)}°E`, lat: Number(lat), lon: Number(lon), alt_km: 0, source: 'User input', terrain: { mask: false } });
       onDone();
     }}>
       <label className="flex flex-col gap-1"><span className="label-row label">{t('common.lat')}</span><input className="field w-28 font-mono" value={lat} onChange={(e) => setLat(e.target.value)} inputMode="decimal" /></label>

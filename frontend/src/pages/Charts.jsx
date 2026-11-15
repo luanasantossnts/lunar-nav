@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useApp } from '../lib/store.jsx';
 import { api } from '../lib/api.js';
-import { dateInput, ge, hrs, isoMin, num, NBSP, pct, pctSpan, numSpanBound } from '../lib/format.js';
+import { dateInput, ge, hrs, plain, isoMin, num, NBSP, pct, pctSpan, numSpanBound } from '../lib/format.js';
 import {
   CHART_SITES, SHORT, batteryRows, delayRows, monthlyLines, pgdaRows, siteBars, spreadLabels, sunHistogram, whereVsWhen, yearMean,
 } from '../lib/charts.js';
@@ -162,7 +162,7 @@ function BatteryChart({ rows, wv, delayDays, n }) {
   const { t, power } = useApp();
   const summary = rows ? t('charts.c4.summary', { list: rows.map((r) => `${SHORT[r.id]}: ${ge(num(r.kwh, 2, 'kWh'), r.lowerBound)}${r.pos ? ` (±300${NBSP}m ${numSpanBound(r.pos[0], r.posLowerBound[0], r.pos[1], r.posLowerBound[1], 2, 'kWh')})` : ''}`).join('; ') }) : '';
   return (
-    <ChartFrame id="chart-battery" n={n} title={t('charts.c4.title')} what={t('charts.c4.what', { panel: power.panel_w, surv: power.survival_w, dod: power.dod })}
+    <ChartFrame id="chart-battery" n={n} title={t('charts.c4.title')} what={t('charts.c4.what', { panel: power.panel_w, surv: power.survival_w, dod: plain(power.dod) })}
       status={!rows ? t('common.loading') : null}
       legend={[[<Swatch key="b" color={SUN} />, t('power.battery')], [<Swatch key="x" kind="box" />, t('charts.posRange')]]}
       table={rows && { head: [t('charts.site'), t('power.battery'), t('charts.posRange'), t('common.longestDark')], rows: rows.map((r) => [r.name, ge(num(r.kwh, 2, 'kWh'), r.lowerBound), r.pos ? numSpanBound(r.pos[0], r.posLowerBound[0], r.pos[1], r.posLowerBound[1], 2, 'kWh') : '—', ge(hrs(r.nightH), r.lowerBound)]) }}>

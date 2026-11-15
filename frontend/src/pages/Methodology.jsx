@@ -5,7 +5,8 @@ import { useApp } from '../lib/store.jsx';
 import { api } from '../lib/api.js';
 import Provenance from '../components/Provenance.jsx';
 import { aiLines } from '../lib/aiStatus.js';
-import { minus } from '../lib/format.js';
+import { fixed, minus, pct } from '../lib/format.js';
+import { localParams } from '../lib/validationText.js';
 
 const STATUS_COLOR = {
   'integration tested': 'var(--earth)',
@@ -15,6 +16,7 @@ const STATUS_COLOR = {
   error: 'var(--alert)',
   'needs smaller step': 'var(--alert)',
   'needs investigation': 'var(--alert)',
+  informative: 'var(--dim)',
 };
 
 // Same set as REFERENCES.md (data and services, site coordinates); nothing that is not used.
@@ -29,6 +31,8 @@ const SOURCES = [
   ['NASA: Lunar South Pole Region (Moon Base)', 'https://www.nasa.gov/reference/moonbase-environment/'],
   ["NASA's Scientific Visualization Studio (SVS 5013, 4716, 4770, 4119, 5228)", 'https://svs.gsfc.nasa.gov/'],
   ['SVS 5127: Lunar South Pole Terrain in Coded Color (NASA Moon Base page)', 'https://svs.gsfc.nasa.gov/5127/'],
+  ['CSA: Moon exploration portal (context; listed in the challenge resources)', 'https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/'],
+  ['CSA: First Canadian rover to explore the Moon (south pole; project ended)', 'https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/first-canadian-rover-to-explore-the-moon.asp'],
   ['LROC: Spacecraft Related Coordinates (2016)', 'https://www.lroc.im-ldi.com/images/938'],
   ['LROC: Shackleton–de Gerlache ridge', 'https://lroc.im-ldi.com/images/1247'],
   ['LROC: IM-2 landing region', 'https://lroc.im-ldi.com/images/1401'],
@@ -42,8 +46,8 @@ const SOURCES = [
   ['Mazarico et al. (2011), Icarus 211, 1066–1081 (polar illumination)', null],
 ];
 
-const p1 = (f) => (f === null || f === undefined ? '—' : `${(100 * f).toFixed(1)}%`);
-const sgn = (d) => (d === null || d === undefined ? '—' : `${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d).toFixed(1)}`);
+const p1 = (f) => pct(f);
+const sgn = (d) => (d === null || d === undefined ? '—' : `${d > 0 ? '+' : d < 0 ? '−' : '±'}${fixed(Math.abs(d), 1)}`);
 
 /** Our model over a whole year vs NASA PGDA 69 (18.6-year averages), from the validation file. */
 function PgdaTable({ check, siteName }) {
@@ -65,7 +69,7 @@ function PgdaTable({ check, siteName }) {
             {d.rows.map((r) => (
               <tr key={r.site}>
                 <th scope="row" className="py-2.5 pr-3 text-left font-sans font-normal border-b border-hair">{siteName(r.site)}</th>
-                <td className="py-2.5 pr-3 border-b border-hair text-xs">{r.mode === 'terrain' ? `${t('common.terrain')} · ${r.dem_m} m` : t('common.geometric')} / PGDA {r.pgda_resolution_m} m</td>
+                <td className="py-2.5 pr-3 border-b border-hair text-xs">{r.mode === 'terrain' ? `${t('common.terrain')} · ${r.dem_m}\u00A0m` : t('common.geometric')} / PGDA {`${r.pgda_resolution_m}\u00A0m`}</td>
                 <td className="py-2.5 pr-3 border-b border-hair" style={{ color: 'var(--sun)' }}>{p1(r.ours.sun_first_limb)} <span className="text-dim">({p1(r.ours.sun_centre)})</span></td>
                 <td className="py-2.5 pr-3 border-b border-hair">{p1(r.pgda.sun)}</td>
                 <td className="py-2.5 pr-3 border-b border-hair" style={Math.abs(r.delta_points.sun) > 10 ? { color: 'var(--alert)' } : undefined}>{sgn(r.delta_points.sun)}</td>
@@ -99,8 +103,9 @@ export default function Methodology() {
   const siteName = (id) => sites.find((s) => s.id === id)?.name || id;
   const known = (k) => typeof t(k) === 'string' && t(k) !== k;
   const checkName = (c) => (c.key && known(`validation.names.${c.key}`) ? t(`validation.names.${c.key}`, { ...c.params, site: siteName(c.params?.site) }) : c.name);
-  // Results are built from stored numbers: negatives get a true minus sign (U+2212).
-  const checkResult = (c) => minus(c.status !== 'error' && c.key && known(`validation.results.${c.key}`) ? t(`validation.results.${c.key}`, c.params) : c.result);
+  // Results are built here from the stored numbers, with the screen's formatter (decimal
+  // separator of the language, no-break space, true minus sign U+2212).
+  const checkResult = (c) => minus(c.status !== 'error' && c.key && known(`validation.results.${c.key}`) ? t(`validation.results.${c.key}`, localParams(c, siteName, t)) : c.result);
   return (
     <div className="w-full max-w-[980px] mx-auto px-6 py-10 flex flex-col gap-10">
       <div>

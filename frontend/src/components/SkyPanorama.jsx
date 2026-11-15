@@ -1,6 +1,6 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
 import { useApp } from '../lib/store.jsx';
-import { fixed, pct } from '../lib/format.js';
+import { fixed, pct, plain } from '../lib/format.js';
 import { bodyStatus, horizonAt } from '../lib/visibility.js';
 import { statusWord } from './SiteReadout.jsx';
 
@@ -97,7 +97,7 @@ export default function SkyPanorama({ result, mask, refMask = null, height = 520
         ))}
       </svg>
       <div className="flex justify-between px-1 pt-1 font-mono text-[11px] text-dim">
-        <span>180 S</span><span>270 W</span><span className="text-ink">0 N</span><span>90 E</span><span>180 S</span>
+        <span>180° {t('sky.axis.s')}</span><span>270° {t('sky.axis.w')}</span><span className="text-ink">0° {t('sky.axis.n')}</span><span>90° {t('sky.axis.e')}</span><span>180° {t('sky.axis.s')}</span>
       </div>
       {!compact && (
         <div className="flex flex-wrap gap-x-5 gap-y-1 pt-1 text-xs">
@@ -107,7 +107,7 @@ export default function SkyPanorama({ result, mask, refMask = null, height = 520
           {skyline && <span className="text-muted">— {t('sky.skyline')} (NASA LOLA)</span>}
           {refLine && <span className="text-dim">··· {t('sky.skylineReference')}</span>}
           <span className="text-muted">{t('sky.trackLegend')}</span>
-          {exaggerated && <span className="text-dim">{t('sky.exaggeration', { n: ex })}</span>}
+          {exaggerated && <span className="text-dim">{t('sky.exaggeration', { n: plain(ex) })}</span>}
         </div>
       )}
     </div>

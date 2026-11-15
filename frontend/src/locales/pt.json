@@ -73,7 +73,7 @@
     "antennaMargin": "Margem de elevação da antena",
     "panelVertical": "Fator de painel (vertical)",
     "horizon": "Horizonte",
-    "status": "{source} · {mode} · centro do astro · passo {step} min",
+    "status": "{source} · {mode} · centro do astro · passo {step} min",
     "never": "nenhum no período",
     "close": "Fechar",
     "back": "Voltar",
@@ -103,7 +103,7 @@
       "near_side": "Face visível"
     },
     "longTerm": "Média de longo prazo (NASA PGDA, 18,6 anos)",
-    "psrNear": "Sombra permanente a até 300 m",
+    "psrNear": "Sombra permanente a até 300 m",
     "ok": "OK"
   },
   "brief": {
@@ -125,13 +125,14 @@
     "setB": "Definir como B",
     "elevation": "Elevação durante a estadia",
     "h1": "Explorador: {a} e {b}",
-    "siteConditions": "Condições dos locais"
+    "siteConditions": "Condições dos locais",
+    "outsideMap": "Fora deste mapa: {list}"
   },
   "compare": {
     "title": "Pouso original vs. {n} dias depois",
     "subtitle": "{d} dias na superfície a partir de cada data",
     "original": "Original",
-    "delayed": "Atrasado +{n} d",
+    "delayed": "Atrasado +{n} d",
     "metric": "Métrica",
     "change": "O que o atraso muda",
     "delta": "Mudança",
@@ -202,7 +203,13 @@
     "trackLegend": "○ início · ● fim do período",
     "viewSide": "Luz lateral",
     "viewSun": "Contra o Sol",
-    "lowSun": "Sol baixo: a maioria das encostas está na sombra — é assim que o polo sul lunar se parece."
+    "lowSun": "Sol baixo: a maioria das encostas está na sombra — é assim que o polo sul lunar se parece.",
+    "axis": {
+      "n": "N",
+      "e": "L",
+      "s": "S",
+      "w": "O"
+    }
   },
   "analyst": {
     "title": "Analista",
@@ -292,7 +299,7 @@
       "Posição do site: as coordenadas publicadas são aproximadas, e pousos reais podem errar o alvo por centenas de metros. Até 300 m, o Sol na crista de Shackleton tem P10–P90 de 48–73 % (centro 99,8 %); em Malapert, 0–97 %.",
       "A faixa de ±300 m usa uma grade de 100 m sobre um DEM de 40 m (~2,5 pixels de distância), então mistura microrrelevo real com o limite de resolução do DEM.",
       "Discos do Sol e da Terra: os valores usam o centro do corpo. Do disco inteiro à primeira borda: Sol em Shackleton 94,3–100 %, em Malapert 13,3–30,6 %; os ±0,95° da Terra mudam a Terra visível em 4–8 pontos.",
-      "Resolução do DEM: Sol em Shackleton 99,8 % com LOLA 40 m/px contra 91,4 % com 60 m/px; Malapert 21,1 % contra 29,8 %.",
+      "Resolução do DEM: Sol em Shackleton 99,8 % com LOLA 40 m/px contra 91,4 % com 60 m/px (mesmo método e datas; veja Validação, “Sensibilidade à resolução do DEM”).",
       "Terra visível é o centro do disco da Terra. Contato (DSN) também exige que um complexo de 70 m da DSN veja a Lua.",
       "Só a DSN (3 complexos, ≥ 10°); missões reais podem usar outras redes; sem cálculo de enlace.",
       "Observador a 2 m da superfície. Em Malapert o horizonte se forma a menos de 1 km em todas as direções, então a inclinação local e a altura do mastro importam.",
@@ -300,7 +307,7 @@
       "Referenciais: o Horizons e o LOLA usam o mesmo referencial Mean Earth/polar axis (ME) da Lua; as diferenças entre realizações das efemérides são da ordem de metros.",
       "O Chandrayaan-3 (69,4°S) fica fora dos DEMs polares do LOLA usados aqui: sem horizonte de relevo.",
       "Verificado e desprezível: passo de tempo 60 → 10 min (≤ 0,02 ponto), amostragem dos raios (≤ 0,05°), alcance do horizonte 150 → 300 km (≤ 0,19°).",
-      "Energia: distância Sol–Lua tomada como 1 UA; a variação anual de ±3,4% na luz solar é ignorada.",
+      "Energia: distância Sol–Lua tomada como 1 UA; a variação anual de ±3,4 % na luz solar é ignorada.",
       "Energia: sem poeira e sem degradação do painel.",
       "Energia: sem modelo térmico; os aquecedores entram na carga de sobrevivência informada.",
       "Energia: o painel nunca é sombreado pelo próprio módulo.",
@@ -359,7 +366,7 @@
     "batteryPos": "Bateria, ±300 m (P10–P90)",
     "h1": "Relatório do cenário",
     "method": "método {v}",
-    "step": "passo de {n} min",
+    "step": "passo de {n} min",
     "terrainState": {
       "applied": "relevo aplicado",
       "notRequested": "horizonte plano de 0°",
@@ -468,7 +475,7 @@
     "faqTitle": "Perguntas frequentes",
     "faq": [
       [
-        "Por que Shackleton mostra 99,8% de Sol, mas 48–73% a até 300 m?",
+        "Por que Shackleton mostra 99,8 % de Sol, mas 48–73 % a até 300 m?",
         "O ponto publicado fica no alto de uma crista estreita. A poucas centenas de metros dali o relevo esconde o Sol baixo por mais tempo, então a precisão do pouso importa tanto quanto a escolha do local. As coordenadas publicadas são aproximadas, e pousos reais podem errar o alvo por centenas de metros."
       ],
       [
@@ -501,7 +508,7 @@
       "elevation": {
         "title": "Elevação",
         "def": "Ângulo de um corpo acima do horizonte matemático (0°). No polo sul da Lua o Sol fica dentro de cerca de ±1,5°.",
-        "example": "Na crista de Shackleton, em julho de 2030, o Sol fica entre 0,6° e 1,5°."
+        "example": "Na crista de Shackleton, em julho de 2030, o Sol fica entre 0,58° e 1,53°."
       },
       "horizon-mask": {
         "title": "Máscara de horizonte (linha do horizonte)",
@@ -527,12 +534,12 @@
       "disc-range": {
         "title": "Primeira borda / centro / disco inteiro",
         "def": "O Sol conta como visível quando a primeira borda, o centro ou o disco inteiro está acima do horizonte. A faixa entre esses casos é a faixa do disco.",
-        "example": "Crista de Shackleton: 94,3–100% de Sol, do disco inteiro à primeira borda."
+        "example": "Crista de Shackleton: 94,3–100 % de Sol, do disco inteiro à primeira borda."
       },
       "p10-p90": {
         "title": "P10–P90",
-        "def": "A faixa que contém os 80% centrais dos valores. Aqui, dos resultados nos pontos da grade a até 300 m do local.",
-        "example": "Sol na crista de Shackleton a até 300 m: 48–73%."
+        "def": "A faixa que contém os 80 % centrais dos valores. Aqui, dos resultados nos pontos da grade a até 300 m do local.",
+        "example": "Sol na crista de Shackleton a até 300 m: 48–73 %."
       },
       "earth-in-view": {
         "title": "Terra visível",
@@ -541,7 +548,7 @@
       "dsn": {
         "title": "DSN (Deep Space Network)",
         "def": "A Rede de Espaço Profundo da NASA, com antenas de 70 m em Goldstone (EUA), Madri (Espanha) e Canberra (Austrália). Aqui, contato com a Terra significa Terra visível E pelo menos um complexo da DSN vendo a Lua a 10° ou mais.",
-        "example": "Em julho de 2030 os três complexos juntos viram a Lua 99,1% do tempo."
+        "example": "Em julho de 2030 os três complexos juntos viram a Lua 99,1 % do tempo."
       },
       "longest-dark": {
         "title": "Maior período escuro",
@@ -580,13 +587,38 @@
       "pgda-average": {
         "title": "Média de longo prazo (PGDA)",
         "def": "Fração do tempo em que um lugar vê o Sol (ou a Terra) ao longo de um ciclo lunar completo de 18,6 anos, hora a hora, calculada pela NASA PGDA com o relevo do LOLA (Mazarico et al. 2011). Qualquer fração do disco conta. Não depende das datas que você escolhe.",
-        "example": "Crista de Shackleton: Sol 72,7%, Terra 51,9% (mapa de 60 m)."
+        "example": "Crista de Shackleton: Sol 72,7 %, Terra 51,9 % (mapa de 60 m)."
       },
       "psr": {
         "title": "Região de sombra permanente (PSR)",
         "def": "Terreno que nunca vê nenhuma parte do Sol ao longo do ciclo de 18,6 anos, segundo o mapa da NASA PGDA. Armadilhas frias onde pode haver gelo; escuras para um módulo de pouso.",
-        "example": "A até 300 m de Malapert, 20% dos pixels da PGDA são sombra permanente."
+        "example": "A até 300 m de Malapert, 20 % dos pixels da PGDA são sombra permanente."
       }
+    },
+    "who": {
+      "title": "Para quem é",
+      "note": "As pessoas abaixo são exemplos fictícios.",
+      "painLabel": "Problema",
+      "fixLabel": "Com o Lunar Nav",
+      "people": [
+        [
+          "Ana, planejadora de missão",
+          "O pouso atrasou 10 dias e ela precisa de uma resposta clara até amanhã.",
+          "Comparar e Gráficos mostram o que o atraso muda na luz do Sol, no contato com a Terra e na bateria, com a faixa para um pouso algumas centenas de metros ao lado."
+        ],
+        [
+          "Carlos, professor de ciências",
+          "Ele quer mostrar à turma por que o polo sul da Lua é tão difícil, sem precisar de um curso de física.",
+          "A Vista do céu e o tour guiado mostram o Sol rente ao horizonte e o relevo bloqueando a luz, em palavras simples."
+        ],
+        [
+          "Júlia, estudante universitária",
+          "Ela precisa de números confiáveis, que possa citar num trabalho.",
+          "Cada resultado traz sua procedência, e a Metodologia mostra a validação com a NASA PGDA."
+        ]
+      ],
+      "answersTitle": "O que o Lunar Nav responde",
+      "answers": "Para um local e datas que você escolhe: quanto do tempo o Sol está acima do horizonte e a Terra está visível, quando há contato com a Terra pela Deep Space Network, quanto dura a noite mais longa e que bateria ela exige, quanto um atraso ou um pouso algumas centenas de metros ao lado muda o quadro, e como o modelo se compara com os mapas de longo prazo da NASA."
     }
   },
   "validation": {
@@ -598,7 +630,8 @@
       "failed": "falhou",
       "error": "erro",
       "needs smaller step": "precisa de passo menor",
-      "needs investigation": "precisa de investigação"
+      "needs investigation": "precisa de investigação",
+      "informative": "informativo"
     },
     "names": {
       "control": "Local de controle, {site}",
@@ -614,22 +647,24 @@
       "position": "Faixa de posição ±{radius} m, {site}",
       "position_missing": "Faixa de posição, {site}",
       "terrain_checks": "Checagens de relevo, {site}",
-      "pgda": "Checagem independente com a NASA PGDA"
+      "pgda": "Checagem independente com a NASA PGDA",
+      "dem_resolution": "Sensibilidade à resolução do DEM, {site}"
     },
     "results": {
-      "control": "Terra visível {earth}%, elevação de {min}° a {max}°",
-      "dsn_convergence": "Lua ≥ {el}° na união da DSN: 60 min {u60} × 10 min {u10}; |Δ| máx. {diff} (tolerância {tol}); passo do app {step} min",
-      "dsn_coverage": "união {union}% de {days} dias, maior intervalo {gap} h; {stations}",
+      "control": "Terra visível {earth} %, elevação de {min}° a {max}°",
+      "dsn_convergence": "Lua ≥ {el}° na união da DSN: 60 min {u60} × 10 min {u10}; |Δ| máx. {diff} (tolerância {tol}); passo do app {step} min",
+      "dsn_coverage": "união {union} % de {days} dias, maior intervalo {gap} h; {stations}",
       "convergence": "|Δ fração| máx. 60 min × 10 min = {diff} (tolerância {tol})",
       "convergence_terrain": "|Δ fração| máx. 60 min × 10 min = {diff} (tolerância {tol})",
       "terrain_mask": "máscara presente",
       "terrain_missing": "ainda não gerada",
-      "sun_disc": "primeira borda {first}% · centro {centre}% · disco inteiro {full}% (r = {r}°)",
-      "power": "energia {energy} Wh × P × fator do painel × horas = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel}%, tolerância 0,1%); bateria {battery} kWh para uma noite de {night} h",
+      "sun_disc": "primeira borda {first} % · centro {centre} % · disco inteiro {full} % (r = {r}°)",
+      "power": "energia {energy} Wh × P × fator do painel × horas = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel} %, tolerância 0,1 %); bateria {battery} kWh para uma noite de {night} h",
       "full_nights": "noite mais longa {full} h inteira × {period} h só dentro do período; ainda mínimos: {bounds} de 3 (Sol, Terra, contato)",
-      "position": "Sol P10–P90 {s10}–{s90}% (mediana {smed}%) · Terra {e10}–{e90}% · {points} pontos a cada {spacing} m",
+      "position": "Sol P10–P90 {s10}–{s90} % (mediana {smed} %) · Terra {e10}–{e90} % · {points} pontos a cada {spacing} m",
       "position_missing": "sem grade de relevo para este local",
-      "pgda": "nosso {year} (primeira borda) × PGDA 18,6 anos: mesmo ranking de Sol: {same}; |Δ Sol| máx. nos sites com DEM de 40 m {max40} pontos; Δ Sol por site: {list}"
+      "pgda": "nosso {year} (primeira borda) × PGDA 18,6 anos: mesmo ranking de Sol: {same}; |Δ Sol| máx. nos sites com DEM de 40 m {max40} pontos; Δ Sol por site: {list}",
+      "dem_resolution": "Sol (centro do disco) {sun40} % com LOLA 40 m/px × {sun60} % com 60 m/px ({delta} pontos); Terra {earth40} % × {earth60} %"
     }
   },
   "charts": {
@@ -767,5 +802,34 @@
         ]
       ]
     ]
+  },
+  "prov": {
+    "labels": {
+      "source": "fonte",
+      "method": "método",
+      "bodies": "corpos",
+      "ephemeris": "efemérides",
+      "nights": "noites",
+      "horizon": "horizonte",
+      "visibility": "visibilidade",
+      "margins": "margens",
+      "DSN": "DSN",
+      "dsnCoords": "coords. DSN",
+      "power": "energia",
+      "powerModel": "modelo de energia",
+      "computed": "calculado"
+    },
+    "step": "passo de {n} min",
+    "bodies": "Sol {sun}, Terra {earth}",
+    "nights": "período ±{d} d · A duração das noites é medida por inteiro para as noites que tocam o período (série estendida {d} dias de cada lado); frações e energia usam só o período.",
+    "visibility": "centro do astro; faixa = primeira borda (margem − r) … disco inteiro (margem + r), r = {sun}° Sol, {earth}° Terra",
+    "margins": "Sol {sun}°, Terra {earth}°",
+    "dsnMoon": "Lua ≥ {el}°",
+    "off": "desligada",
+    "power": "{panel} W, {orient}; carga {load} W, sobrevivência {surv} W, DoD {dod}, {whkg} Wh/kg",
+    "factorVertical": "cos(elevação), painel vertical que gira para o Sol",
+    "factorHorizontal": "sen(elevação), painel horizontal",
+    "battery": "bateria = carga de sobrevivência × noite mais longa / DoD; massa = capacidade / Wh/kg",
+    "cache": "cache"
   }
 }

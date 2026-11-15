@@ -27,7 +27,7 @@ export default function ElevationChart({ which = 'A' }) {
       <figcaption className="panel-title mb-2">{t('planner.elevation')} · {r.site.name}</figcaption>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img"
         aria-label={r ? t('common.elevSummary', { s: degRange(r.metrics.sun.elevation.min, r.metrics.sun.elevation.max), e: degRange(r.metrics.earth.elevation.min, r.metrics.earth.elevation.max) }) : `${t('common.sunElevation')} / ${t('common.earthElevation')}`}>
-        {[...ticks, 0].map((v) => (
+        {[...new Set([...ticks, 0])].map((v) => (
           <g key={v}>
             <line x1={PAD.l} x2={W - PAD.r} y1={y(v)} y2={y(v)} style={{ stroke: v === 0 ? 'var(--line2)' : 'var(--hair)' }} strokeDasharray={v === 0 ? '6 5' : undefined} />
             <text x={PAD.l - 6} y={y(v) + 4} textAnchor="end" fontSize="11" fontFamily="IBM Plex Mono, monospace" style={{ fill: 'var(--dim)' }}>{fixed(v)}°</text>

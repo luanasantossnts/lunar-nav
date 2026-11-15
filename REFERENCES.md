@@ -10,9 +10,10 @@ Every source used by Lunar Nav — data, services, papers and software. Open sou
 4. **LOLA gridded polar DEMs used** (LRO-L-LOLA-4-GDR-V1.0, product version V2.0, PDS Geosciences Node):
    - LDEM_80S_40M — 40 m/px, 80°S–90°S, for Shackleton, IM-2 and Malapert — https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_80s_40m.img
    - LDEM_75S_60M — 60 m/px, 75°S–90°S, for IM-1 (80.1°S, so its 150 km horizon rays stay inside the DEM) — https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_75s_60m.img
+     Also used for the *DEM resolution sensitivity* check (Methodology → Validation): the Shackleton ridge horizon mask rebuilt from this 60 m DEM with the same method (`api/data/terrain-dem60/shackleton_ridge/mask.json`), giving 91.4 % sunlight against 99.8 % with LDEM_80S_40M for the default scenario (30 days from 1 July 2030). Reproduce with `preprocess/build_site_assets.py --ids shackleton_ridge --max-dist-km 150 --az-step 0.5 --observer-height 2 --skip-grid` on a crop of this DEM, then `php bin/validate.php`.
    - Heights are DN × 0.5 m relative to the 1737.4 km sphere (the label's OFFSET is the sphere radius, not added to heights).
 5. **NASA PGDA, Lunar polar illumination** (product 69) — https://pgda.gsfc.nasa.gov/products/69 — Mazarico et al. (2011). Average Sun visibility (`AVGVISIB_*_201608`), average Earth visibility (`AVGVISIB_*_201608_EARTH`) and permanently shadowed regions (`LPSR_*_201608`), V1.05 (2016-09-15), hourly over ~18.6 years; a body counts as visible when *any fraction of its disc* is up (product labels). Used at 60 m/px (85°S–90°S: Shackleton ridge, Malapert), 120 m/px (75°S–90°S: IM-2, IM-1) and 240 m/px (65°S–90°S: Chandrayaan-3), read as tiled GeoTIFFs from https://pgda.gsfc.nasa.gov/data/MoonIllumination/ by `preprocess/pgda_reference.py` (stored in `api/data/pgda/`). Shown in the app as the long-term average and used for the independent validation of our model.
-6. **NASA's Scientific Visualization Studio (SVS)** — context visualizations, fetched through the public SVS API (https://svs.gsfc.nasa.gov/api/<id>):
+6. **NASA's Scientific Visualization Studio (SVS)** — context visualizations, fetched through the public SVS API (https://svs.gsfc.nasa.gov/api/<id>, for example https://svs.gsfc.nasa.gov/api/5228):
    - SVS 5013, *Artemis III Landing Region Candidates* — https://svs.gsfc.nasa.gov/5013/
    - SVS 4716, *Visualizing Shackleton Crater* — https://svs.gsfc.nasa.gov/4716/
    - SVS 4770, *From Apollo Sites To The South Pole* — https://svs.gsfc.nasa.gov/4770/
@@ -25,6 +26,9 @@ Every source used by Lunar Nav — data, services, papers and software. Open sou
 
 ## Space Agency Partner data
 
+- **CSA (Canadian Space Agency) — Moon exploration portal**, listed in this challenge's resources — https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/ . Context only; no CSA data or landing site is used, because the pages give no landing coordinates. Text quoted (Credit: Canadian Space Agency), under the CSA's terms for non-commercial, informational reuse (https://www.asc-csa.gc.ca/eng/terms.asp); no CSA logo is used and no association with or endorsement by the CSA is implied:
+  - *First Canadian rover to explore the Moon* (date modified 2026-04-21; status "Project ended") — https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/first-canadian-rover-to-explore-the-moon.asp : "The Canadian rover was set to land on the south pole of the Moon, with a suite of scientific payloads." and "Its mission objective was to explore a region of the lunar south pole and gather scientific data to help find water ice".
+  - *A Canadian utility rover on the Moon* (date modified 2026-09-03; concept development) — https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/canadian-utility-rover-on-the-moon.asp : the rover must "survive the roughly two-week-long lunar night, with temperatures as low as -200 °C".
 - **ISRO (Indian Space Research Organisation)**: Chandrayaan-3 Vikram landing site (Statio Shiv Shakti, 69.373°S 32.319°E), as published by ISRO. Used as a comparison site at a lower south-polar latitude. Secondary reference: https://en.wikipedia.org/wiki/Statio_Shiv_Shakti
 
 ## Site coordinates
