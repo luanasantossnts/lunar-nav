@@ -11,6 +11,7 @@ import Analyst from './pages/Analyst.jsx';
 import Methodology from './pages/Methodology.jsx';
 import Report from './pages/Report.jsx';
 import Help from './pages/Help.jsx';
+import Privacy from './pages/Privacy.jsx';
 
 const PAGES = {
   '/planner': Planner,
@@ -21,6 +22,7 @@ const PAGES = {
   '/methodology': Methodology,
   '/report': Report,
   '/help': Help,
+  '/privacy': Privacy,
 };
 
 export default function App() {

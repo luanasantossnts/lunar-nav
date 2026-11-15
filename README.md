@@ -103,6 +103,7 @@ Put keys in `api/config.php` or environment variables (environment wins):
 | `ANTHROPIC_API_KEY` | Claude analyst |
 | `ANTHROPIC_MODEL` | optional: another Claude model (default `claude-opus-5-5`) |
 | `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | read answers aloud (text-to-speech) and speech input (speech-to-text) |
+| `IP_SALT` | secret for hashing client addresses for the hourly limits (if unset, one is created in a file outside the web root) |
 
 For Docker, keep them in a file outside the project and pass it with `--env-file` (never commit it):
 
@@ -179,6 +180,17 @@ The two paid services are Claude (Analyst) and ElevenLabs (voice). Both are limi
 **Usage and warm-up**
 - `php api/bin/usage.php [days]` prints daily counters (Claude requests and questions, input/output tokens, prompt-cache reads and writes, cached answers, TTS characters and cache hits, STT requests and seconds, limits hit). They are stored in the app cache and are not exposed by the API; `/api/health` only reports which services are configured.
 - `php api/bin/warm-analyst.php` pre-generates the answers to the three suggested questions in three languages and both modes for the default scenario, plus the MP3 of each summary. It prints the plan (how many real calls) and does nothing until run with `--yes`.
+
+## Privacy & legal
+
+- **Responsible:** Luana Santos (individual project, team Lumi Lunar). Contact through the GitHub repository (issues); no personal e-mail is published.
+- **IP addresses:** never stored in plain text. Only an HMAC-SHA256 hash with a secret salt (`IP_SALT`, or a file created outside the web root) is used for the hourly limits, and those records are deleted after 48 hours. Daily usage counters contain no address. `php api/bin/privacy-cleanup.php --scan` removes expired or old-format records and checks that no address appears in the cache (run it hourly from cron if you like).
+- **Questions:** sent to Anthropic (USA) to generate the answer. Identical questions may be answered from a cache for 90 days; the cache holds only the answer and its tool calls under a hash of the question. Questions that look like personal data (e-mail, phone, CPF) are not cached. The Analyst shows a notice not to include personal data.
+- **Voice:** microphone recordings are sent to ElevenLabs (USA) for transcription and are not stored (PHP's temporary upload is deleted right after); the first use shows a notice. Audio of answers read aloud is cached; it contains no user data.
+- **International transfer:** Anthropic and ElevenLabs are in the USA; each processes data under its own terms. Nothing else is shared or sold.
+- **No tracking cookies or analytics.** Only preferences (language, theme, mode, power inputs, microphone notice seen) are kept in the browser's local storage.
+- **Rights (LGPD, art. 18):** confirmation, access, correction, anonymisation or deletion, information about sharing, withdrawal of consent — requested through GitHub. The hosting provider's web server logs may hold addresses under its own policy.
+- **Terms:** educational and demonstration use; no warranty; not for operational mission decisions; not endorsed by NASA. Code under the Apache License 2.0. The in-app page is *Privacy & Terms* (`#/privacy`, linked in the footer).
 
 ## Status of claims
 

@@ -28,6 +28,11 @@ final class MysqlCache implements Cache
         return is_array($data) ? $data : null;
     }
 
+    public function delete(string $key): void
+    {
+        $this->pdo->prepare('DELETE FROM lunarnav_cache WHERE k = ?')->execute([sha1($key)]);
+    }
+
     public function set(string $key, array $value): void
     {
         $st = $this->pdo->prepare('REPLACE INTO lunarnav_cache (k, v, created_at) VALUES (?, ?, NOW())');

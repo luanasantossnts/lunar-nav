@@ -187,11 +187,11 @@ final class App
         return new Usage($this->cache);
     }
 
-    /** Per-client hourly allowance (only a hash of the client address is stored). */
+    /** Per-client hourly allowance: only a salted hash of the client address is used, and it is deleted after 48 h. */
     private function perClient(string $bucket, int $perHour, string $code): void
     {
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'cli';
-        if (!(new RateLimiter($this->cache))->allow($bucket, $ip, $perHour)) {
+        if (!(new RateLimiter($this->cache, \LunarNav\Privacy\IpSalt::resolve($this->config)))->allow($bucket, $ip, $perHour)) {
             $this->usage()->add(['limit_hits' => 1]);
             throw new ApiError($code, 'You have reached the hourly limit for this feature. Please try again later.', 429);
         }
@@ -283,7 +283,15 @@ final class App
         $this->perClient('stt', (int) ($v['stt_per_ip_per_hour'] ?? 10), 'stt_ip');
         $usage->ensure('stt_requests', 1, (int) ($v['stt_per_day'] ?? 60), 'stt_daily');
         $lang = in_array($in['lang'] ?? 'en', ['en', 'es', 'pt'], true) ? (string) $in['lang'] : 'en';
-        $text = $voice->transcribe((string) $file['tmp_name'], (string) ($file['type'] ?? ''), $lang);
+        // The recording is only forwarded to ElevenLabs: it is never copied, and PHP's temporary
+        // upload is removed right after (PHP would also remove it at the end of the request).
+        try {
+            $text = $voice->transcribe((string) $file['tmp_name'], (string) ($file['type'] ?? ''), $lang);
+        } finally {
+            if (is_uploaded_file((string) ($file['tmp_name'] ?? ''))) {
+                @unlink((string) $file['tmp_name']);
+            }
+        }
         $usage->add(['stt_requests' => 1, 'stt_seconds' => min(Voice::STT_MAX_SECONDS, $seconds)]);
         return ['text' => $text];
     }

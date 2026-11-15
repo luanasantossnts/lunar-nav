@@ -708,5 +708,50 @@ $after2 = $vApp2->usage()->day();
 check('TTS: failed attempts are not counted as usage (no tts_requests / tts_chars added)', $failedCode === 'tts_unavailable' && ($after2['tts_requests'] ?? 0) === ($before2['tts_requests'] ?? 0) && ($after2['tts_chars'] ?? 0) === ($before2['tts_chars'] ?? 0));
 unset($_SERVER['REMOTE_ADDR']);
 
+echo "Privacy: salted IP hash, 48 h deletion, no IP in the cache, personal data not cached\n";
+use LunarNav\Http\RateLimiter;
+use LunarNav\Privacy\Cleanup;
+$pc = new FileCache($tmp . '/cache-privacy');
+$clockNow = 1_900_000_000;
+$rl = new RateLimiter($pc, 'salt-A', function () use (&$clockNow) { return $clockNow; });
+$rl->allow('analyst', '203.0.113.99', 15);
+$keyA = 'rate:v2:analyst:' . RateLimiter::clientHash('203.0.113.99', 'salt-A') . ':' . intdiv($clockNow, 3600);
+check('limit record: HMAC-SHA256 with the secret salt, not the address nor its plain SHA-1', $pc->get($keyA) === ['n' => 1, 'w' => intdiv($clockNow, 3600)]
+    && RateLimiter::clientHash('203.0.113.99', 'salt-A') !== RateLimiter::clientHash('203.0.113.99', 'salt-B') && RateLimiter::clientHash('203.0.113.99', 'salt-A') !== sha1('203.0.113.99')
+    && !str_contains($keyA, '203.0.113.99'));
+$clockNow += 10 * 3600;
+$rl->allow('analyst', '203.0.113.99', 15);
+$keyB = 'rate:v2:analyst:' . RateLimiter::clientHash('203.0.113.99', 'salt-A') . ':' . intdiv($clockNow, 3600);
+$clockNow += 39 * 3600 + 1; // first record's hour ended more than 48 h ago; second one 39 h ago
+$deleted = $rl->purge($clockNow, true);
+check('48 h deletion: the old record is deleted, the recent one kept', $deleted === 1 && $pc->get($keyA) === null && $pc->get($keyB) !== null);
+check('48 h deletion runs by itself on use (at most hourly)', (function () use ($rl, $pc, &$clockNow, $keyB) { $clockNow += 50 * 3600; $rl->allow('tts', '198.51.100.1', 20); return $pc->get($keyB) === null; })());
+// Old-format records (unsalted SHA-1 of the address) are swept from the file cache.
+$pc->set('rate:analyst:' . sha1('192.0.2.77') . ':123', ['n' => 4]);
+$sw = Cleanup::sweep($tmp . '/cache-privacy', $clockNow);
+check('clean-up: old-format (unsalted) limit records removed', $sw['legacy'] === 1 && $pc->get('rate:analyst:' . sha1('192.0.2.77') . ':123') === null);
+// The caches written by every test above (analyst, TTS, STT, limits from several client addresses) hold no address.
+$scanned = array_merge(Cleanup::scanForIps($tmp . '/cache-cost'), Cleanup::scanForIps($tmp . '/cache-voice'), Cleanup::scanForIps($tmp . '/cache-privacy'), Cleanup::scanForIps($tmp . '/cache2'));
+$hasLimits = count(glob($tmp . '/cache-cost/*/*.json')) > 0;
+check('scan: no IPv4/IPv6 address in plain text in any test cache (limits were recorded)', $scanned === [] && $hasLimits, implode(', ', $scanned));
+check('scan: the detector does find a plain address (self-test)', (function () use ($tmp) { @mkdir($tmp . '/ipcheck/ab', 0775, true); file_put_contents($tmp . '/ipcheck/ab/x.json', '{"who":"203.0.113.5"}'); file_put_contents($tmp . '/ipcheck/ab/y.json', '{"who":"2001:db8::1"}'); return count(Cleanup::scanForIps($tmp . '/ipcheck')) === 2; })());
+// Questions with personal data are answered but never cached.
+check('personal data detector: e-mail, phone, CPF; not ordinary questions', Analyst::looksPersonal('my email is ana@example.com') && Analyst::looksPersonal('call me at +55 15 99123-4567') && Analyst::looksPersonal('CPF 123.456.789-09')
+    && !Analyst::looksPersonal('Compare the Shackleton rim and IM-2 Athena for a 30-day stay from July 1, 2030.') && !Analyst::looksPersonal('Find a date with at least 90% sunlight over 14 days'));
+$_SERVER['REMOTE_ADDR'] = '198.51.100.20';
+$beforeP = $fakeClaude->calls;
+$costApp->handle('POST', '/analyst', [], ['question' => 'I am ana@example.com — compare A and B'] + $q1);
+$again = $costApp->handle('POST', '/analyst', [], ['question' => 'I am ana@example.com — compare A and B'] + $q1);
+check('a question with personal data is not cached (asked twice → two answers from Claude)', $again['cached'] === false && $fakeClaude->calls === $beforeP + 4);
+check('the cached record holds no question text, client address or personal data', (function () use ($tmp) { foreach (glob($tmp . '/cache-cost/*/*.json') as $f) { $t = (string) file_get_contents($f); if (str_contains($t, 'ana@example.com') || str_contains($t, '198.51.100.20') || str_contains($t, '203.0.113.7')) return false; } return true; })());
+unset($_SERVER['REMOTE_ADDR']);
+
+LunarNav\Privacy\IpSalt::reset();
+$saltValue = LunarNav\Privacy\IpSalt::resolve(['privacy' => ['ip_salt' => '']]);
+$siteDir = dirname(realpath(LUNARNAV_ROOT));
+check('IP salt: created outside the site folder (never inside the web root or the project)', strlen($saltValue) >= 32 && glob($siteDir . '/{,api/,api/*/}{.,}*ip-salt*', GLOB_BRACE) === []
+    && LunarNav\Privacy\IpSalt::insideSite($siteDir . '/api/.x', $siteDir) && !LunarNav\Privacy\IpSalt::insideSite(dirname($siteDir) . '/.x', $siteDir));
+check('IP salt: IP_SALT from the environment wins', LunarNav\Privacy\IpSalt::resolve(['privacy' => ['ip_salt' => 'env-salt']]) === 'env-salt');
+
 echo "\n{$count} checks, {$failures} failed\n";
 exit($failures === 0 ? 0 : 1);

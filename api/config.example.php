@@ -4,7 +4,7 @@
  * Lunar Nav configuration.
  *
  * Copy to config.php and fill in. Secrets can also come from environment
- * variables (ANTHROPIC_API_KEY, ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID; optionally
+ * variables (ANTHROPIC_API_KEY, ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, IP_SALT; optionally
  * ANTHROPIC_MODEL), which take precedence — for example from a file passed to
  * `docker run --env-file`. Never commit config.php or any key.
  */
@@ -55,6 +55,14 @@ return [
         'tts_chars_per_day' => 60000,  // real TTS characters per day, all users (cached audio does not count)
         'stt_per_ip_per_hour' => 10,
         'stt_per_day' => 60,           // recordings of up to 30 s / 2 MB
+    ],
+
+    'privacy' => [
+        // Secret used to hash client addresses for the hourly limits (records are deleted after 48 h).
+        // Prefer the IP_SALT environment variable; if neither is set, one is created in salt_file
+        // or, by default, in a file just above the site root (outside the web root).
+        'ip_salt' => '',
+        'salt_file' => null,
     ],
 
     // Origins allowed to call the API from a browser. Same-origin deploys need nothing here.

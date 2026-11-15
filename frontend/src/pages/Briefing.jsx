@@ -98,7 +98,10 @@ export default function Briefing() {
 
       <footer className="flex flex-wrap justify-between gap-2 px-6 py-3 border-t border-line font-mono text-xs text-dim">
         <span>JPL Horizons · NASA LOLA · LROC · NASA SVS</span>
-        <span className="font-sans">{t('app.credit')}</span>
+        <span className="font-sans inline-flex flex-wrap gap-x-4">
+          <span>{t('app.credit')}</span>
+          <a href="#/privacy" onClick={(e) => { e.preventDefault(); go('/privacy'); }} className="tap text-text2">{t('nav.privacy')}</a>
+        </span>
       </footer>
     </div>
   );

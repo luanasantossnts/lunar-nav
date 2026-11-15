@@ -15,7 +15,8 @@
     "report": "Relatório",
     "modules": "Módulos",
     "help": "Ajuda",
-    "charts": "Gráficos"
+    "charts": "Gráficos",
+    "privacy": "Privacidade e Termos"
   },
   "top": {
     "technical": "Técnico",
@@ -102,7 +103,8 @@
       "near_side": "Face visível"
     },
     "longTerm": "Média de longo prazo (NASA PGDA, 18,6 anos)",
-    "psrNear": "Sombra permanente a até 300 m"
+    "psrNear": "Sombra permanente a até 300 m",
+    "ok": "OK"
   },
   "brief": {
     "title": "Seu pouso atrasou dez dias. O local continua iluminado e ainda enxerga a Terra?",
@@ -234,7 +236,9 @@
     "cachedAnswer": "resposta em cache",
     "cachedTitle": "Resposta salva em {d} para esta mesma pergunta, cenário e modo; sem nova chamada à IA.",
     "voiceLimit": "Lido pela voz do seu navegador: a voz de IA não está disponível agora.",
-    "micMax": "Gravação encerrada em 30 s."
+    "micMax": "Gravação encerrada em 30 s.",
+    "privacyNote": "Não inclua dados pessoais. As perguntas são enviadas à Anthropic (EUA) para gerar a resposta, e perguntas idênticas podem ficar em cache por 90 dias.",
+    "micNotice": "Sua gravação é enviada à ElevenLabs (EUA) para transcrição e não é armazenada pelo Lunar Nav."
   },
   "method": {
     "title": "Metodologia e validação",
@@ -705,5 +709,60 @@
     "stt_empty": "Nenhum áudio foi gravado. Tente de novo.",
     "stt_unavailable": "A entrada por voz não está disponível agora. Digite sua pergunta, por favor.",
     "bad_request": "Algo deu errado. Tente de novo em instantes."
+  },
+  "privacy": {
+    "title": "Privacidade e Termos",
+    "updated": "Última atualização: 15 de novembro de 2026",
+    "intro": "O Lunar Nav coleta o mínimo possível. Esta página diz o que é tratado, por quê, com quem, por quanto tempo, quais são os seus direitos pela LGPD e quais são os termos de uso.",
+    "contactLink": "Contato: abra uma issue no GitHub",
+    "licenseLink": "Licença do código-fonte (Apache-2.0)",
+    "sections": [
+      [
+        "Quem é a responsável",
+        [
+          "O Lunar Nav é um projeto individual de Luana Santos (equipe Lumi Lunar) para o NASA Space Apps Challenge 2026.",
+          "O contato é pela página do projeto no GitHub (link abaixo). Não publique dados pessoais lá; peça um canal privado, se precisar."
+        ]
+      ],
+      [
+        "Quais dados e para quê",
+        [
+          "Seu endereço de rede (IP): só como um hash feito com uma chave secreta, para aplicar os limites por hora dos recursos de IA e de voz. Nunca é guardado em texto puro e é apagado após 48 horas. Os contadores diários de uso não contêm endereço.",
+          "Perguntas ao Analista, com o cenário na tela: enviadas à Anthropic para gerar a resposta. Perguntas idênticas podem ser respondidas a partir de um cache por 90 dias; o cache guarda só a resposta e as chamadas de ferramentas, sob um hash da pergunta, e perguntas que pareçam conter dados pessoais (e-mail, telefone, CPF) não vão para o cache.",
+          "Voz: a gravação do microfone é enviada à ElevenLabs para transcrição e não é armazenada pelo Lunar Nav. As respostas lidas em voz alta são produzidas pela ElevenLabs; o áudio do texto da resposta fica em cache e não contém nada sobre você.",
+          "O provedor de hospedagem pode registrar endereços de rede nos logs do servidor web por segurança, conforme a própria política de retenção."
+        ]
+      ],
+      [
+        "Com quem (transferência internacional)",
+        [
+          "A Anthropic (EUA) gera as respostas do Analista; a ElevenLabs (EUA) lê as respostas em voz alta e transcreve a fala. O envio a elas é uma transferência internacional de dados para os Estados Unidos; cada uma trata os dados conforme os próprios termos e política de privacidade.",
+          "Nada é vendido nem compartilhado com mais ninguém. Os dados dos cálculos vêm de serviços públicos da NASA/JPL e não precisam de nada sobre você."
+        ]
+      ],
+      [
+        "Cookies e análise de uso",
+        [
+          "Sem cookies de rastreamento e sem ferramentas de análise (analytics).",
+          "Só as suas preferências ficam no navegador (armazenamento local): idioma, tema, modo Técnico/Aprender, entradas do modelo de energia e se você já viu o aviso do microfone. Você pode apagá-las a qualquer momento no navegador."
+        ]
+      ],
+      [
+        "Seus direitos (LGPD)",
+        [
+          "Você pode pedir confirmação do tratamento, acesso, correção, anonimização ou eliminação, informação sobre compartilhamento e revogação do consentimento (LGPD, art. 18).",
+          "O Lunar Nav não guarda nada que identifique você, então a maioria dos pedidos é respondida confirmando isso. Para dados mantidos pela Anthropic ou pela ElevenLabs, você também pode contatá-las diretamente. Para fazer um pedido, use o contato pelo GitHub abaixo."
+        ]
+      ],
+      [
+        "Termos de uso",
+        [
+          "Somente para fins educacionais e de demonstração. Fornecido \"como está\", sem garantia de nenhum tipo.",
+          "Não use para decisões operacionais de missão: os resultados dependem das premissas indicadas e não são especificação de missão.",
+          "O Lunar Nav é um projeto independente e não é endossado pela NASA. Créditos dos dados: NASA/JPL (Horizons, LOLA, PGDA, SVS, DSN).",
+          "O código-fonte é licenciado sob a Apache License 2.0."
+        ]
+      ]
+    ]
   }
 }

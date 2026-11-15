@@ -30,6 +30,20 @@ final class FileCache implements Cache
         return is_array($data) ? $data : null;
     }
 
+    public function delete(string $key): void
+    {
+        $p = $this->path($key);
+        if (is_file($p)) {
+            @unlink($p);
+        }
+    }
+
+    /** The folder holding the cache files (for the privacy clean-up script). */
+    public function dir(): string
+    {
+        return $this->dir;
+    }
+
     public function set(string $key, array $value): void
     {
         $p = $this->path($key);

@@ -15,7 +15,8 @@
     "report": "Informe",
     "modules": "Módulos",
     "help": "Ayuda",
-    "charts": "Gráficos"
+    "charts": "Gráficos",
+    "privacy": "Privacidad y Términos"
   },
   "top": {
     "technical": "Técnico",
@@ -102,7 +103,8 @@
       "near_side": "Cara visible"
     },
     "longTerm": "Promedio a largo plazo (NASA PGDA, 18,6 años)",
-    "psrNear": "Sombra permanente a menos de 300 m"
+    "psrNear": "Sombra permanente a menos de 300 m",
+    "ok": "OK"
   },
   "brief": {
     "title": "Tu alunizaje se retrasó diez días. ¿El sitio sigue iluminado y todavía ve la Tierra?",
@@ -234,7 +236,9 @@
     "cachedAnswer": "respuesta en caché",
     "cachedTitle": "Respuesta guardada el {d} para esta misma pregunta, escenario y modo; sin nueva llamada a la IA.",
     "voiceLimit": "Leído por la voz de tu navegador: la voz de IA no está disponible ahora.",
-    "micMax": "Grabación detenida a los 30 s."
+    "micMax": "Grabación detenida a los 30 s.",
+    "privacyNote": "No incluyas datos personales. Las preguntas se envían a Anthropic (EE. UU.) para generar la respuesta, y las preguntas idénticas pueden quedar en caché durante 90 días.",
+    "micNotice": "Tu grabación se envía a ElevenLabs (EE. UU.) para transcribirla y Lunar Nav no la almacena."
   },
   "method": {
     "title": "Metodología y validación",
@@ -705,5 +709,60 @@
     "stt_empty": "No se grabó audio. Inténtalo de nuevo.",
     "stt_unavailable": "La entrada por voz no está disponible ahora. Escribe tu pregunta, por favor.",
     "bad_request": "Algo salió mal. Inténtalo de nuevo en un momento."
+  },
+  "privacy": {
+    "title": "Privacidad y Términos",
+    "updated": "Última actualización: 15 de noviembre de 2026",
+    "intro": "Lunar Nav recoge lo mínimo posible. Esta página explica qué se trata, por qué, con quién, durante cuánto tiempo, tus derechos según la ley brasileña de protección de datos (LGPD) y los términos de uso.",
+    "contactLink": "Contacto: abre un issue en GitHub",
+    "licenseLink": "Licencia del código fuente (Apache-2.0)",
+    "sections": [
+      [
+        "Quién es la responsable",
+        [
+          "Lunar Nav es un proyecto individual de Luana Santos (equipo Lumi Lunar) para el NASA Space Apps Challenge 2026.",
+          "El contacto es por la página del proyecto en GitHub (enlace abajo). No publiques datos personales allí; pide un canal privado si lo necesitas."
+        ]
+      ],
+      [
+        "Qué datos y para qué",
+        [
+          "Tu dirección de red (IP): solo como un hash hecho con una clave secreta, para aplicar los límites por hora de las funciones de IA y voz. Nunca se guarda en texto plano y se borra después de 48 horas. Los contadores diarios de uso no contienen direcciones.",
+          "Preguntas al Analista, con el escenario en pantalla: se envían a Anthropic para generar la respuesta. Las preguntas idénticas pueden responderse desde una caché durante 90 días; la caché guarda solo la respuesta y sus llamadas a herramientas, bajo un hash de la pregunta, y las preguntas que parezcan contener datos personales (correo, teléfono, CPF) no se guardan.",
+          "Voz: la grabación del micrófono se envía a ElevenLabs para transcribirla y Lunar Nav no la almacena. Las respuestas leídas en voz alta las produce ElevenLabs; el audio del texto de la respuesta queda en caché y no contiene nada sobre ti.",
+          "El proveedor de alojamiento puede registrar direcciones de red en los registros del servidor web por seguridad, según su propia política de conservación."
+        ]
+      ],
+      [
+        "Con quién (transferencia internacional)",
+        [
+          "Anthropic (EE. UU.) genera las respuestas del Analista; ElevenLabs (EE. UU.) lee las respuestas en voz alta y transcribe la voz. Enviarles datos es una transferencia internacional a Estados Unidos; cada proveedor los trata según sus propios términos y política de privacidad.",
+          "No se vende ni se comparte nada con nadie más. Los datos de los cálculos vienen de servicios públicos de la NASA/JPL y no necesitan nada sobre ti."
+        ]
+      ],
+      [
+        "Cookies y analítica",
+        [
+          "Sin cookies de rastreo y sin analítica.",
+          "Solo tus preferencias se guardan en el navegador (almacenamiento local): idioma, tema, modo Técnico/Aprender, entradas del modelo de energía y si ya viste el aviso del micrófono. Puedes borrarlas cuando quieras en el navegador."
+        ]
+      ],
+      [
+        "Tus derechos (LGPD)",
+        [
+          "Puedes pedir confirmación del tratamiento, acceso, corrección, anonimización o eliminación, información sobre con quién se comparte y revocar el consentimiento (LGPD, art. 18).",
+          "Lunar Nav no guarda nada que te identifique, así que la mayoría de las solicitudes se responden confirmándolo. Para los datos que tienen Anthropic o ElevenLabs, también puedes contactarlos directamente. Para hacer una solicitud, usa el contacto por GitHub de abajo."
+        ]
+      ],
+      [
+        "Términos de uso",
+        [
+          "Solo para fines educativos y de demostración. Se ofrece \"tal cual\", sin garantía de ningún tipo.",
+          "No lo uses para decisiones operativas de misión: los resultados dependen de las premisas indicadas y no son una especificación de misión.",
+          "Lunar Nav es un proyecto independiente y no cuenta con el respaldo de la NASA. Créditos de los datos: NASA/JPL (Horizons, LOLA, PGDA, SVS, DSN).",
+          "El código fuente tiene licencia Apache License 2.0."
+        ]
+      ]
+    ]
   }
 }

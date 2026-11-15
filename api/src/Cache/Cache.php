@@ -9,4 +9,6 @@ interface Cache
     public function get(string $key): ?array;
 
     public function set(string $key, array $value): void;
+
+    public function delete(string $key): void;
 }

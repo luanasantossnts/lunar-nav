@@ -1,5 +1,6 @@
 # secrets
 api/config.php
+*ip-salt*
 .env
 .env.*
 

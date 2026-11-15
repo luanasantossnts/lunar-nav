@@ -154,7 +154,10 @@ export function StatusBar() {
           {p ? t('common.status', { source: p.source, mode: p.horizon.mode, step: p.step_minutes }) : t('app.tagline')}
           {p?.cached ? ' · cache' : ''}
         </span>
-        <a href="#/methodology" onClick={(e) => { e.preventDefault(); go('/methodology'); }} className="tap inline-flex items-center text-text2">{t('nav.methodology')}</a>
+        <span className="inline-flex gap-4">
+          <a href="#/methodology" onClick={(e) => { e.preventDefault(); go('/methodology'); }} className="tap inline-flex items-center text-text2">{t('nav.methodology')}</a>
+          <a href="#/privacy" onClick={(e) => { e.preventDefault(); go('/privacy'); }} className="tap inline-flex items-center text-text2">{t('nav.privacy')}</a>
+        </span>
       </div>
       <p className="m-0 leading-snug">{t('app.credit')}</p>
     </footer>

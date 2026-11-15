@@ -3,12 +3,14 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # Hidden files (e.g. .lunarnav-ip-salt, .env) are never served.
+  RewriteRule (^|/)\. - [F,L]
   RewriteRule ^(src|bin|tests|data/cache)(/|$) - [F,L]
   RewriteRule ^(config(\.example)?|dev-router)\.php$ - [F,L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
-<FilesMatch "\.(sql|md|lock)$">
+<FilesMatch "^\.|\.(sql|md|lock)$">
   Require all denied
 </FilesMatch>

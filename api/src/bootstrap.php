@@ -55,6 +55,9 @@ function lunarnav_config(): array
     $config['voice']['elevenlabs'] = ($config['voice']['elevenlabs'] ?? []) + ['api_key' => '', 'voice_id' => '', 'tts_model' => 'eleven_multilingual_v2', 'stt_model' => 'scribe_v1'];
     $config['voice']['elevenlabs']['api_key'] = $env('ELEVENLABS_API_KEY') ?? $config['voice']['elevenlabs']['api_key'];
     $config['voice']['elevenlabs']['voice_id'] = $env('ELEVENLABS_VOICE_ID') ?? $config['voice']['elevenlabs']['voice_id'];
+    // Privacy: secret salt for hashing client addresses (IP_SALT), else a file outside the web root.
+    $config['privacy'] = ($config['privacy'] ?? []) + ['ip_salt' => '', 'salt_file' => null];
+    $config['privacy']['ip_salt'] = $env('IP_SALT') ?? $config['privacy']['ip_salt'];
     $config['voice'] += ['tts_per_ip_per_hour' => 20, 'tts_chars_per_day' => 60000, 'stt_per_ip_per_hour' => 10, 'stt_per_day' => 60];
     return $config;
 }

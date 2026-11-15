@@ -36,3 +36,12 @@ All numbers in Lunar Nav (sunlight, Earth in view, dark periods, dates) are comp
 ## 4. Data sent to AI services
 
 To Claude: the question, the mode (Technical/Learn), the language, the scenario on screen (sites, dates, horizon, delay, power inputs) and the tool results. To ElevenLabs: the text to be read, or the recorded question (up to 30 s). No personal data. API keys stay on the server. Answers and audio are cached on the server to avoid repeated calls; the cache keys contain no IP address or other personal data.
+
+## 5. Privacy & legal
+
+- No user identifier is sent to the AI services: Claude receives the question, mode, language, scenario and tool results; ElevenLabs receives the text to read or the recorded question. Both are in the USA (international transfer); each processes data under its own terms.
+- The Analyst asks users not to include personal data; questions that look like personal data are not cached. Cached answers (90 days) hold no question text, address or personal data.
+- Microphone recordings are not stored by Lunar Nav; the first use shows a notice.
+- Client addresses are only used as salted hashes for hourly limits and deleted after 48 hours.
+- Full details, rights under the LGPD and terms of use: the *Privacy & Terms* page in the app (`#/privacy`) and the "Privacy & legal" section of the README.
+

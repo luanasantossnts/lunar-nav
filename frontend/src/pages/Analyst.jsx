@@ -6,6 +6,7 @@ import { Markdown } from '../lib/markdown.jsx';
 import CachedBadge from '../components/CachedBadge.jsx';
 import { dateInput } from '../lib/format.js';
 import { STT_MAX_BYTES, STT_MAX_SECONDS, shouldUseBrowserVoice, spoken } from '../lib/voice.js';
+import { markMicNoticeSeen, micNoticeNeeded } from '../lib/privacy.js';
 
 /** Renders the answer as safe Markdown; [n] citations open the matching tool call. */
 function Answer({ text, onCite }) {
@@ -23,12 +24,14 @@ function Mic({ onText }) {
   const { t, lang } = useApp();
   const [rec, setRec] = useState(null);
   const [err, setErr] = useState('');
+  const [notice, setNotice] = useState(false); // shown the first time the microphone is used
   const chunks = useRef([]);
   const timer = useRef(null);
   const started = useRef(0);
   const stop = () => { clearTimeout(timer.current); rec?.state === 'recording' && rec.stop(); setRec(null); };
   const start = async () => {
     setErr('');
+    if (micNoticeNeeded()) { setNotice(true); markMicNoticeSeen(); }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mr = new MediaRecorder(stream);
@@ -56,6 +59,12 @@ function Mic({ onText }) {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
       </button>
       {err && <span className="text-xs text-warntext">{err}</span>}
+      {notice && (
+        <span role="status" className="basis-full order-first flex items-start gap-2 px-2.5 py-1.5 text-xs text-text2 border border-line2 rounded bg-panel">
+          <span className="flex-1">{t('analyst.micNotice')}</span>
+          <button type="button" className="btn !min-h-[28px] !px-2 text-xs" onClick={() => setNotice(false)}>{t('common.ok')}</button>
+        </span>
+      )}
     </>
   );
 }
@@ -201,7 +210,9 @@ export default function Analyst() {
           {busy && <p role="status" className="text-sm text-muted m-0">{t('analyst.thinking')}</p>}
           {err && <p role="alert" className="text-sm text-warntext m-0">{err}</p>}
         </div>
-        <form className="flex items-center gap-2.5 px-4 py-3 border-t border-line focus-within:outline focus-within:outline-2 focus-within:outline-ink focus-within:-outline-offset-2" onSubmit={(e) => { e.preventDefault(); ask(); }}>
+        {/* Privacy notice right above the question box. */}
+        <p className="m-0 px-4 pt-2.5 text-xs text-muted border-t border-line">{t('analyst.privacyNote')}</p>
+        <form className="flex flex-wrap items-center gap-2.5 px-4 py-3 focus-within:outline focus-within:outline-2 focus-within:outline-ink focus-within:-outline-offset-2" onSubmit={(e) => { e.preventDefault(); ask(); }}>
           <span aria-hidden="true" className="font-mono text-dim">&gt;</span>
           <label htmlFor="ask" className="sr-only">{t('analyst.placeholder')}</label>
           <input id="ask" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('analyst.placeholder')} className="tap flex-grow min-h-[40px] bg-transparent border-0 text-[15px] text-ink outline-none" maxLength={500} />
