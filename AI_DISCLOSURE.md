@@ -13,6 +13,7 @@ The solution idea was not created by AI. It is the author's own: she chose the c
 | Source code (PHP API, React front end, Python preprocessing, tests) | Claude (Anthropic), in an assisted-coding workflow | Luana Santos defined the problem, requirements and design direction, ran the real JPL Horizons tests, reviewed and accepted every change |
 | Code review of the Horizons test script and of the specification | Claude Code (Anthropic) and ChatGPT (OpenAI) | Findings were checked and applied by the author |
 | Planning and specification documents | Claude (Anthropic) | Reviewed and edited by the author |
+| Lunar Nav Kids (`kids/`: the children's site, its SVG drawings and mascot, data export and tests) | Claude (Anthropic), in an assisted-coding workflow; drawings are hand-written SVG and CSS, no image generator; no AI inside the running kids site | Luana Santos defined the audience, content and rules; numbers come only from the Lunar Nav API export |
 | Team mark and colour palette | Designed by the author. Claude (Anthropic) produced the vector (SVG) files and colour variants from her design in code; no image generator was used | Author approved every file |
 
 No AI-generated images or video are used in the app. If any are added (for example in the demo video), they will carry a visible "AI-generated" watermark, as the rules require.

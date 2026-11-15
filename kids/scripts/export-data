@@ -1,0 +1,16 @@
+#!/bin/sh
+# AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
+# Lunar Nav Kids — export the data for the missions from the main API's cache (read-only).
+#   kids/scripts/export-data
+# Docker, no network: the main project is mounted read-only, the cache is a temporary copy (the main
+# cache is never written), and only kids/src/data is writable.
+set -eu
+ROOT=$(cd "$(dirname "$0")/../.." && pwd)
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
+cp -R "$ROOT/api/data/cache" "$TMP/cache"
+docker run --rm --network none \
+  -v "$ROOT":/app:ro \
+  -v "$TMP/cache":/app/api/data/cache \
+  -v "$ROOT/kids/src/data":/out \
+  -w /app php:8.3-cli php /app/kids/scripts/export-data.php /app /out/kids-data.json
