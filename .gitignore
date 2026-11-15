@@ -24,3 +24,5 @@ __pycache__/
 
 # Deploy package (built by deploy/build-zip.py; never committed)
 deploy/*.zip
+# Extracted copies of the deploy zip (local only)
+deploy/*/
