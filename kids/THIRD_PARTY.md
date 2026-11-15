@@ -6,6 +6,7 @@
 | react | 18.3.1 | MIT | interface |
 | react-dom | 18.3.1 | MIT | interface |
 | @fontsource/nunito (Nunito font by Vernon Adams et al.) | 5.1.0 | SIL Open Font License 1.1 | rounded font, served by the site |
+| @fontsource/baloo-2 (Baloo 2 font by Ek Type) | 5.1.0 | SIL Open Font License 1.1 | titles and big numbers, served by the site |
 | vite | 5.4.10 | MIT | build (development only) |
 | @vitejs/plugin-react | 4.3.3 | MIT | build (development only) |
 | vitest | 2.1.4 | MIT | tests (development only) |

@@ -1,58 +1,91 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
 /**
  * Lumi, the Lunar Nav Kids guide: an original astronaut-robot drawn here in SVG (no existing
- * character). It blinks, floats and waves; the animations stop under prefers-reduced-motion.
+ * character). White round helmet, dark visor, mint eyes and smile, coral antenna ball, white body
+ * with a coral panel. Awake: blinks, floats and waves. Asleep (the long night): eyes closed, "z z".
+ * `face` draws only the helmet (for the tip strip). All animations stop under prefers-reduced-motion.
  */
-export default function Mascot({ label, className = 'mascot' }) {
+const INK = '#1e1b52';
+const MINT = '#4fd1a5';
+const CORAL = '#ff7a59';
+const LINE = '#c9c3e6';
+
+function Head({ asleep }) {
   return (
-    <svg className={className} viewBox="0 0 240 270" role="img" aria-label={label}>
-      <defs>
-        <linearGradient id="lumi-suit" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f4f1ff" />
-          <stop offset="1" stopColor="#c9c2f2" />
-        </linearGradient>
-        <linearGradient id="lumi-visor" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#2b3a93" />
-          <stop offset="1" stopColor="#141c55" />
-        </linearGradient>
-      </defs>
-      <ellipse cx="120" cy="258" rx="62" ry="8" fill="#000" opacity="0.35" />
-      <g className="float">
-        {/* antenna */}
-        <line x1="120" y1="30" x2="120" y2="12" stroke="#e9e6ff" strokeWidth="5" strokeLinecap="round" />
-        <circle className="bulb" cx="120" cy="10" r="8" fill="#ffc83d" />
-        {/* backpack */}
-        <rect x="58" y="138" width="124" height="86" rx="22" fill="#8e86b5" />
-        {/* body */}
-        <rect x="70" y="132" width="100" height="92" rx="30" fill="url(#lumi-suit)" stroke="#8e86b5" strokeWidth="3" />
-        {/* chest badge: a small Moon */}
-        <circle cx="120" cy="174" r="15" fill="#1d2a6b" />
-        <circle cx="125" cy="170" r="10" fill="#ffc83d" />
-        <circle cx="130" cy="167" r="9" fill="#1d2a6b" />
-        {/* legs and boots */}
-        <rect x="88" y="214" width="24" height="30" rx="10" fill="url(#lumi-suit)" stroke="#8e86b5" strokeWidth="3" />
-        <rect x="128" y="214" width="24" height="30" rx="10" fill="url(#lumi-suit)" stroke="#8e86b5" strokeWidth="3" />
-        <rect x="82" y="238" width="34" height="14" rx="7" fill="#5d5689" />
-        <rect x="124" y="238" width="34" height="14" rx="7" fill="#5d5689" />
-        {/* left arm (resting) */}
-        <rect x="46" y="144" width="26" height="56" rx="13" fill="url(#lumi-suit)" stroke="#8e86b5" strokeWidth="3" />
-        <circle cx="59" cy="204" r="11" fill="#5d5689" />
-        {/* right arm (waving) */}
-        <g className="arm">
-          <rect x="166" y="96" width="26" height="60" rx="13" fill="url(#lumi-suit)" stroke="#8e86b5" strokeWidth="3" transform="rotate(28 152 150)" />
-          <circle cx="196" cy="98" r="11" fill="#5d5689" />
+    <g>
+      {/* antenna */}
+      <line x1="120" y1="32" x2="120" y2="14" stroke="#ffffff" strokeWidth="5" strokeLinecap="round" />
+      <circle className={asleep ? undefined : 'bulb'} cx="120" cy="11" r="9" fill={CORAL} />
+      {/* helmet */}
+      <circle cx="120" cy="86" r="62" fill="#ffffff" stroke={LINE} strokeWidth="4" />
+      <rect x="68" y="58" width="104" height="62" rx="31" fill={INK} />
+      <path d="M82 72 q14 -10 32 -8" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="5" fill="none" strokeLinecap="round" />
+      {asleep ? (
+        <g stroke={MINT} strokeWidth="5" fill="none" strokeLinecap="round">
+          <path d="M92 90 q10 8 20 0" />
+          <path d="M128 90 q10 8 20 0" />
+          <path d="M112 106 q8 4 16 0" />
         </g>
-        {/* helmet */}
-        <circle cx="120" cy="84" r="62" fill="url(#lumi-suit)" stroke="#8e86b5" strokeWidth="3" />
-        <rect x="70" y="58" width="100" height="58" rx="29" fill="url(#lumi-visor)" />
-        <path d="M84 70 q14 -10 30 -8" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="5" fill="none" strokeLinecap="round" />
-        {/* eyes and smile */}
-        <ellipse className="eye" cx="102" cy="88" rx="8" ry="10" fill="#7fe3ff" />
-        <ellipse className="eye" cx="138" cy="88" rx="8" ry="10" fill="#7fe3ff" />
-        <path d="M108 104 q12 9 24 0" stroke="#7fe3ff" strokeWidth="4" fill="none" strokeLinecap="round" />
-        {/* ears */}
-        <rect x="52" y="74" width="14" height="24" rx="6" fill="#ffc83d" />
-        <rect x="174" y="74" width="14" height="24" rx="6" fill="#ffc83d" />
+      ) : (
+        <g>
+          <ellipse className="eye" cx="102" cy="88" rx="9" ry="11" fill={MINT} />
+          <ellipse className="eye" cx="138" cy="88" rx="9" ry="11" fill={MINT} />
+          <path d="M106 104 q14 11 28 0" stroke={MINT} strokeWidth="5" fill="none" strokeLinecap="round" />
+        </g>
+      )}
+      {/* ear pieces */}
+      <rect x="50" y="74" width="14" height="26" rx="7" fill={LINE} />
+      <rect x="176" y="74" width="14" height="26" rx="7" fill={LINE} />
+    </g>
+  );
+}
+
+export default function Mascot({ label, className = 'mascot', asleep = false, face = false }) {
+  if (face) {
+    return (
+      <svg className={className} viewBox="40 0 160 156" role="img" aria-label={label}>
+        <Head asleep={asleep} />
+      </svg>
+    );
+  }
+  return (
+    <svg className={className} viewBox="0 0 240 280" role="img" aria-label={label}>
+      <ellipse cx="120" cy="268" rx="62" ry="8" fill="#000000" opacity="0.3" />
+      <g className={asleep ? undefined : 'float'}>
+        {/* backpack */}
+        <rect x="60" y="140" width="120" height="86" rx="24" fill={LINE} />
+        {/* body with a coral panel */}
+        <rect x="70" y="134" width="100" height="96" rx="32" fill="#ffffff" stroke={LINE} strokeWidth="4" />
+        <rect x="96" y="158" width="48" height="36" rx="10" fill={CORAL} />
+        <circle cx="110" cy="176" r="5" fill="#ffffff" />
+        <rect x="120" y="172" width="16" height="8" rx="4" fill="#ffffff" />
+        {/* legs and boots */}
+        <rect x="88" y="220" width="24" height="30" rx="10" fill="#ffffff" stroke={LINE} strokeWidth="4" />
+        <rect x="128" y="220" width="24" height="30" rx="10" fill="#ffffff" stroke={LINE} strokeWidth="4" />
+        <rect x="82" y="244" width="34" height="14" rx="7" fill={INK} />
+        <rect x="124" y="244" width="34" height="14" rx="7" fill={INK} />
+        {/* left arm */}
+        <rect x="46" y="146" width="26" height="58" rx="13" fill="#ffffff" stroke={LINE} strokeWidth="4" />
+        <circle cx="59" cy="208" r="11" fill={INK} />
+        {/* right arm: waves when awake, rests when asleep */}
+        {asleep ? (
+          <g>
+            <rect x="168" y="146" width="26" height="58" rx="13" fill="#ffffff" stroke={LINE} strokeWidth="4" />
+            <circle cx="181" cy="208" r="11" fill={INK} />
+          </g>
+        ) : (
+          <g className="arm">
+            <rect x="168" y="98" width="26" height="62" rx="13" fill="#ffffff" stroke={LINE} strokeWidth="4" transform="rotate(28 156 152)" />
+            <circle cx="198" cy="100" r="11" fill={INK} />
+          </g>
+        )}
+        <Head asleep={asleep} />
+        {asleep && (
+          <g className="zz" fill={LINE} fontFamily="'Baloo 2', sans-serif" fontWeight="800">
+            <text x="182" y="40" fontSize="28">z</text>
+            <text x="202" y="20" fontSize="20">z</text>
+          </g>
+        )}
       </g>
     </svg>
   );

@@ -9,3 +9,6 @@ affiliated with or endorsed by NASA.
 
 Third-party software and fonts are listed in THIRD_PARTY.md with their
 own licences.
+
+Lunar Nav Kids (kids/) uses the Nunito and Baloo 2 fonts (SIL Open Font
+License 1.1), served with the site; see THIRD_PARTY.md.

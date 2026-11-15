@@ -9,6 +9,8 @@
 | three | 0.169.0 | MIT |
 | @fontsource/ibm-plex-sans (IBM Plex Sans) | 5.1.0 | OFL-1.1 |
 | @fontsource/ibm-plex-mono (IBM Plex Mono) | 5.1.0 | OFL-1.1 |
+| @fontsource/nunito (Nunito; Lunar Nav Kids, kids/) | 5.1.0 | OFL-1.1 |
+| @fontsource/baloo-2 (Baloo 2; Lunar Nav Kids, kids/) | 5.1.0 | OFL-1.1 |
 | vite (build only) | 5.4.10 | MIT |
 | @vitejs/plugin-react (build only) | 4.3.3 | MIT |
 | tailwindcss (build only) | 3.4.14 | MIT |

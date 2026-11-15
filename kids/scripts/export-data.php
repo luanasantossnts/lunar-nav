@@ -22,6 +22,7 @@ const SITES = ['shackleton_ridge', 'im2_athena', 'malapert_m1'];
 const SCENARIO = ['start' => '2030-07-01', 'days' => 30, 'mode' => 'terrain'];
 const SAMPLE_H = 3;      // one animation sample every 3 hours (241 per site)
 const SKY_STEP = 2.0;    // skyline every 2 degrees of azimuth (180 points)
+const PHONE_WH = 15.0;   // a typical phone battery, for the "as much energy as N phones" comparison
 
 $app = new LunarNav\App(lunarnav_config());
 $fail = [];
@@ -75,12 +76,14 @@ $out = [
         'api_method_version' => LUNARNAV_METHOD_VERSION,
         'period' => null,
         'power_model' => null,
+        'phone_battery_wh' => PHONE_WH,
+        'phone_battery_note' => 'Comparison only: a typical smartphone battery holds about 15 Wh.',
     ],
     'sites' => [],
 ];
 
 foreach (SITES as $id) {
-    $r = $app->handle('GET', '/metrics', ['site' => $id, 'start' => SCENARIO['start'], 'days' => (string) SCENARIO['days'], 'mode' => SCENARIO['mode'], 'series' => '1'], []);
+    $r = $app->handle('GET', '/metrics', ['site' => $id, 'start' => SCENARIO['start'], 'days' => (string) SCENARIO['days'], 'mode' => SCENARIO['mode'], 'series' => '1', 'spread' => '1'], []);
     $m = $r['metrics'];
     $p = $m['power'];
     $check(($r['provenance']['horizon']['terrain'] ?? '') === 'applied', "$id: terrain horizon applied");
@@ -96,6 +99,11 @@ foreach (SITES as $id) {
     $check(abs($earthH - $m['earth']['hours']) < 0.05, "$id: Earth spans = Earth hours");
     $check(abs($callH - $m['comm']['hours']) < 0.05, "$id: contact spans = contact hours");
     $check(abs($p['battery_kwh'] - $p['params']['survival_w'] * $p['longest_night_h'] / $p['params']['dod'] / 1000) < 0.01, "$id: battery = survival × night / DoD");
+    // Position spread (P10–P90 of the sunshine within 300 m), from the same API answer.
+    $ps = $r['position_spread'] ?? [];
+    $check(!empty($ps['available']) && isset($ps['sun']['p10'], $ps['sun']['p90']) && $ps['sun']['p10'] <= $ps['sun']['p90'], "$id: ±300 m spread available (P10 ≤ P90)");
+    $periodDays = $period['hours'] / 24;
+    $check(abs($p['battery_wh'] - 1000 * $p['battery_kwh']) < 1, "$id: battery Wh = 1000 × kWh");
 
     // Light samples for the animations: every 3 h, the API's positions and the API's spans.
     $samples = [];
@@ -130,7 +138,9 @@ foreach (SITES as $id) {
             'contact_fraction' => $m['comm']['fraction'], 'contact_hours' => $m['comm']['hours'],
             'longest_no_contact_h' => $m['comm']['longest_gap_h'], 'longest_no_contact_lower_bound' => (bool) $m['comm']['longest_gap_lower_bound'],
             'longest_night_h' => $p['longest_night_h'], 'longest_night_lower_bound' => $nightLB,
-            'battery_kwh' => $p['battery_kwh'], 'battery_kg' => $p['battery_kg'],
+            'battery_kwh' => $p['battery_kwh'], 'battery_kg' => $p['battery_kg'], 'battery_wh' => $p['battery_wh'],
+            'longest_no_earth_h' => $m['earth']['longest_hidden_h'], 'longest_no_earth_lower_bound' => (bool) $m['earth']['longest_hidden_lower_bound'],
+            'sun_p10_300m' => $ps['sun']['p10'] ?? null, 'sun_p90_300m' => $ps['sun']['p90'] ?? null, 'spread_radius_m' => $ps['radius_m'] ?? null,
             'sun_elevation' => $m['sun']['elevation'], 'earth_elevation' => $m['earth']['elevation'],
         ],
         'kids' => [
@@ -148,10 +158,17 @@ foreach (SITES as $id) {
             'battery_kg' => $p['battery_kg'] >= 10 ? (int) (round($p['battery_kg'] / 10) * 10) : null,
             'battery_at_least' => $nightLB,
             'sun_max_deg' => $r1($m['sun']['elevation']['max']),
+            'earth_days' => (int) round($m['earth']['hours'] / 24),
+            'longest_no_earth_days' => $half($m['earth']['longest_hidden_h'] / 24, (bool) $m['earth']['longest_hidden_lower_bound']),
+            'longest_no_earth_at_least' => (bool) $m['earth']['longest_hidden_lower_bound'],
+            'sun_days_p10_300m' => (int) round(($ps['sun']['p10'] ?? 0) * $periodDays),
+            'sun_days_p90_300m' => (int) round(($ps['sun']['p90'] ?? 0) * $periodDays),
+            'phone_batteries' => ($pb = $p['battery_wh'] / PHONE_WH) >= 100 ? (int) (round($pb / 100) * 100) : (int) round($pb),
         ],
         'spans' => [
             'sun' => $toDays($m['sun']['spans'], $period['start']),
             'call' => $toDays($m['comm']['spans'], $period['start']),
+            'earth' => $toDays($m['earth']['spans'], $period['start']),
         ],
         'skyline' => $sky,
         'samples' => $samples,
@@ -170,6 +187,6 @@ if ($fail) {
 }
 file_put_contents($outFile, json_encode($out, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n");
 foreach ($out['sites'] as $id => $s) {
-    printf("%-17s sun %d days (%.1f h) · call %d days (%.1f h) · no-call %s d · night %s · battery %s kWh / %s kg\n", $id, $s['kids']['sun_days'], $s['raw']['sun_hours'], $s['kids']['call_days'], $s['raw']['contact_hours'], $s['kids']['longest_no_call_days'], $s['kids']['night_days'] !== null ? $s['kids']['night_days'] . ' d' : $s['kids']['night_hours'] . ' h', $s['kids']['battery_kwh'] ?? '<1', $s['kids']['battery_kg'] ?? '<10');
+    printf("%-17s sun %d days (%.1f h; 300 m P10–P90 %.4f–%.4f → %d–%d d) · Earth %d d, hidden ≤ %s d · call %d d · night %s · battery %s kWh / %s kg ≈ %d phones\n", $id, $s['kids']['sun_days'], $s['raw']['sun_hours'], $s['raw']['sun_p10_300m'], $s['raw']['sun_p90_300m'], $s['kids']['sun_days_p10_300m'], $s['kids']['sun_days_p90_300m'], $s['kids']['earth_days'], $s['kids']['longest_no_earth_days'], $s['kids']['call_days'], $s['kids']['night_days'] !== null ? $s['kids']['night_days'] . ' d' : $s['kids']['night_hours'] . ' h', $s['kids']['battery_kwh'] ?? '<1', $s['kids']['battery_kg'] ?? '<10', $s['kids']['phone_batteries']);
 }
 echo 'All checks passed. Wrote ', basename($outFile), ' (', filesize($outFile), " bytes)\n";

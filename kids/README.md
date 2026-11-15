@@ -22,7 +22,7 @@ The export reads the API's cache only, from a temporary copy, so the main cache 
 
 ## Privacy and rules
 
-- **No data from children:** no AI, chat, microphone, forms, cookies, analytics or outside resources. Fonts and drawings are served by the site.
+- **No data from children:** no AI, chat, microphone, forms, cookies, analytics or outside resources. The fonts (Nunito for text, Baloo 2 for titles) and the drawings are served by the site.
 - **localStorage:** the site stores only the language, under `lunarnav.lang`.
 - **Images:** no NASA or Space Apps logos, no photos, video or audio of people, no AI-generated images. Only SVG and CSS made for this site.
 - **Tests:** `src/kids.test.js` checks these rules on the source.

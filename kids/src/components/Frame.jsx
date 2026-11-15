@@ -2,16 +2,16 @@
 import { useKids } from '../App.jsx';
 import { LANG_CODES } from '../lib/lang.js';
 
-/** Small logo: the mascot's helmet. */
-function Logo() {
+/** The Lunar Nav Kids logo: the Sun, Earth and the arc of the lunar horizon. */
+export function Logo({ className }) {
   return (
-    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <circle cx="32" cy="32" r="22" fill="#e9e6ff" />
-      <rect x="17" y="23" width="30" height="18" rx="9" fill="#1d2a6b" />
-      <circle cx="26" cy="32" r="3.2" fill="#7fe3ff" />
-      <circle cx="38" cy="32" r="3.2" fill="#7fe3ff" />
-      <line x1="32" y1="10" x2="32" y2="4" stroke="#e9e6ff" strokeWidth="3" strokeLinecap="round" />
-      <circle cx="32" cy="4" r="3.5" fill="#ffc83d" />
+    <svg className={className} viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <circle cx="32" cy="32" r="30" fill="#1e1b52" />
+      <circle cx="22" cy="24" r="12" fill="#ffc94a" opacity="0.35" />
+      <circle cx="22" cy="24" r="8" fill="#ffc94a" />
+      <circle cx="44" cy="20" r="7" fill="#3ba7ff" />
+      <path d="M40 18 q3 -4 6 -1 q1 3 -2 4z" fill="#7fe0b8" />
+      <path d="M6 46 Q32 30 58 46" fill="none" stroke="#9e97d6" strokeWidth="5" strokeLinecap="round" />
     </svg>
   );
 }
@@ -22,9 +22,9 @@ export function Header() {
     <header className="top">
       <a className="brand" href="#/" onClick={(e) => { e.preventDefault(); go('/'); }}>
         <Logo />
-        <span>Lunar Nav<small>{t('app.kids')}</small></span>
+        <span>Lunar Nav <span className="kids">Kids</span></span>
       </a>
-      <div role="group" aria-label={t('app.language')} className="lang">
+      <div role="group" aria-label={t('app.language')} className="pills">
         {LANG_CODES.map((l) => (
           <button key={l} type="button" className="btn ghost small" lang={l} aria-pressed={lang === l} onClick={() => setLang(l)}>
             {l.toUpperCase()}
@@ -40,20 +40,42 @@ export function Footer() {
   const { t } = useKids();
   return (
     <footer className="foot">
-      <p>{t('footer.notEndorsed')}</p>
-      <p>{t('footer.data')}</p>
-      <p><a href="https://lunarnav.space/" rel="noopener">{t('footer.grownups')}</a></p>
+      <p>
+        {t('footer.privacy')} {t('footer.notEndorsed')}. {t('footer.data')}.{' '}
+        <a href="https://lunarnav.space/" rel="noopener">{t('footer.grownups')}</a>
+      </p>
     </footer>
   );
 }
 
-/** Back to the start, and on to the next step. */
-export function MissionNav({ next, nextLabel }) {
+const MISSION_COLORS = ['#ffc94a', '#3ba7ff', '#4fd1a5'];
+
+/** Top of every mission: "Home" on the left; three coloured bars and "Mission N of 3" on the right. */
+export function MissionBar({ n }) {
   const { t, go } = useKids();
   return (
-    <nav className="no-print" aria-label={t('nav.label')} style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-      <a className="btn ghost" href="#/" onClick={(e) => { e.preventDefault(); go('/'); }}>← {t('nav.home')}</a>
-      {next && <a className="btn" href={`#${next}`} onClick={(e) => { e.preventDefault(); go(next); }}>{nextLabel} →</a>}
-    </nav>
+    <div className="mission-bar no-print">
+      <a className="btn ghost small" href="#/" onClick={(e) => { e.preventDefault(); go('/'); }}>← {t('nav.home')}</a>
+      {n && (
+        <div className="progress">
+          <span className="bars" aria-hidden="true">
+            {MISSION_COLORS.map((c, i) => <span key={c} style={i < n ? { background: c, borderColor: c } : undefined} />)}
+          </span>
+          <span>{t('nav.progress', { n })}</span>
+        </div>
+      )}
+    </div>
   );
 }
+
+/** Big yellow button to the next step. */
+export function NextButton({ to, label }) {
+  const { go } = useKids();
+  return (
+    <p className="no-print">
+      <a className="btn big" href={`#${to}`} onClick={(e) => { e.preventDefault(); go(to); }}>{label} →</a>
+    </p>
+  );
+}
+
+export { MISSION_COLORS };

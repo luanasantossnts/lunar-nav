@@ -1,94 +1,127 @@
 {
   "app": {
-    "title": "Lunar Nav Kids — misiones al polo sur de la Luna",
-    "kids": "Niños",
+    "title": "Lunar Nav Kids — ayuda a Lumi a alunizar",
     "language": "Idioma",
     "langName": {
       "en": "Inglés",
       "es": "Español",
       "pt": "Portugués"
     },
-    "skip": "Saltar a las misiones"
+    "skip": "Saltar al contenido"
   },
   "home": {
-    "title": "¡Hola! Soy Lumi, tu guía lunar.",
+    "title": "¡Ayuda a Lumi a alunizar!",
+    "lead": "En la parte de abajo de la Luna, el Sol rueda sobre las colinas y la Tierra juega al escondite. Elige un buen lugar para que Lumi tenga Sol y pueda llamar a casa.",
+    "start": "Empieza la aventura",
+    "hello": "¡Hola! Soy Lumi. ¡Funciono con luz del Sol!",
     "mascotLabel": "Lumi, un robot astronauta simpático, saludando",
-    "say1": "En el polo sur de la Luna el Sol nunca sube alto: rueda por el cielo, justo encima de las montañas.",
-    "say2": "Y la Tierra juega al escondite: sube y baja y a veces se esconde detrás de las colinas.",
-    "missions": "Elige una misión",
-    "missionN": "Misión {n}",
+    "missions": "Misiones",
+    "missionN": "Misión {n}"
+  },
+  "nav": {
+    "home": "Inicio",
+    "progress": "Misión {n} de 3",
+    "next": "Siguiente misión",
     "quiz": "Haz el cuestionario"
+  },
+  "sites": {
+    "shackleton_ridge": {
+      "name": "Cresta de Shackleton",
+      "short": "Cresta de Shackleton",
+      "desc": "Una cresta alta en el borde de un cráter gigante"
+    },
+    "im2_athena": {
+      "name": "Mons Mouton (IM-2)",
+      "short": "Mons Mouton (IM-2)",
+      "desc": "Una montaña alta con la cima plana"
+    },
+    "malapert_m1": {
+      "name": "Monte Malapert",
+      "short": "Monte Malapert",
+      "desc": "Una gran montaña con sombras profundas"
+    }
   },
   "m1": {
     "title": "Encuentra el lugar más soleado",
-    "teaser": "¿Dónde brilla más el Sol en julio de 2030?",
-    "intro": "Un módulo necesita Sol para tener energía. Elige un lugar y mira cómo el Sol rueda sobre las montañas durante 30 días, desde el 1 de julio de 2030.",
-    "pick": "Elige un lugar de alunizaje",
+    "teaser": "¿Dónde brilla el Sol por más tiempo?",
+    "intro": "Lumi necesita Sol para tener energía. Mira cómo el Sol rueda sobre las montañas reales durante 30 días, desde el 1 de julio de 2030.",
+    "sceneTitle": "El Sol sobre las montañas",
+    "tag": "Aquí el Sol nunca sube alto. ¡Una colina pequeña puede esconderlo!",
     "sceneLabel": "El cielo alrededor de {site} el día {day}, con el Sol y las montañas reales",
+    "slide": "Desliza por julio de 2030 en {site}",
     "shining": "¡El Sol está brillando!",
-    "mountains": "El Sol se esconde detrás de las montañas.",
+    "mountains": "El Sol se esconde detrás de las colinas.",
     "below": "El Sol está bajo el horizonte.",
     "soFar": "Días con Sol hasta ahora: unos {n} de {d}.",
     "stripLabel": "Los 30 días: amarillo cuando brilla el Sol (unos {n} días en total)",
-    "results": "Días de Sol en julio de 2030",
-    "daysOf30": "{n} de 30 días",
-    "conclusion": "El lugar más soleado es {best}: unos {bestN} de 30 días. El menos soleado es {worst}: unos {worstN} días.",
-    "why": "¿Por qué? La cresta de Shackleton es alta, así que el Sol bajo casi nunca queda tapado. En Malapert, en julio de 2030, las montañas cercanas esconden el Sol bajo casi todo el tiempo."
+    "pick": "Elige un lugar de alunizaje",
+    "winner": "¡Ganador!",
+    "daysExact": "{n} de 30 días",
+    "daysAbout": "unos {n} de 30 días",
+    "tipLabel": "Consejo de Lumi",
+    "tipTitle": "Consejo de Lumi:",
+    "tip": "En la cresta de Shackleton, caminar solo 300 m (tres campos de fútbol) puede convertir {a} días de Sol en unos {x} a {y}."
   },
   "m2": {
     "title": "¿Cuándo podemos llamar a casa?",
-    "teaser": "La Tierra sube, baja y se esconde detrás de las colinas.",
-    "intro": "Para llamar a casa deben pasar dos cosas a la vez: la Tierra debe estar sobre las montañas, y una de las grandes antenas de la NASA en la Tierra (en California, España o Australia) debe ver la Luna.",
+    "teaser": "La Tierra juega al escondite.",
+    "intro": "Para llamar a casa, la Tierra debe estar sobre las colinas y una gran antena en la Tierra debe ver la Luna. La Tierra sube y baja en el cielo, así que a veces se esconde.",
     "pick": "Elige un lugar",
+    "sceneTitle": "La Tierra en el cielo",
+    "badge": {
+      "ok": "La Tierra está arriba: ¡llama a casa!",
+      "antennas": "La Tierra está arriba, pero ninguna antena escucha todavía…",
+      "mountains": "La Tierra se esconde detrás de las colinas…",
+      "below": "La Tierra se esconde bajo el horizonte…"
+    },
     "sceneLabel": "La Tierra en el cielo de {site} el día {day}, con las montañas reales",
     "wobble": "La Tierra se balancea entre {lo}° y {hi}° (esto se llama libración).",
-    "earthUp": "Tierra a la vista:",
-    "antennas": "Una antena ve la Luna:",
-    "yes": "sí",
-    "no": "no",
-    "ok": "¡Puedes llamar a casa!",
-    "reason": {
-      "antennas": "Ahora no: la Tierra está arriba, pero ninguna antena en la Tierra ve la Luna.",
-      "mountains": "Ahora no: la Tierra se esconde detrás de las montañas.",
-      "below": "Ahora no: la Tierra está bajo el horizonte."
+    "whoTitle": "¿Quién contesta la llamada?",
+    "whoText": "Tres antenas gigantes en la Tierra se turnan para escuchar, así que casi siempre al menos una puede ver la Luna.",
+    "station": {
+      "goldstone": "Goldstone (EE. UU.)",
+      "madrid": "Madrid (España)",
+      "canberra": "Canberra (Australia)"
     },
-    "stripLabel": "Los 30 días: verde cuando puedes llamar a casa (unos {n} días en total)",
-    "results": "Llamadas a casa en julio de 2030",
-    "callDays": "Unos {n} de 30 días",
-    "longest": "La espera más larga sin llamar: unos {n} días.",
-    "longestAtLeast": "La espera más larga sin llamar: más de {n} días.",
-    "why": "El polo sur está en el borde de la cara de la Luna que mira a la Tierra, así que la Tierra se ve baja. Un pequeño balanceo basta para esconderla."
+    "monthTitle": "El mes de un vistazo",
+    "slide": "Desliza por julio de 2030 en {site}",
+    "stripLabel": "Los 30 días: azul cuando la Tierra está en el cielo (unos {n} días en total)",
+    "earthInSky": "Tierra en el cielo: unos {n} días",
+    "hiding": "Tierra escondida: hasta unos {n} días seguidos",
+    "hidingAtLeast": "Tierra escondida: más de {n} días seguidos",
+    "callDays": "Puedes llamar a casa unos {n} de los 30 días.",
+    "why": "El polo sur está en el borde de la cara de la Luna que mira a la Tierra, así que la Tierra se ve baja y un pequeño balanceo puede esconderla."
   },
   "m3": {
     "title": "Carga para la noche larga",
-    "teaser": "¿Por qué una batería lunar tiene que ser tan grande?",
-    "intro": "Una noche cerca del polo de la Luna puede durar días. Sin Sol, el panel solar no da energía, pero el módulo aún necesita {load} W para no congelarse, como una bombilla brillante.",
+    "teaser": "¡Una noche lunar dura dos semanas!",
+    "intro": "En la Tierra, la noche dura unas horas. En {site}, una noche lunar dura {len}. ¡Lumi debe guardar energía para no pasar frío hasta el amanecer!",
+    "lenDays": "unos {n} días",
+    "lenDaysAtLeast": "más de {n} días",
+    "lenHours": "solo unas {n} horas",
     "pick": "Elige un lugar",
-    "nightDays": "La noche más larga aquí: unos {n} días",
-    "nightDaysAtLeast": "La noche más larga aquí: más de {n} días",
-    "nightHours": "La noche más larga aquí: solo unas {n} horas",
+    "dayTitle": "De día: ¡a cargar!",
+    "full": "Batería: llena",
+    "dayText": "La luz del Sol carga la batería hasta arriba.",
+    "nightTitle": "Noche: {len}",
+    "sleeping": "Lumi durmiendo para ahorrar energía",
+    "nightText": "Ahora no hay Sol. La batería mantiene a Lumi caliente con {load} W hasta el amanecer.",
     "nowDays": "Tiempo de noche: {n} días",
     "nowHours": "Tiempo de noche: {n} horas",
     "batteryLabel": "Batería al {p} %",
-    "day": "Día:",
-    "dayText": "el panel solar llena la batería hasta el 100 %.",
-    "night": "Noche:",
-    "nightText": "la batería da {load} W toda la noche. Debe durar hasta que vuelva el Sol.",
     "sizeLabel": "Tamaño de la batería",
     "rightSize": "Tamaño correcto",
     "halfSize": "Mitad de tamaño",
     "runNight": "Pasar la noche",
-    "ranOut": "¡Oh, no! La batería pequeña se agotó en mitad de la noche. ¡El módulo se enfría demasiado!",
+    "ranOut": "¡Oh, no! La batería pequeña se agotó en mitad de la noche. ¡Lumi pasa demasiado frío!",
     "madeIt": "¡Lo logró! Vuelve el Sol y la batería aún tiene 20 %: justo lo necesario.",
     "level": "Batería: {p} %",
-    "results": "¿Qué tan grande debe ser la batería?",
-    "battery": "Unos {kwh} kWh: ¡pesa unos {kg} kg!",
-    "batteryAtLeast": "Al menos {kwh} kWh: ¡pesa al menos {kg} kg!",
-    "batteryTiny": "Aquí la noche es tan corta que basta una batería pequeña (menos de 1 kWh).",
-    "rule": "La regla: batería = {load} W × la noche más larga ÷ 0,8. Solo usamos el {dod} % de la batería para que dure más.",
-    "under1": "menos de 1 kWh",
-    "kwh": "unos {n} kWh",
-    "kwhAtLeast": "al menos {n} kWh"
+    "phones": "¡Lumi necesita tanta energía como unas {n} baterías de celular!",
+    "sizeGrownups": "Es una batería de unos {kwh} kWh, tan pesada como dos adultos (unos {kg} kg).",
+    "size": "Es una batería de unos {kwh} kWh, unos {kg} kg.",
+    "sizeAtLeast": "Es una batería de al menos {kwh} kWh, al menos {kg} kg.",
+    "sizeTiny": "Aquí la noche es corta, así que basta una batería pequeña (menos de 1 kWh).",
+    "rule": "Cómo contamos: batería = {load} W × la noche más larga ÷ 0,8 (solo usamos el {dod} %). Una batería de celular guarda unos {wh} Wh."
   },
   "scene": {
     "taller": "Las montañas están dibujadas {n}× más altas para que puedas verlas.",
@@ -107,38 +140,18 @@
     "s": "S",
     "w": "O"
   },
-  "sites": {
-    "shackleton_ridge": {
-      "short": "Shackleton",
-      "about": "Shackleton: una cresta alta en el borde del cráter Shackleton, muy cerca del polo sur."
-    },
-    "im2_athena": {
-      "short": "IM-2",
-      "about": "IM-2: donde se posó el módulo IM-2 Athena en 2025, en la región del Mons Mouton."
-    },
-    "malapert_m1": {
-      "short": "Malapert",
-      "about": "Malapert: una montaña alta cerca del polo sur."
-    }
-  },
-  "nav": {
-    "label": "Pasos de la misión",
-    "home": "Todas las misiones"
-  },
   "quiz": {
-    "kicker": "Cuestionario final",
-    "title": "Cuestionario lunar",
     "progress": "Pregunta {n} de {total}",
     "questions": [
       {
         "q": "¿Qué lugar tuvo más Sol en julio de 2030?",
         "options": [
-          "Shackleton",
-          "Malapert",
-          "IM-2"
+          "Cresta de Shackleton",
+          "Monte Malapert",
+          "Mons Mouton (IM-2)"
         ],
         "answer": 0,
-        "why": "{sunniest} está en una cresta alta, así que el Sol brilla allí casi todo el tiempo."
+        "why": "{sunniest} es una cresta alta, así que el Sol brilla allí casi todo el tiempo."
       },
       {
         "q": "¿Cómo se mueve el Sol en el cielo del polo sur de la Luna?",
@@ -148,20 +161,20 @@
           "Nunca se mueve"
         ],
         "answer": 1,
-        "why": "En el polo el Sol se queda justo encima del horizonte y da toda la vuelta."
+        "why": "En el polo el Sol se queda justo encima de las colinas y da toda la vuelta."
       },
       {
         "q": "¿Qué necesitamos para llamar a casa desde la Luna?",
         "options": [
           "Solo una voz fuerte",
-          "La Tierra sobre las montañas y una gran antena en la Tierra que vea la Luna",
+          "La Tierra sobre las colinas y una gran antena en la Tierra que vea la Luna",
           "Una noche sin Sol"
         ],
         "answer": 1,
         "why": "Hacen falta las dos cosas a la vez."
       },
       {
-        "q": "En IM-2, ¿cuánto dura la noche más larga?",
+        "q": "En el Mons Mouton (IM-2), ¿cuánto dura la noche más larga?",
         "options": [
           "Alrededor de 1 día",
           "Alrededor de {night} días",
@@ -173,31 +186,29 @@
       {
         "q": "¿Por qué una batería lunar debe ser grande?",
         "options": [
-          "Para mantener caliente el módulo durante toda la noche larga",
-          "Para que el módulo vaya más rápido",
+          "Para que Lumi no pase frío durante toda la noche larga",
+          "Para que Lumi vaya más rápido",
           "Para iluminar la Tierra"
         ],
         "answer": 0,
         "why": "Sin Sol, la batería debe dar energía hasta que el Sol vuelva."
       }
     ],
-    "right": "¡Correcto!",
+    "right": "¡Sí!",
     "wrong": "Casi.",
     "next": "Siguiente pregunta",
     "finish": "Ver mi resultado",
     "doneTitle": "¡Cuestionario terminado!",
     "score": "{n} de {total} correctas",
     "doneText": "¡Gran exploración! Tu resultado solo se muestra aquí; no se guarda en ningún lugar.",
-    "certificate": "Recibe tu certificado",
     "again": "Jugar de nuevo"
   },
   "cert": {
-    "intro": "¡Lo lograste! Imprime tu certificado.",
-    "top": "Certificado",
-    "text": "Un joven explorador valiente completó las misiones de Lunar Nav Kids en el polo sur de la Luna:",
-    "print": "Imprimir el certificado"
+    "text": "Encontró el Sol, llamó a casa y cargó energía para la larga noche lunar.",
+    "print": "Imprimir mi certificado"
   },
   "footer": {
+    "privacy": "Sin nombres, sin cuentas, nada guardado.",
     "notEndorsed": "Proyecto independiente, sin respaldo de la NASA",
     "data": "Hecho con datos de NASA/JPL Horizons y NASA LOLA",
     "grownups": "Para adultos: lunarnav.space"

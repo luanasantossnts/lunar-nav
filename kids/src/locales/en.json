@@ -1,94 +1,127 @@
 {
   "app": {
-    "title": "Lunar Nav Kids — missions to the Moon’s south pole",
-    "kids": "Kids",
+    "title": "Lunar Nav Kids — help Lumi land on the Moon",
     "language": "Language",
     "langName": {
       "en": "English",
       "es": "Spanish",
       "pt": "Portuguese"
     },
-    "skip": "Skip to the missions"
+    "skip": "Skip to the content"
   },
   "home": {
-    "title": "Hi! I’m Lumi, your Moon guide.",
+    "title": "Help Lumi land on the Moon!",
+    "lead": "At the bottom of the Moon, the Sun rolls along the hills and Earth plays hide-and-seek. Pick a good spot so Lumi has sunlight and can call home.",
+    "start": "Start the adventure",
+    "hello": "Hi! I’m Lumi. I run on sunshine!",
     "mascotLabel": "Lumi, a friendly astronaut robot, waving",
-    "say1": "At the Moon’s south pole the Sun never climbs high: it rolls around the sky, just above the mountains.",
-    "say2": "And the Earth plays hide-and-seek: it bobs up and down and sometimes hides behind the hills.",
-    "missions": "Choose a mission",
-    "missionN": "Mission {n}",
+    "missions": "Missions",
+    "missionN": "Mission {n}"
+  },
+  "nav": {
+    "home": "Home",
+    "progress": "Mission {n} of 3",
+    "next": "Next mission",
     "quiz": "Take the quiz"
+  },
+  "sites": {
+    "shackleton_ridge": {
+      "name": "Shackleton ridge",
+      "short": "Shackleton ridge",
+      "desc": "A high ridge on the edge of a giant crater"
+    },
+    "im2_athena": {
+      "name": "Mons Mouton (IM-2)",
+      "short": "Mons Mouton (IM-2)",
+      "desc": "A tall, flat-topped mountain"
+    },
+    "malapert_m1": {
+      "name": "Malapert Mountain",
+      "short": "Malapert Mountain",
+      "desc": "A big mountain with deep shadows"
+    }
   },
   "m1": {
     "title": "Find the sunniest spot",
-    "teaser": "Where does the Sun shine the most in July 2030?",
-    "intro": "A lander needs sunshine for power. Pick a spot and watch the Sun roll along the mountains for 30 days, from 1 July 2030.",
-    "pick": "Pick a landing spot",
+    "teaser": "Where does the Sun shine longest?",
+    "intro": "Lumi needs sunshine for power. Watch the Sun roll along the real mountains for 30 days, from 1 July 2030.",
+    "sceneTitle": "The Sun over the mountains",
+    "tag": "The Sun never climbs high here. One small hill can hide it!",
     "sceneLabel": "The sky all around {site} on day {day}, with the Sun and the real mountains",
+    "slide": "Slide through July 2030 at {site}",
     "shining": "The Sun is shining!",
-    "mountains": "The Sun is hiding behind the mountains.",
+    "mountains": "The Sun is hiding behind the hills.",
     "below": "The Sun is below the horizon.",
     "soFar": "Sunny days so far: about {n} of {d}.",
     "stripLabel": "The 30 days: yellow when the Sun shines (about {n} days in all)",
-    "results": "Sunny days in July 2030",
-    "daysOf30": "{n} of 30 days",
-    "conclusion": "The sunniest spot is {best}: about {bestN} of 30 days. The least sunny is {worst}: about {worstN} days.",
-    "why": "Why? Shackleton’s ridge is high, so the low Sun is almost never blocked. At Malapert, in July 2030, nearby mountains hide the low Sun most of the time."
+    "pick": "Pick a landing spot",
+    "winner": "Winner!",
+    "daysExact": "{n} of 30 days",
+    "daysAbout": "about {n} of 30 days",
+    "tipLabel": "Lumi’s tip",
+    "tipTitle": "Lumi’s tip:",
+    "tip": "On Shackleton ridge, walking just 300 m (three football fields) can turn {a} sunny days into about {x} to {y}."
   },
   "m2": {
     "title": "When can we call home?",
-    "teaser": "Earth bobs up and down and hides behind the hills.",
-    "intro": "To call home, two things must happen at once: Earth must be above the mountains, and one of NASA’s big antennas on Earth (in California, Spain or Australia) must see the Moon.",
+    "teaser": "Earth plays hide-and-seek.",
+    "intro": "To call home, Earth must be above the hills, and a big antenna on Earth must see the Moon. Earth bobs up and down in the sky, so sometimes it hides.",
     "pick": "Pick a spot",
-    "sceneLabel": "Earth in the sky of {site} on day {day}, with the real mountains",
-    "wobble": "Earth wobbles up and down between {lo}° and {hi}° (this is called libration).",
-    "earthUp": "Earth in view:",
-    "antennas": "An antenna sees the Moon:",
-    "yes": "yes",
-    "no": "no",
-    "ok": "You can call home!",
-    "reason": {
-      "antennas": "Not now: Earth is up, but no antenna on Earth can see the Moon.",
-      "mountains": "Not now: Earth is hiding behind the mountains.",
-      "below": "Not now: Earth is below the horizon."
+    "sceneTitle": "Earth in the sky",
+    "badge": {
+      "ok": "Earth is up: call home!",
+      "antennas": "Earth is up, but no antenna can hear yet…",
+      "mountains": "Earth is hiding behind the hills…",
+      "below": "Earth is hiding below the horizon…"
     },
-    "stripLabel": "The 30 days: green when you can call home (about {n} days in all)",
-    "results": "Calls home in July 2030",
-    "callDays": "About {n} of 30 days",
-    "longest": "The longest wait without a call: about {n} days.",
-    "longestAtLeast": "The longest wait without a call: more than {n} days.",
-    "why": "The south pole is at the edge of the side of the Moon that faces Earth, so Earth sits low in the sky. A small wobble is enough to hide it."
+    "sceneLabel": "Earth in the sky of {site} on day {day}, with the real mountains",
+    "wobble": "Earth wobbles between {lo}° and {hi}° (this is called libration).",
+    "whoTitle": "Who answers the call?",
+    "whoText": "Three giant antennas on Earth take turns listening, so almost always at least one can see the Moon.",
+    "station": {
+      "goldstone": "Goldstone (USA)",
+      "madrid": "Madrid (Spain)",
+      "canberra": "Canberra (Australia)"
+    },
+    "monthTitle": "The month at a glance",
+    "slide": "Slide through July 2030 at {site}",
+    "stripLabel": "The 30 days: blue when Earth is in the sky (about {n} days in all)",
+    "earthInSky": "Earth in the sky: about {n} days",
+    "hiding": "Earth hiding: up to about {n} days in a row",
+    "hidingAtLeast": "Earth hiding: more than {n} days in a row",
+    "callDays": "You can call home on about {n} of the 30 days.",
+    "why": "The south pole is at the edge of the side of the Moon that faces Earth, so Earth sits low in the sky and a small wobble can hide it."
   },
   "m3": {
     "title": "Charge for the long night",
-    "teaser": "Why does a Moon battery need to be so big?",
-    "intro": "A night near the Moon’s pole can last for days. With no sunlight the solar panel makes no power, but the lander still needs {load} W to stay warm — like a bright light bulb.",
+    "teaser": "A Moon night lasts two weeks!",
+    "intro": "On Earth, night lasts a few hours. On {site}, a Moon night lasts {len}! Lumi must save enough energy to stay warm until sunrise.",
+    "lenDays": "about {n} days",
+    "lenDaysAtLeast": "more than {n} days",
+    "lenHours": "only about {n} hours",
     "pick": "Pick a spot",
-    "nightDays": "The longest night here: about {n} days",
-    "nightDaysAtLeast": "The longest night here: more than {n} days",
-    "nightHours": "The longest night here: only about {n} hours",
+    "dayTitle": "Daytime: fill up!",
+    "full": "Battery: full",
+    "dayText": "Sunlight charges the battery all the way up.",
+    "nightTitle": "Night: {len}",
+    "sleeping": "Lumi sleeping to save energy",
+    "nightText": "No sunlight now. The battery keeps Lumi warm with {load} W until sunrise.",
     "nowDays": "Night time passed: {n} days",
     "nowHours": "Night time passed: {n} hours",
     "batteryLabel": "Battery at {p} %",
-    "day": "Day:",
-    "dayText": "the solar panel fills the battery up to 100 %.",
-    "night": "Night:",
-    "nightText": "the battery gives {load} W all night long. It must last until the Sun comes back.",
     "sizeLabel": "Battery size",
     "rightSize": "Right size",
     "halfSize": "Half size",
     "runNight": "Run the night",
-    "ranOut": "Oh no! The small battery ran out in the middle of the night. The lander gets too cold!",
+    "ranOut": "Oh no! The small battery ran out in the middle of the night. Lumi gets too cold!",
     "madeIt": "Made it! The Sun is back and the battery still has 20 % — just right.",
     "level": "Battery: {p} %",
-    "results": "How big must the battery be?",
-    "battery": "About {kwh} kWh — it weighs about {kg} kg!",
-    "batteryAtLeast": "At least {kwh} kWh — it weighs at least {kg} kg!",
-    "batteryTiny": "Here the night is so short that a small battery (less than 1 kWh) is enough.",
-    "rule": "The rule: battery = {load} W × the longest night ÷ 0.8. We only use {dod} % of the battery, so it stays healthy.",
-    "under1": "less than 1 kWh",
-    "kwh": "about {n} kWh",
-    "kwhAtLeast": "at least {n} kWh"
+    "phones": "Lumi needs about as much energy as {n} phone batteries!",
+    "sizeGrownups": "That’s a battery of about {kwh} kWh, about as heavy as two grown-ups (about {kg} kg).",
+    "size": "That’s a battery of about {kwh} kWh, about {kg} kg.",
+    "sizeAtLeast": "That’s a battery of at least {kwh} kWh, at least {kg} kg.",
+    "sizeTiny": "Here the night is short, so a small battery (less than 1 kWh) is enough.",
+    "rule": "How we count: battery = {load} W × the longest night ÷ 0.8 (we only use {dod} % of it). A phone battery holds about {wh} Wh."
   },
   "scene": {
     "taller": "The mountains are drawn {n}× taller so you can see them.",
@@ -107,38 +140,18 @@
     "s": "S",
     "w": "W"
   },
-  "sites": {
-    "shackleton_ridge": {
-      "short": "Shackleton",
-      "about": "Shackleton: a high ridge on the rim of Shackleton crater, very close to the south pole."
-    },
-    "im2_athena": {
-      "short": "IM-2",
-      "about": "IM-2: where the IM-2 Athena lander touched down in 2025, in the Mons Mouton region."
-    },
-    "malapert_m1": {
-      "short": "Malapert",
-      "about": "Malapert: a tall mountain near the south pole."
-    }
-  },
-  "nav": {
-    "label": "Mission steps",
-    "home": "All missions"
-  },
   "quiz": {
-    "kicker": "Final quiz",
-    "title": "Moon quiz",
     "progress": "Question {n} of {total}",
     "questions": [
       {
         "q": "Which spot had the most sunshine in July 2030?",
         "options": [
-          "Shackleton",
-          "Malapert",
-          "IM-2"
+          "Shackleton ridge",
+          "Malapert Mountain",
+          "Mons Mouton (IM-2)"
         ],
         "answer": 0,
-        "why": "{sunniest} is on a high ridge, so the Sun shines there almost all the time."
+        "why": "{sunniest} is a high ridge, so the Sun shines there almost all the time."
       },
       {
         "q": "How does the Sun move in the sky at the Moon’s south pole?",
@@ -148,20 +161,20 @@
           "It never moves"
         ],
         "answer": 1,
-        "why": "At the pole the Sun stays just above the horizon and goes all the way around."
+        "why": "At the pole the Sun stays just above the hills and goes all the way around."
       },
       {
         "q": "What do we need to call home from the Moon?",
         "options": [
           "Just a loud voice",
-          "Earth above the mountains, and a big antenna on Earth that sees the Moon",
+          "Earth above the hills, and a big antenna on Earth that sees the Moon",
           "A night without the Sun"
         ],
         "answer": 1,
         "why": "Both are needed at the same time."
       },
       {
-        "q": "At IM-2, how long is the longest night?",
+        "q": "At Mons Mouton (IM-2), how long is the longest night?",
         "options": [
           "About 1 day",
           "About {night} days",
@@ -173,31 +186,29 @@
       {
         "q": "Why does a Moon battery need to be big?",
         "options": [
-          "To keep the lander warm through the whole long night",
-          "To make the lander go faster",
+          "To keep Lumi warm through the whole long night",
+          "To make Lumi go faster",
           "To light up the Earth"
         ],
         "answer": 0,
         "why": "With no sunlight, the battery must give power until the Sun comes back."
       }
     ],
-    "right": "Right!",
+    "right": "Yes!",
     "wrong": "Not quite.",
     "next": "Next question",
     "finish": "See my result",
     "doneTitle": "Quiz complete!",
     "score": "{n} of {total} right",
     "doneText": "Great exploring! Your score is only shown here; it is not saved anywhere.",
-    "certificate": "Get your certificate",
     "again": "Play again"
   },
   "cert": {
-    "intro": "You did it! Print your certificate.",
-    "top": "Certificate",
-    "text": "A brave young explorer completed the Lunar Nav Kids missions at the Moon’s south pole:",
-    "print": "Print the certificate"
+    "text": "Found sunshine, called home and charged up for the long Moon night.",
+    "print": "Print my certificate"
   },
   "footer": {
+    "privacy": "No names, no accounts, nothing saved.",
     "notEndorsed": "Independent project, not endorsed by NASA",
     "data": "Built on NASA/JPL Horizons and NASA LOLA data",
     "grownups": "For grown-ups: lunarnav.space"

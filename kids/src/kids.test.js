@@ -47,6 +47,38 @@ describe('kids-data.json matches the API export (default scenario, terrain)', ()
       expect(Math.abs(sum(s.spans.call) - s.raw.contact_hours), id).toBeLessThan(0.5);
     }
   });
+  it('Shackleton tip: 300 m can turn 30 sunny days into the API P10–P90 range (48–73 % → 14 to 22 days)', () => {
+    const s = DATA.sites.shackleton_ridge;
+    const days = DATA.about.period.hours / 24;
+    expect(s.kids.sun_days_p10_300m).toBe(Math.round(s.raw.sun_p10_300m * days));
+    expect(s.kids.sun_days_p90_300m).toBe(Math.round(s.raw.sun_p90_300m * days));
+    expect(Math.round(100 * s.raw.sun_p10_300m)).toBe(48);
+    expect(Math.round(100 * s.raw.sun_p90_300m)).toBe(73);
+    expect([s.kids.sun_days_p10_300m, s.kids.sun_days_p90_300m]).toEqual([14, 22]);
+    expect(s.raw.spread_radius_m).toBe(300);
+    for (const l of [en, es, pt]) expect(l.m1.tip).toMatch(/300\u00A0m/);
+  });
+  it('phone batteries: battery Wh ÷ 15 Wh (nearest 100 when large); IM-2 ≈ 1,800 phones, about 180 kg', () => {
+    const wh = DATA.about.phone_battery_wh;
+    expect(wh).toBe(15);
+    for (const [id, s] of Object.entries(DATA.sites)) {
+      const n = s.raw.battery_wh / wh;
+      expect(s.kids.phone_batteries, id).toBe(n >= 100 ? Math.round(n / 100) * 100 : Math.round(n));
+      expect(s.raw.battery_wh, id).toBeCloseTo(1000 * s.raw.battery_kwh, 0);
+    }
+    expect(DATA.sites.im2_athena.kids.phone_batteries).toBe(1800);
+    expect(DATA.sites.im2_athena.kids.battery_kg).toBe(180);
+  });
+  it('Earth in the sky: spans add up to the API hours; longest hiding is the API value rounded to a half', () => {
+    const sum = (sp) => sp.reduce((a, [x, y]) => a + (y - x) * 24, 0);
+    for (const [id, s] of Object.entries(DATA.sites)) {
+      expect(Math.abs(sum(s.spans.earth) - s.raw.earth_hours), id).toBeLessThan(0.5);
+      expect(s.kids.earth_days, id).toBe(Math.round(s.raw.earth_hours / 24));
+      expect(s.kids.longest_no_earth_days, id).toBe(half(s.raw.longest_no_earth_h / 24, s.raw.longest_no_earth_lower_bound));
+    }
+    expect(DATA.sites.shackleton_ridge.kids.earth_days).toBe(13);
+    expect(DATA.sites.shackleton_ridge.kids.longest_no_earth_days).toBe(14.5);
+  });
   it('sunniest order follows the API fractions; samples and skyline have the expected size', () => {
     const order = Object.keys(DATA.sites).sort((a, b) => DATA.sites[b].raw.sun_fraction - DATA.sites[a].raw.sun_fraction);
     expect(DATA.sunniest).toEqual(order);
@@ -94,8 +126,9 @@ describe('texts in English, Spanish and Portuguese', () => {
     for (const f of CODE) {
       const src = readFileSync(f, 'utf8');
       for (const m of src.matchAll(/t\(`sites\.\$\{\w+\}\.(\w+)`/g)) ids.forEach((id) => keys.add(`sites.${id}.${m[1]}`));
-      for (const m of src.matchAll(/t\(`m2\.reason\.\$\{reason\}`/g)) ['antennas', 'mountains', 'below'].forEach((r) => keys.add(`m2.reason.${r}`));
-      for (const m of src.matchAll(/t\(`(\w+)\.title`/g)) ['m1', 'm2', 'm3'].forEach((x) => keys.add(`${x}.title`));
+      if (/t\(`m2\.badge\.\$\{reason\}`/.test(src)) ['ok', 'antennas', 'mountains', 'below'].forEach((r) => keys.add(`m2.badge.${r}`));
+      if (/t\(`\$\{k\}\.(title|teaser)`/.test(src)) ['m1', 'm2', 'm3'].forEach((x) => { keys.add(`${x}.title`); keys.add(`${x}.teaser`); });
+      if (/t\(`m2\.station\.\$\{a\}`/.test(src)) ['goldstone', 'madrid', 'canberra'].forEach((a) => keys.add(`m2.station.${a}`));
     }
     for (const [l, d] of Object.entries(LOCALES)) {
       const t = makeT(l);
@@ -105,6 +138,7 @@ describe('texts in English, Spanish and Portuguese', () => {
     }
   });
   it('the footer says what the brief asks for', () => {
+    expect(en.footer.privacy).toBe('No names, no accounts, nothing saved.');
     expect(en.footer.notEndorsed).toBe('Independent project, not endorsed by NASA');
     expect(en.footer.data).toBe('Built on NASA/JPL Horizons and NASA LOLA data');
     expect(en.footer.grownups).toBe('For grown-ups: lunarnav.space');

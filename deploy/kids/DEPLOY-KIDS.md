@@ -14,7 +14,7 @@ python3 -I deploy/kids/build-zip.py      # → deploy/kids/kids-deploy.zip
 ```
 
 O zip contém só o conteúdo da pasta do subdomínio:
-- `index.html`, `favicon.svg` e `assets/` (JavaScript, CSS e as fontes Nunito);
+- `index.html`, `favicon.svg` e `assets/` (JavaScript, CSS e as fontes Nunito e Baloo 2);
 - `.htaccess`: força HTTPS, faz o fallback do SPA, aplica a CSP estrita e os cabeçalhos de segurança;
 - `assets/.htaccess`: cache longo para os arquivos com hash.
 
@@ -50,7 +50,7 @@ Estrutura final:
 ```
 <pasta do subdomínio>/
   .htaccess  index.html  favicon.svg
-  assets/   (.htaccess, index-….js, index-….css, nunito-….woff2/.woff)
+  assets/   (.htaccess, index-….js, index-….css, fontes nunito-… e baloo-2-… .woff2/.woff)
 ```
 
 Permissões: pastas `755` e arquivos `644`. Nada precisa de escrita.
