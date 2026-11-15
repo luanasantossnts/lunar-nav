@@ -65,5 +65,8 @@ export function batteryLevel(t, nightDays, sizeFactor = 1) {
   return Math.max(100 - dod * 100, 100 - used);
 }
 
+/** The certificate opens only after the whole quiz with every answer right (5 of 5). Nothing is saved. */
+export const certificateUnlocked = (right, total, finished) => !!finished && total > 0 && right === total;
+
 /** True when a battery of this size runs out before the night ends. */
 export const runsOut = (t, nightDays, sizeFactor) => sizeFactor < 1 && t / nightDays >= sizeFactor;

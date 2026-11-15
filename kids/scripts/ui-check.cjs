@@ -52,6 +52,24 @@ const origin = new URL(BASE).origin;
       await ctx.close();
     }
   }
+  // Certificate lock: wrong answer → locked (no print button); 5 of 5 → unlocked (print button).
+  const lock = {};
+  for (const [lang, picks] of [['en', [0, 1, 1, 1, 0]], ['es', [0, 1, 1, 1, 0]], ['pt', [0, 1, 1, 1, 0]], ['en-one-wrong', [0, 1, 1, 1, 1]]]) {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', ignoreHTTPSErrors: true });
+    await ctx.addInitScript((l) => { try { localStorage.setItem('lunarnav.lang', JSON.stringify(l)); } catch (e) { /* blocked */ } }, lang.slice(0, 2));
+    const page = await ctx.newPage();
+    await page.goto(`${BASE}#/quiz`, { waitUntil: 'networkidle' });
+    const before = await page.locator('.certificate.locked').count();
+    for (const i of picks) {
+      await page.locator('.choice').nth(i).click();
+      await page.locator('.explain + p .btn').click();
+    }
+    await page.waitForTimeout(300);
+    lock[lang] = { lockedBefore: before === 1, lockedAfter: await page.locator('.certificate.locked').count() === 1, printButton: await page.locator('#certificate .btn').count() };
+    if (SHOTS && (lang === 'en' || lang === 'en-one-wrong')) await page.screenshot({ path: `${OUT}/${lang}-desktop-certificate-${lang === 'en' ? 'unlocked' : 'locked'}.png`, fullPage: true });
+    await ctx.close();
+  }
+  console.log('certificate lock:', JSON.stringify(lock));
   await browser.close();
   fs.writeFileSync(`${OUT}/ui-report.json`, JSON.stringify(report, null, 1));
   const bad = report.filter((r) => r.violations.length || r.overflowX > 0 || r.errors.length || r.outside.length || r.smallTargets.length || r.cookies || r.storage.some((k) => k !== 'lunarnav.lang'));

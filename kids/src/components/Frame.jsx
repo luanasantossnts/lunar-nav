@@ -40,10 +40,8 @@ export function Footer() {
   const { t } = useKids();
   return (
     <footer className="foot">
-      <p>
-        {t('footer.privacy')} {t('footer.notEndorsed')}. {t('footer.data')}.{' '}
-        <a href="https://lunarnav.space/" rel="noopener">{t('footer.grownups')}</a>
-      </p>
+      <p>{t('footer.privacy')} {t('footer.notEndorsed')}. {t('footer.data')}.</p>
+      <p style={{ marginTop: 8 }}><a href="https://lunarnav.space/" rel="noopener">{t('footer.grownups')}</a></p>
     </footer>
   );
 }

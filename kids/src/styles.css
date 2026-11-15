@@ -203,6 +203,8 @@ input[type='range'] { flex: 1 1 260px; height: 52px; accent-color: var(--sun); c
 .certificate h2 { color: var(--card-ink); font-size: clamp(30px, 4.4vw, 42px); }
 .certificate p { color: var(--card-muted); font-size: 19px; }
 .certificate .small { font-size: 15px; }
+.certificate.locked { border-color: var(--rock-back); border-style: dashed; background: #f4f2fb; }
+.certificate.locked h2 { color: var(--card-muted); }
 
 /* ---------- Footer ---------- */
 footer.foot { border-top: 2px solid var(--panel2); margin-top: 34px; padding: 20px 0 34px; font-size: 16px; color: var(--muted); }
@@ -220,4 +222,5 @@ footer.foot a { color: var(--sun); font-weight: 800; }
   main { padding: 0; }
   .grid2 { display: block; }
   .certificate { border-color: #e0a800; }
+  .certificate.locked { display: none !important; }
 }

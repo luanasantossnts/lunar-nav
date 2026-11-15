@@ -205,7 +205,10 @@
   },
   "cert": {
     "text": "Achou o Sol, ligou para casa e carregou energia para a longa noite da Lua.",
-    "print": "Imprimir meu certificado"
+    "print": "Imprimir meu certificado",
+    "locked": "Acerte as 5 perguntas para liberar seu certificado!",
+    "unlocked": "5 de 5! Seu certificado foi liberado.",
+    "needAll": "Você precisa acertar as {total} para ganhar o certificado. Tente de novo!"
   },
   "footer": {
     "privacy": "Sem nomes, sem contas, nada salvo.",

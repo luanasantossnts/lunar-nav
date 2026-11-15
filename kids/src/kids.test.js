@@ -6,7 +6,7 @@ import DATA from './data/kids-data.json';
 import en from './locales/en.json';
 import es from './locales/es.json';
 import pt from './locales/pt.json';
-import { batteryLevel, callReason, runsOut, sample, sampleCount, skylineAt } from './lib/data.js';
+import { batteryLevel, callReason, certificateUnlocked, runsOut, sample, sampleCount, skylineAt } from './lib/data.js';
 import { initialLang, kidNumber, makeT, urlLang, withoutLangParam } from './lib/lang.js';
 
 const LOCALES = { en, es, pt };
@@ -103,6 +103,25 @@ describe('kids-data.json matches the API export (default scenario, terrain)', ()
     expect(batteryLevel(7.5, 15, 0.5)).toBeCloseTo(20, 6);
     expect(runsOut(7.5, 15, 0.5)).toBe(true);
     expect(runsOut(15, 15, 1)).toBe(false);
+  });
+});
+
+describe('certificate: only after 5 of 5 right answers', () => {
+  it('stays locked until the quiz is finished with every answer right', () => {
+    expect(certificateUnlocked(5, 5, true)).toBe(true);
+    expect(certificateUnlocked(4, 5, true)).toBe(false);
+    expect(certificateUnlocked(0, 5, true)).toBe(false);
+    expect(certificateUnlocked(5, 5, false)).toBe(false); // not finished yet
+  });
+  it('the print button exists only in the unlocked certificate, and a locked card is not printed', () => {
+    const src = readFileSync(new URL('./missions/Quiz.jsx', import.meta.url), 'utf8');
+    const lockedPart = src.slice(src.indexOf(') : ('), src.indexOf('</section>', src.indexOf(') : (')));
+    expect(src).toMatch(/\{unlocked \? \(/);
+    expect(lockedPart).not.toMatch(/window\.print/);
+    expect(readFileSync(new URL('./styles.css', import.meta.url), 'utf8')).toMatch(/@media print[\s\S]*\.certificate\.locked \{ display: none !important; \}/);
+  });
+  it('the quiz answers are the same in every language (the UI check answers 0, 1, 1, 1, 0)', () => {
+    for (const d of [en, es, pt]) expect(d.quiz.questions.map((q) => q.answer)).toEqual([0, 1, 1, 1, 0]);
   });
 });
 

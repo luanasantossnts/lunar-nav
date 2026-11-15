@@ -205,7 +205,10 @@
   },
   "cert": {
     "text": "Found sunshine, called home and charged up for the long Moon night.",
-    "print": "Print my certificate"
+    "print": "Print my certificate",
+    "locked": "Answer all 5 questions right to unlock your certificate!",
+    "unlocked": "5 of 5! Your certificate is unlocked.",
+    "needAll": "You need all {total} right to get the certificate. Try again!"
   },
   "footer": {
     "privacy": "No names, no accounts, nothing saved.",
