@@ -1,0 +1,37 @@
+{
+  "name": "lunar-nav",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lunar Nav: compare lunar landing sites and dates by Sun and Earth visibility.",
+  "author": "Luana Santos (team Lumi Lunar)",
+  "license": "Apache-2.0",
+  "x-ai-assisted": {
+    "tools": [
+      "Claude (Anthropic)"
+    ],
+    "scope": "source code drafting and review; all numbers computed deterministically from JPL Horizons and NASA LOLA",
+    "disclosure": "AI_DISCLOSURE.md"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.1.0",
+    "@fontsource/ibm-plex-sans": "5.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "4.3.3",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.14",
+    "vite": "5.4.10",
+    "vitest": "2.1.4"
+  }
+}

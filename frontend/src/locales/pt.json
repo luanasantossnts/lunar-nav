@@ -1,0 +1,709 @@
+{
+  "app": {
+    "name": "Lunar Nav",
+    "tagline": "Navegador de locais de pouso",
+    "by": "por Lumi Lunar",
+    "credit": "Feito para o NASA Space Apps Challenge 2026 · Lunar Landing Site Navigator · Equipe Lumi Lunar · Projeto independente, não endossado pela NASA"
+  },
+  "nav": {
+    "briefing": "Início",
+    "explorer": "Explorador",
+    "compare": "Comparar",
+    "sky": "Vista do céu",
+    "analyst": "Analista",
+    "methodology": "Metodologia",
+    "report": "Relatório",
+    "modules": "Módulos",
+    "help": "Ajuda",
+    "charts": "Gráficos"
+  },
+  "top": {
+    "technical": "Técnico",
+    "learn": "Aprender",
+    "mode": "Modo",
+    "language": "Idioma",
+    "toLight": "Mudar para tema claro",
+    "toDark": "Mudar para tema escuro",
+    "ask": "Perguntar ao analista",
+    "scenario": "Cenário",
+    "menu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "skip": "Pular para o conteúdo"
+  },
+  "common": {
+    "sun": "Sol",
+    "earth": "Terra",
+    "both": "Sol e Terra",
+    "sunlight": "Luz solar",
+    "earthInView": "Terra visível",
+    "nextSunset": "Próximo pôr do Sol",
+    "nextEarthset": "Próximo ocaso da Terra",
+    "nextSunrise": "Próximo nascer do Sol",
+    "sunElevation": "Elevação do Sol",
+    "earthElevation": "Elevação da Terra",
+    "longestDark": "Maior período escuro",
+    "longestEarthGap": "Maior intervalo sem a Terra",
+    "perDay": "por dia",
+    "loading": "Calculando com o JPL Horizons…",
+    "error": "Não foi possível calcular este cenário",
+    "retry": "Tentar de novo",
+    "geometric": "Geométrico",
+    "terrain": "Relevo (LOLA)",
+    "terrainUnavailable": "Relevo indisponível para este local: horizonte de esfera lisa",
+    "terrainApplied": "Horizonte de relevo da NASA LOLA aplicado",
+    "atCursor": "No cursor",
+    "visible": "visível",
+    "behindTerrain": "atrás do relevo",
+    "belowHorizon": "abaixo do horizonte",
+    "inView": "visível",
+    "approx": "aprox.",
+    "source": "Fonte",
+    "play": "Reproduzir",
+    "pause": "Pausar",
+    "time": "Tempo",
+    "landing": "Pouso",
+    "days": "Dias na superfície",
+    "siteA": "Local A",
+    "siteB": "Local B",
+    "custom": "Coordenadas próprias",
+    "lat": "Latitude",
+    "lon": "Longitude (leste)",
+    "apply": "Aplicar",
+    "antennaMargin": "Margem de elevação da antena",
+    "panelVertical": "Fator de painel (vertical)",
+    "horizon": "Horizonte",
+    "status": "{source} · {mode} · centro do astro · passo {step} min",
+    "never": "nenhum no período",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "skip": "Pular",
+    "readAloud": "Ler em voz alta",
+    "discRange": "disco {r}",
+    "posRange": "±{m} m: {r}",
+    "discTitle": "Do disco inteiro (menor) à primeira borda (maior) acima do horizonte",
+    "posTitle": "P10–P90 dos pontos da grade a até {m} m do site, horizonte com relevo",
+    "comm": "Contato com a Terra (DSN)",
+    "commShort": "contato",
+    "commTitle": "Terra visível do local e pelo menos um complexo de 70 m da Deep Space Network da NASA (Goldstone, Canberra, Madri) vendo a Lua a ≥ {el}°",
+    "longestCommGap": "Maior intervalo sem contato",
+    "dsnLane": "{id}: Lua acima da elevação mínima da DSN",
+    "lowerBound": "noite mais longa que o período analisado — este é um valor mínimo",
+    "lowerBoundGap": "intervalo mais longo que o período analisado — este é um valor mínimo",
+    "deltaBound": "pelo menos um dos dois valores é um mínimo (a noite dele passa do período)",
+    "whatIs": "O que é “{term}”? Abrir o glossário",
+    "trackSummary": "{label}: visível {p} do período",
+    "elevSummary": "Elevação durante a estadia: Sol {s}, Terra {e}",
+    "belowMargin": "acima do horizonte, abaixo da margem da antena ({m}°)",
+    "sameScenario": "Escolha dois locais ou datas diferentes para comparar.",
+    "regions": {
+      "south_pole": "Polo sul",
+      "south_high_latitude": "Alta latitude sul",
+      "near_side": "Face visível"
+    },
+    "longTerm": "Média de longo prazo (NASA PGDA, 18,6 anos)",
+    "psrNear": "Sombra permanente a até 300 m"
+  },
+  "brief": {
+    "title": "Seu pouso atrasou dez dias. O local continua iluminado e ainda enxerga a Terra?",
+    "body": "O Lunar Nav compara locais e datas de pouso no polo sul lunar: onde o Sol e a Terra ficam em relação ao horizonte local, por quanto tempo e o que uma mudança de cronograma faz com os dois.",
+    "tour": "Fazer o tour de 60 segundos",
+    "open": "Abrir o planejador",
+    "figure": "Horizonte visto de {site}",
+    "note": "Posições do JPL Horizons para as datas do cenário; linha do horizonte do relevo NASA LOLA quando disponível. Linha tracejada: horizonte de esfera lisa (0°)."
+  },
+  "planner": {
+    "timeline": "Visibilidade durante a estadia",
+    "delayCta": "Aplicar um atraso de {n} dias e comparar",
+    "sky": "Ficar no local A: vista do céu",
+    "analystNote": "Peça ao analista para explicar a troca",
+    "map": "Mapa polar sul",
+    "mapNote": "Estereográfica polar, longitude 0° para cima. Clique em um local para defini-lo como A ou B.",
+    "setA": "Definir como A",
+    "setB": "Definir como B",
+    "elevation": "Elevação durante a estadia",
+    "h1": "Explorador: {a} e {b}",
+    "siteConditions": "Condições dos locais"
+  },
+  "compare": {
+    "title": "Pouso original vs. {n} dias depois",
+    "subtitle": "{d} dias na superfície a partir de cada data",
+    "original": "Original",
+    "delayed": "Atrasado +{n} d",
+    "metric": "Métrica",
+    "change": "O que o atraso muda",
+    "delta": "Mudança",
+    "search": "Encontrar uma data que atenda às restrições",
+    "minSun": "Luz solar mínima (%)",
+    "minEarth": "Terra visível mínima por dia (h)",
+    "maxDark": "Período escuro máximo (h)",
+    "from": "De",
+    "to": "Até",
+    "duration": "Estadia (dias)",
+    "run": "Buscar",
+    "firstMatch": "Primeira data que atende a tudo",
+    "noMatch": "Nenhuma data neste intervalo atende a todas as restrições.",
+    "scanned": "{n} datas analisadas",
+    "sensitivity": "Mapa de sensibilidade",
+    "sensitivityNote": "Luz solar numa grade de 100 m (±500 m) em volta do site A, cada ponto com o próprio horizonte de relevo. As células contornadas ficam a até 300 m: o P10–P90 delas é a faixa de posição mostrada junto a cada resultado.",
+    "linkNote": "Terra visível é uma linha de visada geométrica, não um orçamento de enlace de rádio.",
+    "delayDays": "Atraso (dias)",
+    "sensitivityScale": "grade de {spacing} m · ±{ext} m · {n} pts · N ↑ L →",
+    "withinRadius": "Até {m} m ({n} pts): P10–P90 (mediana)",
+    "minComm": "Contato mínimo por dia (h)",
+    "maxBattery": "Bateria máxima (kWh)",
+    "sensitivityNoTerrain": "Dados de relevo indisponíveis para este local (fora dos DEMs polares do LOLA).",
+    "sensitivityCustom": "O mapa de sensibilidade precisa de um local do catálogo com dados de relevo; coordenadas personalizadas não têm grade pré-calculada.",
+    "sensitivityLegend": "Luz solar no período, por célula",
+    "charts": {
+      "region": "Gráficos da comparação de atraso",
+      "posOriginal": "±300 m P10–P90 (data original)",
+      "c1": {
+        "title": "Original × +{n} dias",
+        "what": "Fração do período com Sol acima do horizonte, Terra visível e contato pela DSN, para os sites A e B na data original e {n} dias depois (barras mais escuras). Escala fixa de 0 a 100 %. Bigodes: faixa do disco; caixa tracejada: dispersão a até 300 m (data original, onde há grade de relevo).",
+        "summary": "Original × +{n} dias. {list}."
+      },
+      "c2": {
+        "title": "O que o atraso de {n} dias muda",
+        "what": "Mudança da data original para {n} dias depois, em A e B: horas de Sol, de Terra visível e de contato (uma escala em horas) e a bateria necessária (escala própria, kWh). Barras para a direita são ganhos. ≥ / ≤ / ≈: uma das duas baterias é só um mínimo (a noite passa do período).",
+        "hours": "Mudança em horas no período",
+        "battery": "Mudança na bateria (kWh)",
+        "summary": "O que o atraso de {n} dias muda. {list}."
+      }
+    }
+  },
+  "sky": {
+    "title": "Vista do céu a partir de {site}",
+    "panorama": "Panorama",
+    "terrain3d": "Relevo 3D",
+    "sphere": "horizonte de esfera lisa",
+    "why": "Por que o Sol está escondido aqui?",
+    "noTerrain": "Dados de relevo indisponíveis para este local (fora dos DEMs polares do LOLA).",
+    "present": "Apresentar",
+    "exaggeration": "escala vertical × {n}",
+    "skyline": "perfil do relevo",
+    "terrainSummary": "Relevo 3D em volta de {site}, iluminado pelo Sol em {time}. Sol visível {p} do período.",
+    "panoramaSummary": "{title}: Sol visível {p} do período. Agora: Sol {s}, Terra {e}.",
+    "caption3d": "NASA LOLA · exagero vertical ×{n} · {light} · sombras do relevo calculadas do heightmap",
+    "sunBelow": "Sol abaixo do horizonte",
+    "sunBehindTerrain": "Sol atrás do relevo",
+    "earthlight": "relevo iluminado pela luz da Terra",
+    "noDirectLight": "sem luz direta",
+    "skylineReference": "linha do relevo (referência)",
+    "siteGroup": "Local",
+    "viewGroup": "Vista",
+    "litSun": "iluminado pelo Sol no cursor",
+    "litEarth": "{where} — iluminado pela luz da Terra",
+    "litNone": "{where} — sem luz direta",
+    "trackStart": "início",
+    "trackEnd": "fim",
+    "trackLegend": "○ início · ● fim do período"
+  },
+  "analyst": {
+    "title": "Analista",
+    "note": "As respostas são montadas com resultados das ferramentas; o modelo não produz números.",
+    "placeholder": "Pergunte sobre um local, uma data ou um atraso",
+    "run": "Enviar",
+    "speak": "Falar",
+    "stop": "Parar gravação",
+    "listen": "Ouvir o resumo",
+    "stopVoice": "Parar voz",
+    "tools": "Chamadas de ferramentas",
+    "settings": "Configurações",
+    "model": "Modelo",
+    "readAloud": "Ler respostas em voz alta",
+    "level": "Nível da explicação",
+    "technical": "Técnico",
+    "classroom": "Sala de aula",
+    "examples": "Experimente",
+    "ex1": "Compare a borda de Shackleton e o IM-2 Athena para uma estadia de 30 dias a partir de 1º de julho de 2030.",
+    "ex2": "O pouso atrasou 10 dias. O que muda na borda de Shackleton?",
+    "ex3": "Encontre uma data de pouso entre julho e agosto de 2030 na borda de Shackleton com pelo menos 90% de luz solar em 14 dias.",
+    "disclosure": "Texto de um modelo de IA a partir dos resultados do Lunar Nav; voz da ElevenLabs (voz de IA).",
+    "thinking": "Planejando e chamando ferramentas…",
+    "provenance": "Fonte das efemérides: API do JPL Horizons",
+    "you": "Você",
+    "empty": "Faça uma pergunta para começar.",
+    "browserVoice": "Lido pela voz do seu navegador.",
+    "noVoice": "Nenhuma voz disponível neste navegador.",
+    "disclosureText": "Texto de um modelo de IA a partir dos resultados das ferramentas do Lunar Nav",
+    "voiceEleven": "voz da ElevenLabs (voz de IA)",
+    "voiceBrowser": "voz do próprio navegador",
+    "levelFollows": "Segue Técnico / Aprender na barra superior",
+    "readFull": "Ler a resposta completa",
+    "cachedAnswer": "resposta em cache",
+    "cachedTitle": "Resposta salva em {d} para esta mesma pergunta, cenário e modo; sem nova chamada à IA.",
+    "voiceLimit": "Lido pela voz do seu navegador: a voz de IA não está disponível agora.",
+    "micMax": "Gravação encerrada em 30 s."
+  },
+  "method": {
+    "title": "Metodologia e validação",
+    "intro": "O que cada número supõe, de onde vem e até onde foi conferido. Status: planejado, integração testada, verificado numericamente, validado para o escopo.",
+    "premises": "Premissas",
+    "validation": "Validação",
+    "check": "Verificação",
+    "status": "Status",
+    "result": "Resultado",
+    "notRun": "A validação ainda não foi executada neste servidor.",
+    "provenance": "Procedência do resultado atual",
+    "ai": "Uso de IA",
+    "sources": "Fontes",
+    "p": {
+      "eph": [
+        "Efemérides",
+        "JPL Horizons, DE441. Azimute e elevação topocêntricos para um observador na superfície lunar, sem atmosfera (sem refração)."
+      ],
+      "hor": [
+        "Horizonte",
+        "Esfera lisa ou uma máscara de relevo calculada com a elevação da NASA LOLA. Sempre indicado; nunca trocado em silêncio."
+      ],
+      "vis": [
+        "Visibilidade",
+        "Centro do corpo acima do horizonte, com a faixa do disco inteiro à primeira borda (raio 0,267° Sol, 0,95° Terra)."
+      ],
+      "link": [
+        "Terra visível / contato",
+        "Terra visível: linha de visada até o centro da Terra. Contato (DSN): Terra visível e pelo menos um complexo de 70 m da DSN vendo a Lua a ≥ 10°. Sem cálculo de enlace."
+      ],
+      "time": [
+        "Tempo",
+        "Métricas por intervalo entre amostras, cruzamentos do horizonte interpolados linearmente; passo escolhido por teste de convergência."
+      ],
+      "scope": [
+        "Fora do escopo",
+        "Segurança do pouso (declive, rochas, térmica). Os resultados valem só para o local, o período e as premissas indicados."
+      ]
+    },
+    "aiItems": [
+      "Textos em espanhol e português: traduções com assistência de IA.",
+      "Código escrito com assistência de IA."
+    ],
+    "limitsTitle": "Limites conhecidos",
+    "limitsIntro": "Medido em 2030-07-01 + 30 dias, modo relevo. Cada resultado mostra a faixa do disco e, onde há grade de relevo, a faixa de ±300 m.",
+    "limits": [
+      "A duração das noites é medida por inteiro para as noites que cruzam o período (séries ampliadas em 15 dias de cada lado); frações e energia usam só o período.",
+      "Posição do site: as coordenadas publicadas são aproximadas, e pousos reais podem errar o alvo por centenas de metros. Até 300 m, o Sol na crista de Shackleton tem P10–P90 de 48–73 % (centro 99,8 %); em Malapert, 0–97 %.",
+      "A faixa de ±300 m usa uma grade de 100 m sobre um DEM de 40 m (~2,5 pixels de distância), então mistura microrrelevo real com o limite de resolução do DEM.",
+      "Discos do Sol e da Terra: os valores usam o centro do corpo. Do disco inteiro à primeira borda: Sol em Shackleton 94,3–100 %, em Malapert 13,3–30,6 %; os ±0,95° da Terra mudam a Terra visível em 4–8 pontos.",
+      "Resolução do DEM: Sol em Shackleton 99,8 % com LOLA 40 m/px contra 91,4 % com 60 m/px; Malapert 21,1 % contra 29,8 %.",
+      "Terra visível é o centro do disco da Terra. Contato (DSN) também exige que um complexo de 70 m da DSN veja a Lua.",
+      "Só a DSN (3 complexos, ≥ 10°); missões reais podem usar outras redes; sem cálculo de enlace.",
+      "Observador a 2 m da superfície. Em Malapert o horizonte se forma a menos de 1 km em todas as direções, então a inclinação local e a altura do mastro importam.",
+      "O IM-2 usa o ponto de pouso planejado, não a posição real do pouso.",
+      "Referenciais: o Horizons e o LOLA usam o mesmo referencial Mean Earth/polar axis (ME) da Lua; as diferenças entre realizações das efemérides são da ordem de metros.",
+      "O Chandrayaan-3 (69,4°S) fica fora dos DEMs polares do LOLA usados aqui: sem horizonte de relevo.",
+      "Verificado e desprezível: passo de tempo 60 → 10 min (≤ 0,02 ponto), amostragem dos raios (≤ 0,05°), alcance do horizonte 150 → 300 km (≤ 0,19°).",
+      "Energia: distância Sol–Lua tomada como 1 UA; a variação anual de ±3,4% na luz solar é ignorada.",
+      "Energia: sem poeira e sem degradação do painel.",
+      "Energia: sem modelo térmico; os aquecedores entram na carga de sobrevivência informada.",
+      "Energia: o painel nunca é sombreado pelo próprio módulo.",
+      "Os valores de energia e bateria são ilustrativos e dependem das entradas mostradas; não são a especificação de nenhuma missão real."
+    ],
+    "pgda": {
+      "title": "Nosso modelo ({year}) × NASA PGDA (18,6 anos)",
+      "intro": "O nosso pipeline no ano inteiro, modo relevo, margem 0, contra o produto 69 da NASA PGDA (Mazarico et al. 2011). A PGDA conta um corpo como visível quando qualquer fração do disco aparece, então a comparação usa a nossa primeira borda; o nosso centro do disco vai entre parênteses. Nada foi ajustado para concordar.",
+      "cols": {
+        "site": "Local",
+        "model": "Modelo / mapa PGDA",
+        "sunOurs": "Sol, nosso (centro)",
+        "sunPgda": "Sol, PGDA",
+        "delta": "Δ pontos",
+        "sun300": "Sol, mediana 300 m, nosso / PGDA (Δ)",
+        "earthOurs": "Terra, nosso (centro)",
+        "earthPgda": "Terra, PGDA"
+      },
+      "ranking": "Mesmo ranking de Sol: {same}. Nosso: {ours}. PGDA: {pgda}.",
+      "yes": "sim",
+      "no": "não",
+      "notes": [
+        "O ranking dos 5 locais por luz solar é idêntico ao da NASA PGDA.",
+        "Malapert: o ponto difere −10,7 pontos, mas as medianas de 300 m concordam a até 4,8 pontos; o próprio mapa da NASA vai de 18,8 % a 29,0 % entre a leitura pelo pixel mais próximo e a bilinear nesse ponto, então a referência varia ~10 pontos ali.",
+        "Diferenças esperadas: 1 ano (2030) × 18,6 anos; DEM de 40/60 m × mapas de 60/120 m; observador a 2 m × na superfície.",
+        "No Chandrayaan-3 o mapa da PGDA tem 240 m e o nosso modelo não tem relevo ali (geométrico)."
+      ]
+    },
+    "aiAnalyst": "Analista: Claude (Anthropic). Usa as mesmas ferramentas do planejador e não gera números. Perguntas repetidas são respondidas a partir de um cache.",
+    "aiVoice": "A leitura em voz alta usa a ElevenLabs (voz de IA, identificada); se indisponível, a voz do próprio navegador.",
+    "aiMic": "A entrada por voz usa a conversão de fala em texto da ElevenLabs."
+  },
+  "report": {
+    "title": "Relatório do cenário",
+    "generated": "Gerado em",
+    "print": "Imprimir ou salvar em PDF",
+    "json": "Baixar JSON",
+    "csv": "Baixar CSV",
+    "md": "Baixar Markdown",
+    "assumptions": "Premissas e limites",
+    "assumptionsText": "Visibilidade do centro do corpo, com a faixa do disco inteiro à primeira borda e, onde há grade de relevo, o P10–P90 a até 300 m do site; modelo de horizonte indicado por site; coordenadas das fontes citadas (as coordenadas publicadas são aproximadas, e pousos reais podem errar o alvo por centenas de metros); Terra visível é linha de visada geométrica até o centro da Terra, não um enlace de rádio; não é uma avaliação de segurança de pouso.",
+    "analysis": "Notas do analista",
+    "noAnalysis": "Nenhuma resposta do analista anexada. Pergunte ao analista e use “Adicionar ao relatório”.",
+    "add": "Adicionar ao relatório",
+    "sunDisc": "Luz solar, faixa do disco",
+    "sunPos": "Luz solar, ±300 m (P10–P90)",
+    "earthDisc": "Terra visível, faixa do disco",
+    "earthPos": "Terra visível, ±300 m (P10–P90)",
+    "bothDisc": "Sol e Terra, faixa do disco",
+    "bothPos": "Sol e Terra, ±300 m (P10–P90)",
+    "commDisc": "Contato (DSN), faixa do disco",
+    "commPos": "Contato (DSN), ±300 m (P10–P90)",
+    "energyDisc": "Energia por dia, faixa do disco",
+    "energyPos": "Energia por dia, ±300 m (P10–P90)",
+    "batteryDisc": "Bateria, faixa do disco",
+    "batteryPos": "Bateria, ±300 m (P10–P90)",
+    "h1": "Relatório do cenário",
+    "method": "método {v}",
+    "step": "passo de {n} min",
+    "terrainState": {
+      "applied": "relevo aplicado",
+      "notRequested": "horizonte plano de 0°",
+      "unavailable": "relevo indisponível para este local",
+      "grid": "grade de relevo"
+    },
+    "longTermSpread": "Média de longo prazo a até 300 m (P10–P90)",
+    "psr": "Sombra permanente por perto (PGDA)"
+  },
+  "tour": {
+    "s1": [
+      "O problema",
+      "A data de pouso da sua missão atrasou. No polo sul lunar o Sol passa rente ao horizonte e a Terra se esconde atrás dele: pequenas mudanças de data ou de lugar mudam a energia e o contato com a Terra."
+    ],
+    "s2": [
+      "Dois locais, um cronograma",
+      "Os locais A e B são comparados na mesma estadia. O painel mostra a fração do tempo com luz solar e com a Terra visível, pelo JPL Horizons."
+    ],
+    "s3": [
+      "O horizonte",
+      "A vista do céu mostra onde o Sol e a Terra ficam em relação ao perfil do relevo. Com uma máscara da NASA LOLA, montanhas podem esconder o Sol mesmo acima do horizonte liso."
+    ],
+    "s4": [
+      "O atraso",
+      "Comparar mostra o pouso original contra um posterior e busca a próxima data que atende às suas restrições."
+    ],
+    "s5": [
+      "Pergunte ao analista",
+      "O analista responde em linguagem simples, no seu idioma, com os mesmos cálculos. Cada número aponta para a ferramenta que o produziu."
+    ]
+  },
+  "learn": {
+    "polar": "Nos polos o Sol nunca sobe muito: ele dá uma volta no horizonte a cada dia lunar (cerca de 29,5 dias terrestres).",
+    "libration": "A Terra fica quase parada no céu lunar, mas a libração a faz oscilar alguns graus ao longo de um mês. Perto do polo, isso basta para escondê-la.",
+    "terrain": "Sem atmosfera, o horizonte é só o relevo. Uma crista de um grau pode tapar o Sol por completo."
+  },
+  "svs": {
+    "title": "Contexto do Scientific Visualization Studio da NASA",
+    "credit": "Visualizações: Scientific Visualization Studio (SVS) da NASA. Abre svs.gsfc.nasa.gov.",
+    "offline": "só link"
+  },
+  "power": {
+    "title": "Energia e bateria",
+    "note": "Ilustrativo: as entradas são premissas, não a especificação de uma missão. A energia usa a visibilidade do Sol acima do horizonte escolhido; a bateria sustenta a carga de sobrevivência durante a noite mais longa.",
+    "panel": "Painel (W a 1361 W/m²)",
+    "orientation": "Orientação",
+    "vertical": "Vertical, segue o Sol",
+    "horizontal": "Horizontal",
+    "load": "Carga em operação (W)",
+    "survival": "Carga de sobrevivência (W)",
+    "dod": "Profundidade de descarga",
+    "whkg": "Energia do pack (Wh/kg)",
+    "reset": "Restaurar padrões",
+    "energy": "Energia por dia",
+    "balance": "Balanço médio diário",
+    "night": "Noite mais longa",
+    "battery": "Bateria necessária",
+    "batteryShort": "bateria",
+    "deficit": "Tempo em déficit",
+    "inputs": "Entradas de energia (ilustrativas): painel {panel} W, {orient}; carga em operação {load} W; carga de sobrevivência {surv} W; profundidade de descarga {dod}; {whkg} Wh/kg."
+  },
+  "help": {
+    "title": "Ajuda",
+    "intro": "Como usar cada tela, o que significam os termos e respostas curtas para dúvidas comuns.",
+    "howTitle": "Como usar",
+    "open": "Abrir",
+    "tour": "Iniciar o tour guiado",
+    "screens": {
+      "briefing": {
+        "title": "Briefing",
+        "text": "A página inicial: o desafio numa tela só e os dois locais padrão para comparar."
+      },
+      "explorer": {
+        "title": "Explorador",
+        "text": "Mapa, leituras de cada local com as faixas, energia e bateria, e a linha do tempo. Mude locais, datas, modo de horizonte e margens na barra superior."
+      },
+      "compare": {
+        "title": "Comparar",
+        "text": "Pouso original × atrasado, busca de datas que atendem às suas restrições e o mapa de sensibilidade de ±500 m."
+      },
+      "sky": {
+        "title": "Vista do céu",
+        "text": "Um panorama de 360° do horizonte com as trajetórias do Sol e da Terra, e o relevo 3D iluminado pelo Sol no momento escolhido."
+      },
+      "analyst": {
+        "title": "Analista",
+        "text": "Pergunte em linguagem comum. A IA responde só com os cálculos do próprio Lunar Nav e cita cada número."
+      },
+      "report": {
+        "title": "Relatório",
+        "text": "Um relatório do cenário para imprimir, com exportação em JSON, CSV e Markdown."
+      },
+      "methodology": {
+        "title": "Metodologia",
+        "text": "Premissas, limites conhecidos, status de validação, a procedência do resultado atual e as fontes."
+      },
+      "charts": {
+        "title": "Gráficos",
+        "text": "Seis gráficos, só de leitura, com os mesmos dados: sites lado a lado com suas faixas, 2030 mês a mês, nosso modelo × NASA PGDA, bateria necessária, o que um atraso muda e a dispersão em ±300 m no site A. Cada um tem uma tabela de dados."
+      }
+    },
+    "glossaryTitle": "Glossário",
+    "filter": "Filtrar termos",
+    "noMatch": "Nenhum termo corresponde a este filtro.",
+    "example": "No app",
+    "faqTitle": "Perguntas frequentes",
+    "faq": [
+      [
+        "Por que Shackleton mostra 99,8% de Sol, mas 48–73% a até 300 m?",
+        "O ponto publicado fica no alto de uma crista estreita. A poucas centenas de metros dali o relevo esconde o Sol baixo por mais tempo, então a precisão do pouso importa tanto quanto a escolha do local. As coordenadas publicadas são aproximadas, e pousos reais podem errar o alvo por centenas de metros."
+      ],
+      [
+        "O Lunar Nav diz se um local é seguro para pousar?",
+        "Não. Ele calcula a visibilidade do Sol e da Terra, o contato e um balanço de energia ilustrativo. Inclinação, rochas e condições térmicas estão fora do escopo."
+      ],
+      [
+        "Por que a Terra pode ficar mais visível no modo relevo?",
+        "Num platô alto como o do IM-2 (cerca de +5,3 km), o horizonte real fica abaixo de 0° em muitas direções, então a Terra continua visível um pouco abaixo do horizonte plano de 0°."
+      ],
+      [
+        "Os números de energia são especificações de missões reais?",
+        "Não. São ilustrativos: você escolhe o painel, as cargas e a bateria, e as premissas aparecem junto aos resultados."
+      ],
+      [
+        "De onde vêm os números?",
+        "Posições do Sol, da Terra e da Lua do JPL Horizons, relevo do LOLA da NASA e posições das antenas da DSN do DSN Telecommunications Link Design Handbook. Cada resultado traz a sua procedência."
+      ]
+    ],
+    "faqMethod": "Ver Metodologia",
+    "refsTitle": "Referências",
+    "refsText": "Todas as fontes de dados, artigos e serviços estão listados com links na Metodologia, em Fontes.",
+    "refsLink": "Abrir Metodologia → Fontes",
+    "terms": {
+      "azimuth": {
+        "title": "Azimute",
+        "def": "Direção ao longo do horizonte, medida no sentido horário a partir do norte (0° norte, 90° leste).",
+        "example": "A Vista do céu mostra a altura do horizonte no azimute do Sol."
+      },
+      "elevation": {
+        "title": "Elevação",
+        "def": "Ângulo de um corpo acima do horizonte matemático (0°). No polo sul da Lua o Sol fica dentro de cerca de ±1,5°.",
+        "example": "Na crista de Shackleton, em julho de 2030, o Sol fica entre 0,6° e 1,5°."
+      },
+      "horizon-mask": {
+        "title": "Máscara de horizonte (linha do horizonte)",
+        "def": "Elevação do horizonte real do relevo em cada direção, calculada com os dados de elevação do LOLA da NASA até 150 km."
+      },
+      "geometric-terrain": {
+        "title": "Modo geométrico × relevo",
+        "def": "O geométrico supõe um horizonte plano em 0°; o relevo usa a máscara de horizonte. O relevo pode diminuir ou aumentar a visibilidade.",
+        "example": "No modo relevo, o IM-2 perde 5,6 pontos de Sol, mas ganha 12 pontos de Terra visível."
+      },
+      "dem": {
+        "title": "DEM",
+        "def": "Modelo digital de elevação: uma grade de alturas da superfície. O Lunar Nav usa DEMs do LOLA com 40 m e 60 m por pixel."
+      },
+      "lola": {
+        "title": "LOLA",
+        "def": "Lunar Orbiter Laser Altimeter, o altímetro a laser do Lunar Reconnaissance Orbiter da NASA, que mediu o relevo da Lua."
+      },
+      "horizons": {
+        "title": "JPL Horizons",
+        "def": "Serviço da NASA/JPL que dá as posições precisas do Sol, da Terra e da Lua para qualquer lugar e momento."
+      },
+      "disc-range": {
+        "title": "Primeira borda / centro / disco inteiro",
+        "def": "O Sol conta como visível quando a primeira borda, o centro ou o disco inteiro está acima do horizonte. A faixa entre esses casos é a faixa do disco.",
+        "example": "Crista de Shackleton: 94,3–100% de Sol, do disco inteiro à primeira borda."
+      },
+      "p10-p90": {
+        "title": "P10–P90",
+        "def": "A faixa que contém os 80% centrais dos valores. Aqui, dos resultados nos pontos da grade a até 300 m do local.",
+        "example": "Sol na crista de Shackleton a até 300 m: 48–73%."
+      },
+      "earth-in-view": {
+        "title": "Terra visível",
+        "def": "O centro da Terra acima do horizonte local: uma linha de visada direta."
+      },
+      "dsn": {
+        "title": "DSN (Deep Space Network)",
+        "def": "A Rede de Espaço Profundo da NASA, com antenas de 70 m em Goldstone (EUA), Madri (Espanha) e Canberra (Austrália). Aqui, contato com a Terra significa Terra visível E pelo menos um complexo da DSN vendo a Lua a 10° ou mais.",
+        "example": "Em julho de 2030 os três complexos juntos viram a Lua 99,1% do tempo."
+      },
+      "longest-dark": {
+        "title": "Maior período escuro",
+        "def": "O maior tempo contínuo sem Sol, entre as noites que cruzam o período analisado, medido por inteiro (até 15 dias antes e depois dele). “≥” indica que pode ser ainda maior."
+      },
+      "panel-factor": {
+        "title": "Fator do painel",
+        "def": "Parcela da potência nominal do painel produzida em média, conforme o ângulo do Sol (painel vertical que segue o Sol: cosseno da elevação)."
+      },
+      "dod": {
+        "title": "Profundidade de descarga (DoD)",
+        "def": "Fração da capacidade da bateria que é realmente usada.",
+        "example": "Com o padrão de 0,8, uma bateria de 10 kWh entrega 8 kWh."
+      },
+      "libration": {
+        "title": "Libração",
+        "def": "A leve oscilação da Lua vista da Terra, que faz a Terra nascer e se pôr no horizonte polar ao longo do mês."
+      },
+      "set": {
+        "title": "Pôr da Terra / pôr do Sol",
+        "def": "O momento em que o corpo desce abaixo do horizonte local."
+      },
+      "provenance": {
+        "title": "Procedência",
+        "def": "O registro de onde veio cada número: fonte, parâmetros e versão."
+      },
+      "validation-status": {
+        "title": "Status de validação",
+        "def": "Até onde uma afirmação foi verificada: planejado → testado na integração → verificado numericamente → validado para o escopo."
+      },
+      "longest-gap": {
+        "title": "Maior intervalo sem Terra / contato",
+        "def": "O maior tempo contínuo sem a Terra visível (ou sem contato pela DSN), entre os intervalos que cruzam o período analisado, medido por inteiro. “≥” indica que pode ser ainda maior.",
+        "example": "Na crista de Shackleton a Terra se põe por cerca de 12 dias seguidos, então o intervalo sem contato é definido pela libração da Lua, não pela rede."
+      },
+      "pgda-average": {
+        "title": "Média de longo prazo (PGDA)",
+        "def": "Fração do tempo em que um lugar vê o Sol (ou a Terra) ao longo de um ciclo lunar completo de 18,6 anos, hora a hora, calculada pela NASA PGDA com o relevo do LOLA (Mazarico et al. 2011). Qualquer fração do disco conta. Não depende das datas que você escolhe.",
+        "example": "Crista de Shackleton: Sol 72,7%, Terra 51,9% (mapa de 60 m)."
+      },
+      "psr": {
+        "title": "Região de sombra permanente (PSR)",
+        "def": "Terreno que nunca vê nenhuma parte do Sol ao longo do ciclo de 18,6 anos, segundo o mapa da NASA PGDA. Armadilhas frias onde pode haver gelo; escuras para um módulo de pouso.",
+        "example": "A até 300 m de Malapert, 20% dos pixels da PGDA são sombra permanente."
+      }
+    }
+  },
+  "validation": {
+    "status": {
+      "integration tested": "testado na integração",
+      "numerically verified": "verificado numericamente",
+      "validated for scope": "validado para o escopo",
+      "planned": "planejado",
+      "failed": "falhou",
+      "error": "erro",
+      "needs smaller step": "precisa de passo menor",
+      "needs investigation": "precisa de investigação"
+    },
+    "names": {
+      "control": "Local de controle, {site}",
+      "dsn_convergence": "Convergência do passo de tempo, estações da DSN",
+      "dsn_coverage": "Cobertura da Lua pela DSN (sanidade)",
+      "convergence": "Convergência do passo de tempo, {site}",
+      "convergence_terrain": "Convergência do passo de tempo (relevo), {site}",
+      "terrain_mask": "Máscara de relevo, {site}",
+      "terrain_missing": "Máscara de relevo, {site}",
+      "sun_disc": "Faixa do disco do Sol (relevo), {site}",
+      "power": "Consistência da energia, {site}",
+      "full_nights": "Noites inteiras (janela de ±15 d), {site}",
+      "position": "Faixa de posição ±{radius} m, {site}",
+      "position_missing": "Faixa de posição, {site}",
+      "terrain_checks": "Checagens de relevo, {site}",
+      "pgda": "Checagem independente com a NASA PGDA"
+    },
+    "results": {
+      "control": "Terra visível {earth}%, elevação de {min}° a {max}°",
+      "dsn_convergence": "Lua ≥ {el}° na união da DSN: 60 min {u60} × 10 min {u10}; |Δ| máx. {diff} (tolerância {tol}); passo do app {step} min",
+      "dsn_coverage": "união {union}% de {days} dias, maior intervalo {gap} h; {stations}",
+      "convergence": "|Δ fração| máx. 60 min × 10 min = {diff} (tolerância {tol})",
+      "convergence_terrain": "|Δ fração| máx. 60 min × 10 min = {diff} (tolerância {tol})",
+      "terrain_mask": "máscara presente",
+      "terrain_missing": "ainda não gerada",
+      "sun_disc": "primeira borda {first}% · centro {centre}% · disco inteiro {full}% (r = {r}°)",
+      "power": "energia {energy} Wh × P × fator do painel × horas = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel}%, tolerância 0,1%); bateria {battery} kWh para uma noite de {night} h",
+      "full_nights": "noite mais longa {full} h inteira × {period} h só dentro do período; ainda mínimos: {bounds} de 3 (Sol, Terra, contato)",
+      "position": "Sol P10–P90 {s10}–{s90}% (mediana {smed}%) · Terra {e10}–{e90}% · {points} pontos a cada {spacing} m",
+      "position_missing": "sem grade de relevo para este local",
+      "pgda": "nosso {year} (primeira borda) × PGDA 18,6 anos: mesmo ranking de Sol: {same}; |Δ Sol| máx. nos sites com DEM de 40 m {max40} pontos; Δ Sol por site: {list}"
+    }
+  },
+  "charts": {
+    "title": "Gráficos",
+    "intro": "Os mesmos números do resto do app, desenhados lado a lado. Período do cenário: {d}, {n} dias. Cada gráfico diz o que mostra e tem uma tabela de dados abaixo.",
+    "modeNote": "horizonte de relevo onde há máscara LOLA; Chandrayaan-3 geométrico",
+    "what": "O que isto mostra",
+    "legend": "Legenda",
+    "table": "Tabela de dados",
+    "site": "Site",
+    "metric": "Métrica",
+    "value": "Valor",
+    "discRange": "Faixa do disco (disco inteiro → primeira borda)",
+    "posRange": "±300 m P10–P90",
+    "month": "Mês",
+    "yearMean": "Ano (ponderado por dias)",
+    "ours": "Nosso (2030, primeira borda)",
+    "points": "pontos",
+    "unavailable": "Indisponível: estas séries não estão no cache.",
+    "c1": {
+      "title": "Sites lado a lado",
+      "what": "Fração do período ({d}, {n} dias) com Sol acima do horizonte, Terra visível e contato pela DSN, por site. Bigodes: faixa do disco; caixas tracejadas: dispersão a até 300 m do site. Caixa larga significa que o ponto exato de pouso importa.",
+      "summary": "Sites lado a lado, {d}, {n} dias. {list}.",
+      "narrowNote": "Ch-3 = Chandrayaan-3 (horizonte geométrico); os outros sites usam o horizonte de relevo LOLA."
+    },
+    "c2": {
+      "title": "{year} mês a mês",
+      "what": "Fração de cada mês de {year} com Sol acima do horizonte (em cima) e Terra visível (embaixo), centro do disco, das execuções anuais em cache. O estilo da linha identifica o site.",
+      "sun": "Sol acima do horizonte (% do mês)",
+      "earth": "Terra visível (% do mês)",
+      "summary": "Mês a mês em {year}, faixa ao longo dos meses. {list}."
+    },
+    "c3": {
+      "title": "Nosso modelo × NASA PGDA",
+      "what": "Nosso ano {year} inteiro (primeira borda, como a PGDA conta) ao lado da média de 18,6 anos da NASA PGDA para cada site, com a diferença em pontos. Diferenças são esperadas (1 ano × 18,6 anos, modelos de elevação diferentes); a ordem é a verificação.",
+      "sun": "Luz solar",
+      "earth": "Terra visível",
+      "ranking": "Mesma ordem por luz solar: {same}.",
+      "summary": "Nosso modelo × NASA PGDA, ano {year}. Mesma ordem: {same}. Sol nosso × PGDA: {list}."
+    },
+    "c4": {
+      "title": "Bateria necessária por site",
+      "what": "Bateria para atravessar a noite mais longa em cada site (ilustrativo: painel de {panel} W, carga de sobrevivência de {surv} W, profundidade de descarga {dod}). Caixa tracejada: P10–P90 a até 300 m.",
+      "headline": "Onde você pousa importa mais do que quando.",
+      "note": "A até 300 m, a bateria varia até {w}; um atraso de {n} dias a muda no máximo {d}.",
+      "summary": "Bateria necessária por site. {list}.",
+      "headlineSome": "Onde você pousa importa mais do que quando em {k} de {n} sites ({list}).",
+      "except": "Em {site}, a faixa de ±300 m ({w}) é menor do que a mudança causada por um atraso de {n} dias ({d})."
+    },
+    "c5": {
+      "title": "O que um atraso de {n} dias muda",
+      "what": "Para cada site: horas de luz do pouso até o primeiro pôr do sol e fração do período com contato com a Terra, na data original e {n} dias depois. 0 h significa que o site está no escuro no pouso.",
+      "daylight": "Luz antes da primeira noite",
+      "dark": "escuro no pouso",
+      "summary": "O que um atraso de {n} dias muda, original → atrasado. {list}."
+    },
+    "c6": {
+      "title": "Sensibilidade: luz solar a até 300 m",
+      "what": "Como se distribui a luz solar dos pontos da grade a até {m} m de {site} (mesmo relevo, cada ponto com o próprio horizonte). Histograma espalhado significa que a precisão do pouso decide o resultado.",
+      "points": "Pontos da grade",
+      "sitePoint": "Ponto da grade no site",
+      "count": "Pontos",
+      "none": "Sem grade de relevo para o site A: escolha um site com máscara LOLA.",
+      "summary": "Luz solar de {n} pontos da grade a até {m} m de {site}: P10 {p10}, P90 {p90}; o ponto do site tem {point}."
+    }
+  },
+  "limits": {
+    "generic": "Algo deu errado. Tente de novo em instantes.",
+    "question_empty": "Digite uma pergunta.",
+    "question_too_long": "As perguntas têm limite de 500 caracteres. Encurte a sua, por favor.",
+    "analyst_ip": "Você fez muitas perguntas nesta hora. Tente de novo um pouco mais tarde — as respostas de perguntas já feitas continuam disponíveis.",
+    "analyst_daily": "O analista atingiu o limite de hoje. Volte amanhã — as respostas de perguntas já feitas continuam disponíveis.",
+    "analyst_unavailable": "O analista não está disponível agora. Tente de novo mais tarde.",
+    "tts_ip": "Você usou bastante a voz de IA nesta hora; lendo com a voz do seu navegador.",
+    "tts_daily": "A voz de IA atingiu o limite de hoje; lendo com a voz do seu navegador.",
+    "tts_unavailable": "A voz de IA não está disponível agora; lendo com a voz do seu navegador.",
+    "stt_ip": "A entrada por voz atingiu o limite desta hora. Digite sua pergunta ou tente mais tarde.",
+    "stt_daily": "A entrada por voz atingiu o limite de hoje. Digite sua pergunta, por favor.",
+    "stt_too_long": "As gravações têm limite de 30 segundos. Tente uma pergunta mais curta.",
+    "stt_empty": "Nenhum áudio foi gravado. Tente de novo.",
+    "stt_unavailable": "A entrada por voz não está disponível agora. Digite sua pergunta, por favor.",
+    "bad_request": "Algo deu errado. Tente de novo em instantes."
+  }
+}

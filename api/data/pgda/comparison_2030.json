@@ -1,0 +1,161 @@
+{
+    "year": 2030,
+    "criterion": "first limb (any fraction of the disc), as in the PGDA labels; disc centre shown for information",
+    "rows": [
+        {
+            "site": "shackleton_ridge",
+            "available": true,
+            "mode": "terrain",
+            "dem_m": 40,
+            "pgda_resolution_m": 60,
+            "ours": {
+                "sun_centre": 0.7768,
+                "sun_first_limb": 0.8197,
+                "earth_centre": 0.4902,
+                "earth_first_limb": 0.5361,
+                "sun_first_limb_median_300m": 0.5168,
+                "earth_first_limb_median_300m": 0.3678
+            },
+            "pgda": {
+                "sun": 0.7268,
+                "earth": 0.5192,
+                "sun_median_300m": 0.4835,
+                "earth_median_300m": 0.4843
+            },
+            "delta_points": {
+                "sun": 9.3,
+                "earth": 1.7,
+                "sun_median_300m": 3.3,
+                "earth_median_300m": -11.7
+            }
+        },
+        {
+            "site": "im2_athena",
+            "available": true,
+            "mode": "terrain",
+            "dem_m": 40,
+            "pgda_resolution_m": 120,
+            "ours": {
+                "sun_centre": 0.4382,
+                "sun_first_limb": 0.4523,
+                "earth_centre": 0.8103,
+                "earth_first_limb": 0.8998,
+                "sun_first_limb_median_300m": 0.4527,
+                "earth_first_limb_median_300m": 0.8962
+            },
+            "pgda": {
+                "sun": 0.4641,
+                "earth": 0.931,
+                "sun_median_300m": 0.4628,
+                "earth_median_300m": 0.9287
+            },
+            "delta_points": {
+                "sun": -1.2,
+                "earth": -3.1,
+                "sun_median_300m": -1,
+                "earth_median_300m": -3.3
+            }
+        },
+        {
+            "site": "im1_odysseus",
+            "available": true,
+            "mode": "terrain",
+            "dem_m": 60,
+            "pgda_resolution_m": 120,
+            "ours": {
+                "sun_centre": 0.3811,
+                "sun_first_limb": 0.3876,
+                "earth_centre": 1,
+                "earth_first_limb": 1,
+                "sun_first_limb_median_300m": 0.3911,
+                "earth_first_limb_median_300m": 1
+            },
+            "pgda": {
+                "sun": 0.3559,
+                "earth": 1,
+                "sun_median_300m": 0.3659,
+                "earth_median_300m": 1
+            },
+            "delta_points": {
+                "sun": 3.2,
+                "earth": 0,
+                "sun_median_300m": 2.5,
+                "earth_median_300m": 0
+            }
+        },
+        {
+            "site": "malapert_m1",
+            "available": true,
+            "mode": "terrain",
+            "dem_m": 40,
+            "pgda_resolution_m": 60,
+            "ours": {
+                "sun_centre": 0.14,
+                "sun_first_limb": 0.1826,
+                "earth_centre": 0.4798,
+                "earth_first_limb": 0.5246,
+                "sun_first_limb_median_300m": 0.3551,
+                "earth_first_limb_median_300m": 0.5117
+            },
+            "pgda": {
+                "sun": 0.2898,
+                "earth": 0.5078,
+                "sun_median_300m": 0.3073,
+                "earth_median_300m": 0.4646
+            },
+            "delta_points": {
+                "sun": -10.7,
+                "earth": 1.7,
+                "sun_median_300m": 4.8,
+                "earth_median_300m": 4.7
+            }
+        },
+        {
+            "site": "chandrayaan3",
+            "available": true,
+            "mode": "geometric",
+            "dem_m": null,
+            "pgda_resolution_m": 240,
+            "ours": {
+                "sun_centre": 0.4924,
+                "sun_first_limb": 0.4966,
+                "earth_centre": 1,
+                "earth_first_limb": 1,
+                "sun_first_limb_median_300m": null,
+                "earth_first_limb_median_300m": null
+            },
+            "pgda": {
+                "sun": 0.4806,
+                "earth": 1,
+                "sun_median_300m": 0.482,
+                "earth_median_300m": 1
+            },
+            "delta_points": {
+                "sun": 1.6,
+                "earth": 0,
+                "sun_median_300m": null,
+                "earth_median_300m": null
+            }
+        }
+    ],
+    "ranking": {
+        "ours": [
+            "shackleton_ridge",
+            "chandrayaan3",
+            "im2_athena",
+            "im1_odysseus",
+            "malapert_m1"
+        ],
+        "pgda": [
+            "shackleton_ridge",
+            "chandrayaan3",
+            "im2_athena",
+            "im1_odysseus",
+            "malapert_m1"
+        ],
+        "same": true
+    },
+    "max_abs_delta_sun_dem40": 10.7,
+    "status": "needs investigation",
+    "computed_at": "2026-11-15T10:23:15+00:00"
+}

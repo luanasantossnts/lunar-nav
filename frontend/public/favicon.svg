@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="t">
+  <title id="t">Lunar Nav</title>
+  <desc>Vector logo for Lunar Nav (team Lumi Lunar, Luana Santos). Drawn as hand-specified geometry in code written with AI assistance (Claude); no image-generation model used. Wordmark outlines from Inter, SIL Open Font License 1.1.</desc>
+  <rect width="64" height="64" rx="14" fill="#080B12"/>
+  <defs><clipPath id="f-above"><path d="M-2 0 H66 V48 H62 Q32 19 2 48 H-2 Z"/></clipPath></defs>
+  <g aria-hidden="true">
+    <circle cx="19" cy="36.22" r="10.5" fill="#FACC15" clip-path="url(#f-above)"/>
+    <circle cx="46" cy="19" r="11" fill="#06B6D4"/>
+    <path d="M2 48 Q32 19 62 48 Q32 33 2 48 Z" fill="#6B7280"/>
+  </g>
+</svg>

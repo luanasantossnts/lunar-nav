@@ -1,0 +1,650 @@
+{
+    "status": "run",
+    "generated_at": "2026-11-15T10:24:33+00:00",
+    "method_version": "1.0.0",
+    "period": {
+        "start": "2030-07-01",
+        "days": 30
+    },
+    "checks": [
+        {
+            "id": "control_apollo11",
+            "key": "control",
+            "params": {
+                "site": "apollo11",
+                "earth": "100.0",
+                "min": "59.55",
+                "max": "71.66"
+            },
+            "name": "Control site, Apollo 11",
+            "status": "integration tested",
+            "result": "Earth in view 100.0%, elevation 59.55° to 71.66°"
+        },
+        {
+            "id": "convergence_dsn",
+            "key": "dsn_convergence",
+            "params": {
+                "el": "10",
+                "u60": "0.9909",
+                "u10": "0.9913",
+                "diff": "0.0004",
+                "tol": "0.005",
+                "step": "60"
+            },
+            "name": "Time-step convergence, DSN stations",
+            "status": "numerically verified",
+            "result": "Moon ≥ 10° at DSN union: 60 min 0.9909 vs 10 min 0.9913; max |Δ| (union and stations) 0.0004 (tolerance 0.005); app step 60 min",
+            "detail": {
+                "60": {
+                    "union": 0.9909,
+                    "longest_gap_h": 0.69,
+                    "stations": {
+                        "DSS-14": 0.4314,
+                        "DSS-43": 0.4083,
+                        "DSS-63": 0.4271
+                    },
+                    "min_elevation_deg": 10,
+                    "step_minutes": 60
+                },
+                "10": {
+                    "union": 0.9913,
+                    "longest_gap_h": 0.67,
+                    "stations": {
+                        "DSS-14": 0.4314,
+                        "DSS-43": 0.4086,
+                        "DSS-63": 0.4273
+                    },
+                    "min_elevation_deg": 10,
+                    "step_minutes": 10
+                }
+            }
+        },
+        {
+            "id": "dsn_coverage",
+            "key": "dsn_coverage",
+            "params": {
+                "union": "99.1",
+                "days": "30",
+                "gap": "0.67",
+                "stations": "DSS-14 43.1% · DSS-43 40.9% · DSS-63 42.7%"
+            },
+            "name": "DSN coverage of the Moon (sanity)",
+            "status": "integration tested",
+            "result": "union 99.1% of 30 days, longest gap 0.67 h; DSS-14 43.1% · DSS-43 40.9% · DSS-63 42.7%",
+            "detail": {
+                "union": 0.9913,
+                "longest_gap_h": 0.67,
+                "stations": {
+                    "DSS-14": 0.4314,
+                    "DSS-43": 0.4086,
+                    "DSS-63": 0.4273
+                },
+                "min_elevation_deg": 10,
+                "step_minutes": 10
+            }
+        },
+        {
+            "id": "convergence_shackleton_ridge",
+            "key": "convergence",
+            "params": {
+                "site": "shackleton_ridge",
+                "diff": "0.0000",
+                "tol": "0.005"
+            },
+            "name": "Time-step convergence, shackleton_ridge",
+            "status": "numerically verified",
+            "result": "max |Δ fraction| 60 min vs 10 min = 0.0000 (tolerance 0.005)",
+            "detail": {
+                "60": {
+                    "days": 30,
+                    "sun": 1,
+                    "earth": 0.4289,
+                    "both": 0.4289
+                },
+                "10": {
+                    "days": 30,
+                    "sun": 1,
+                    "earth": 0.4289,
+                    "both": 0.4289
+                },
+                "1": {
+                    "days": 7,
+                    "sun": 1,
+                    "earth": 0,
+                    "both": 0
+                }
+            }
+        },
+        {
+            "id": "terrain_shackleton_ridge",
+            "key": "terrain_mask",
+            "params": {
+                "site": "shackleton_ridge"
+            },
+            "name": "Terrain mask, shackleton_ridge",
+            "status": "integration tested",
+            "result": "mask present"
+        },
+        {
+            "id": "convergence_terrain_shackleton_ridge",
+            "key": "convergence_terrain",
+            "params": {
+                "site": "shackleton_ridge",
+                "diff": "0.0002",
+                "tol": "0.005"
+            },
+            "name": "Time-step convergence (terrain), shackleton_ridge",
+            "status": "numerically verified",
+            "result": "max |Δ fraction| 60 min vs 10 min = 0.0002 (tolerance 0.005)",
+            "detail": {
+                "60": {
+                    "sun": 0.9976,
+                    "earth": 0.4252,
+                    "both": 0.4227
+                },
+                "10": {
+                    "sun": 0.9974,
+                    "earth": 0.4252,
+                    "both": 0.4226
+                }
+            }
+        },
+        {
+            "id": "sun_disc_shackleton_ridge",
+            "key": "sun_disc",
+            "params": {
+                "site": "shackleton_ridge",
+                "first": "100.0",
+                "centre": "99.8",
+                "full": "94.3",
+                "r": "0.267"
+            },
+            "name": "Sun disc range (terrain), shackleton_ridge",
+            "status": "integration tested",
+            "result": "first limb 100.0% · centre 99.8% · full disc 94.3% (r = 0.267°)",
+            "detail": {
+                "first_limb": {
+                    "fraction": 1,
+                    "hours": 720
+                },
+                "centre": {
+                    "fraction": 0.9976,
+                    "hours": 718.25
+                },
+                "full_disc": {
+                    "fraction": 0.9431,
+                    "hours": 679.04
+                },
+                "radius_deg": 0.267
+            }
+        },
+        {
+            "id": "power_consistency_shackleton_ridge",
+            "key": "power",
+            "params": {
+                "site": "shackleton_ridge",
+                "energy": "287254.4",
+                "p": "400",
+                "pf": "0.9974",
+                "hours": "720",
+                "expected": "287251.2",
+                "rel": "0.001",
+                "battery": "0.13",
+                "night": "1.8"
+            },
+            "name": "Power consistency, shackleton_ridge",
+            "status": "numerically verified",
+            "result": "energy 287254.4 Wh vs P × panel_factor × hours = 400 × 0.9974 × 720 = 287251.2 Wh (|Δ| 0.001%, tolerance 0.1%); battery 0.13 kWh for a 1.8 h night"
+        },
+        {
+            "id": "full_nights_shackleton_ridge",
+            "key": "full_nights",
+            "params": {
+                "site": "shackleton_ridge",
+                "full": "1.8",
+                "period": "1.8",
+                "bounds": "0"
+            },
+            "name": "Full nights (±15 d window), shackleton_ridge",
+            "status": "numerically verified",
+            "result": "longest night 1.8 h in full vs 1.8 h within the period only; still lower bounds: 0 of 3 (Sun, Earth, contact)"
+        },
+        {
+            "id": "position_shackleton_ridge",
+            "key": "position",
+            "params": {
+                "site": "shackleton_ridge",
+                "radius": "300",
+                "s10": "48.1",
+                "s90": "73.3",
+                "smed": "56.6",
+                "e10": "0.0",
+                "e90": "42.6",
+                "points": "29",
+                "spacing": "100"
+            },
+            "name": "Position spread ±300 m, shackleton_ridge",
+            "status": "integration tested",
+            "result": "Sun P10–P90 48.1–73.3% (median 56.6%) · Earth 0.0–42.6% · 29 points at 100 m",
+            "detail": {
+                "available": true,
+                "radius_m": 300,
+                "spacing_m": 100,
+                "points": 29,
+                "sun": {
+                    "p10": 0.4806,
+                    "median": 0.5662,
+                    "p90": 0.7333
+                },
+                "earth": {
+                    "p10": 0,
+                    "median": 0.2615,
+                    "p90": 0.4259
+                },
+                "both": {
+                    "p10": 0,
+                    "median": 0.0251,
+                    "p90": 0.3873
+                },
+                "comm": {
+                    "p10": 0,
+                    "median": 0.2602,
+                    "p90": 0.422
+                },
+                "energy_wh_per_day": {
+                    "p10": 4612.58,
+                    "median": 5435,
+                    "p90": 7038.78
+                },
+                "longest_night_h": {
+                    "p10": 190.146,
+                    "median": 310.69,
+                    "p90": 372.974,
+                    "lower_bound": {
+                        "p10": false,
+                        "median": false,
+                        "p90": true
+                    }
+                },
+                "battery_kwh": {
+                    "p10": 14.2608,
+                    "median": 23.302,
+                    "p90": 27.9734,
+                    "lower_bound": {
+                        "p10": false,
+                        "median": false,
+                        "p90": true
+                    }
+                }
+            }
+        },
+        {
+            "id": "convergence_im2_athena",
+            "key": "convergence",
+            "params": {
+                "site": "im2_athena",
+                "diff": "0.0000",
+                "tol": "0.005"
+            },
+            "name": "Time-step convergence, im2_athena",
+            "status": "numerically verified",
+            "result": "max |Δ fraction| 60 min vs 10 min = 0.0000 (tolerance 0.005)",
+            "detail": {
+                "60": {
+                    "days": 30,
+                    "sun": 0.5457,
+                    "earth": 0.6792,
+                    "both": 0.3778
+                },
+                "10": {
+                    "days": 30,
+                    "sun": 0.5457,
+                    "earth": 0.6792,
+                    "both": 0.3778
+                },
+                "1": {
+                    "days": 7,
+                    "sun": 0.4296,
+                    "earth": 0.152,
+                    "both": 0
+                }
+            }
+        },
+        {
+            "id": "terrain_im2_athena",
+            "key": "terrain_mask",
+            "params": {
+                "site": "im2_athena"
+            },
+            "name": "Terrain mask, im2_athena",
+            "status": "integration tested",
+            "result": "mask present"
+        },
+        {
+            "id": "convergence_terrain_im2_athena",
+            "key": "convergence_terrain",
+            "params": {
+                "site": "im2_athena",
+                "diff": "0.0001",
+                "tol": "0.005"
+            },
+            "name": "Time-step convergence (terrain), im2_athena",
+            "status": "numerically verified",
+            "result": "max |Δ fraction| 60 min vs 10 min = 0.0001 (tolerance 0.005)",
+            "detail": {
+                "60": {
+                    "sun": 0.4898,
+                    "earth": 0.8015,
+                    "both": 0.417
+                },
+                "10": {
+                    "sun": 0.4898,
+                    "earth": 0.8015,
+                    "both": 0.4169
+                }
+            }
+        },
+        {
+            "id": "sun_disc_im2_athena",
+            "key": "sun_disc",
+            "params": {
+                "site": "im2_athena",
+                "first": "49.7",
+                "centre": "49.0",
+                "full": "48.3",
+                "r": "0.267"
+            },
+            "name": "Sun disc range (terrain), im2_athena",
+            "status": "integration tested",
+            "result": "first limb 49.7% · centre 49.0% · full disc 48.3% (r = 0.267°)",
+            "detail": {
+                "first_limb": {
+                    "fraction": 0.4972,
+                    "hours": 357.99
+                },
+                "centre": {
+                    "fraction": 0.4898,
+                    "hours": 352.64
+                },
+                "full_disc": {
+                    "fraction": 0.4829,
+                    "hours": 347.69
+                },
+                "radius_deg": 0.267
+            }
+        },
+        {
+            "id": "power_consistency_im2_athena",
+            "key": "power",
+            "params": {
+                "site": "im2_athena",
+                "energy": "140616.9",
+                "p": "400",
+                "pf": "0.4883",
+                "hours": "720",
+                "expected": "140630.4",
+                "rel": "0.010",
+                "battery": "27.25",
+                "night": "363.4"
+            },
+            "name": "Power consistency, im2_athena",
+            "status": "numerically verified",
+            "result": "energy 140616.9 Wh vs P × panel_factor × hours = 400 × 0.4883 × 720 = 140630.4 Wh (|Δ| 0.010%, tolerance 0.1%); battery 27.25 kWh for a 363.4 h night"
+        },
+        {
+            "id": "full_nights_im2_athena",
+            "key": "full_nights",
+            "params": {
+                "site": "im2_athena",
+                "full": "363.4",
+                "period": "229.2",
+                "bounds": "0"
+            },
+            "name": "Full nights (±15 d window), im2_athena",
+            "status": "numerically verified",
+            "result": "longest night 363.4 h in full vs 229.2 h within the period only; still lower bounds: 0 of 3 (Sun, Earth, contact)"
+        },
+        {
+            "id": "position_im2_athena",
+            "key": "position",
+            "params": {
+                "site": "im2_athena",
+                "radius": "300",
+                "s10": "48.3",
+                "s90": "49.3",
+                "smed": "48.9",
+                "e10": "78.6",
+                "e90": "80.9",
+                "points": "29",
+                "spacing": "100"
+            },
+            "name": "Position spread ±300 m, im2_athena",
+            "status": "integration tested",
+            "result": "Sun P10–P90 48.3–49.3% (median 48.9%) · Earth 78.6–80.9% · 29 points at 100 m",
+            "detail": {
+                "available": true,
+                "radius_m": 300,
+                "spacing_m": 100,
+                "points": 29,
+                "sun": {
+                    "p10": 0.4828,
+                    "median": 0.4891,
+                    "p90": 0.4927
+                },
+                "earth": {
+                    "p10": 0.7865,
+                    "median": 0.7985,
+                    "p90": 0.8088
+                },
+                "both": {
+                    "p10": 0.4089,
+                    "median": 0.4163,
+                    "p90": 0.4211
+                },
+                "comm": {
+                    "p10": 0.7783,
+                    "median": 0.7903,
+                    "p90": 0.8006
+                },
+                "energy_wh_per_day": {
+                    "p10": 4619.74,
+                    "median": 4680.7,
+                    "p90": 4715.48
+                },
+                "longest_night_h": {
+                    "p10": 362.502,
+                    "median": 365.35,
+                    "p90": 370.474,
+                    "lower_bound": {
+                        "p10": false,
+                        "median": false,
+                        "p90": false
+                    }
+                },
+                "battery_kwh": {
+                    "p10": 27.1878,
+                    "median": 27.402,
+                    "p90": 27.7852,
+                    "lower_bound": {
+                        "p10": false,
+                        "median": false,
+                        "p90": false
+                    }
+                }
+            }
+        },
+        {
+            "id": "pgda_reference",
+            "key": "pgda",
+            "params": {
+                "year": "2030",
+                "same": "yes",
+                "max40": "10.7",
+                "list": "shackleton_ridge +9.3 · im2_athena -1.2 · im1_odysseus +3.2 · malapert_m1 -10.7 · chandrayaan3 +1.6"
+            },
+            "name": "Independent check vs NASA PGDA",
+            "status": "needs investigation",
+            "result": "our 2030 (first limb) vs PGDA 18.6-yr: Sun ranking same: yes; max |Δ Sun| at 40 m DEM sites 10.7 points; Δ Sun per site: shackleton_ridge +9.3 · im2_athena -1.2 · im1_odysseus +3.2 · malapert_m1 -10.7 · chandrayaan3 +1.6",
+            "detail": {
+                "year": 2030,
+                "criterion": "first limb (any fraction of the disc), as in the PGDA labels; disc centre shown for information",
+                "rows": [
+                    {
+                        "site": "shackleton_ridge",
+                        "available": true,
+                        "mode": "terrain",
+                        "dem_m": 40,
+                        "pgda_resolution_m": 60,
+                        "ours": {
+                            "sun_centre": 0.7768,
+                            "sun_first_limb": 0.8197,
+                            "earth_centre": 0.4902,
+                            "earth_first_limb": 0.5361,
+                            "sun_first_limb_median_300m": 0.5168,
+                            "earth_first_limb_median_300m": 0.3678
+                        },
+                        "pgda": {
+                            "sun": 0.7268,
+                            "earth": 0.5192,
+                            "sun_median_300m": 0.4835,
+                            "earth_median_300m": 0.4843
+                        },
+                        "delta_points": {
+                            "sun": 9.3,
+                            "earth": 1.7,
+                            "sun_median_300m": 3.3,
+                            "earth_median_300m": -11.7
+                        }
+                    },
+                    {
+                        "site": "im2_athena",
+                        "available": true,
+                        "mode": "terrain",
+                        "dem_m": 40,
+                        "pgda_resolution_m": 120,
+                        "ours": {
+                            "sun_centre": 0.4382,
+                            "sun_first_limb": 0.4523,
+                            "earth_centre": 0.8103,
+                            "earth_first_limb": 0.8998,
+                            "sun_first_limb_median_300m": 0.4527,
+                            "earth_first_limb_median_300m": 0.8962
+                        },
+                        "pgda": {
+                            "sun": 0.4641,
+                            "earth": 0.931,
+                            "sun_median_300m": 0.4628,
+                            "earth_median_300m": 0.9287
+                        },
+                        "delta_points": {
+                            "sun": -1.2,
+                            "earth": -3.1,
+                            "sun_median_300m": -1,
+                            "earth_median_300m": -3.3
+                        }
+                    },
+                    {
+                        "site": "im1_odysseus",
+                        "available": true,
+                        "mode": "terrain",
+                        "dem_m": 60,
+                        "pgda_resolution_m": 120,
+                        "ours": {
+                            "sun_centre": 0.3811,
+                            "sun_first_limb": 0.3876,
+                            "earth_centre": 1,
+                            "earth_first_limb": 1,
+                            "sun_first_limb_median_300m": 0.3911,
+                            "earth_first_limb_median_300m": 1
+                        },
+                        "pgda": {
+                            "sun": 0.3559,
+                            "earth": 1,
+                            "sun_median_300m": 0.3659,
+                            "earth_median_300m": 1
+                        },
+                        "delta_points": {
+                            "sun": 3.2,
+                            "earth": 0,
+                            "sun_median_300m": 2.5,
+                            "earth_median_300m": 0
+                        }
+                    },
+                    {
+                        "site": "malapert_m1",
+                        "available": true,
+                        "mode": "terrain",
+                        "dem_m": 40,
+                        "pgda_resolution_m": 60,
+                        "ours": {
+                            "sun_centre": 0.14,
+                            "sun_first_limb": 0.1826,
+                            "earth_centre": 0.4798,
+                            "earth_first_limb": 0.5246,
+                            "sun_first_limb_median_300m": 0.3551,
+                            "earth_first_limb_median_300m": 0.5117
+                        },
+                        "pgda": {
+                            "sun": 0.2898,
+                            "earth": 0.5078,
+                            "sun_median_300m": 0.3073,
+                            "earth_median_300m": 0.4646
+                        },
+                        "delta_points": {
+                            "sun": -10.7,
+                            "earth": 1.7,
+                            "sun_median_300m": 4.8,
+                            "earth_median_300m": 4.7
+                        }
+                    },
+                    {
+                        "site": "chandrayaan3",
+                        "available": true,
+                        "mode": "geometric",
+                        "dem_m": null,
+                        "pgda_resolution_m": 240,
+                        "ours": {
+                            "sun_centre": 0.4924,
+                            "sun_first_limb": 0.4966,
+                            "earth_centre": 1,
+                            "earth_first_limb": 1,
+                            "sun_first_limb_median_300m": null,
+                            "earth_first_limb_median_300m": null
+                        },
+                        "pgda": {
+                            "sun": 0.4806,
+                            "earth": 1,
+                            "sun_median_300m": 0.482,
+                            "earth_median_300m": 1
+                        },
+                        "delta_points": {
+                            "sun": 1.6,
+                            "earth": 0,
+                            "sun_median_300m": null,
+                            "earth_median_300m": null
+                        }
+                    }
+                ],
+                "ranking": {
+                    "ours": [
+                        "shackleton_ridge",
+                        "chandrayaan3",
+                        "im2_athena",
+                        "im1_odysseus",
+                        "malapert_m1"
+                    ],
+                    "pgda": [
+                        "shackleton_ridge",
+                        "chandrayaan3",
+                        "im2_athena",
+                        "im1_odysseus",
+                        "malapert_m1"
+                    ],
+                    "same": true
+                },
+                "max_abs_delta_sun_dem40": 10.7,
+                "status": "needs investigation"
+            }
+        }
+    ]
+}

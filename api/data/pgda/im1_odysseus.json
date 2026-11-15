@@ -1,0 +1,60 @@
+{
+ "site_id": "im1_odysseus",
+ "available": true,
+ "lat": -80.13,
+ "lon": 1.44,
+ "sun": {
+  "at_site": 0.3559,
+  "within_300m": {
+   "p10": 0.3147,
+   "median": 0.3659,
+   "p90": 0.4024,
+   "pixels": 16
+  },
+  "within_1km": {
+   "p10": 0.3156,
+   "median": 0.4149,
+   "p90": 0.4509,
+   "pixels": 216
+  }
+ },
+ "earth": {
+  "at_site": 1.0,
+  "within_300m": {
+   "p10": 1.0,
+   "median": 1.0,
+   "p90": 1.0,
+   "pixels": 16
+  },
+  "within_1km": {
+   "p10": 0.8103,
+   "median": 1.0,
+   "p90": 1.0,
+   "pixels": 216
+  }
+ },
+ "psr": {
+  "at_site": false,
+  "fraction_300m": 0.0,
+  "fraction_1km": 0.0093
+ },
+ "product": {
+  "name": "NASA PGDA 69 · LOLA AVGVISIB_75S_120M_201608 / _EARTH / LPSR_75S_120M_201608",
+  "version": "V1.05 (2016-09-15)",
+  "resolution_m": 120,
+  "period": "≈18.6 years (one lunar nutation cycle), hourly time steps",
+  "units": "fraction of time steps (0–1)",
+  "criterion": {
+   "sun": "percentage of timesteps where each pixel was sunlit (by any fraction of the solar disc)",
+   "earth": "percentage of timesteps where each pixel was sunlit (by any fraction of the Earth disc)"
+  },
+  "observer": "at the DEM surface (no height above ground stated in the product labels)",
+  "files": {
+   "sun": "https://pgda.gsfc.nasa.gov/data/MoonIllumination/AVGVISIB_75S_120M_201608.TIF",
+   "earth": "https://pgda.gsfc.nasa.gov/data/MoonIllumination/AVGVISIB_75S_120M_201608_EARTH.TIF",
+   "psr": "https://pgda.gsfc.nasa.gov/data/MoonIllumination/LPSR_75S_120M_201608.TIF"
+  },
+  "page": "https://pgda.gsfc.nasa.gov/products/69",
+  "citation": "Mazarico, E., Neumann, G. A., Smith, D. E., Zuber, M. T., Torrence, M. H. (2011). Illumination conditions of the lunar polar regions using LOLA topography. Icarus 211, 1066-1081. doi:10.1016/j.icarus.2010.10.030"
+ }
+}

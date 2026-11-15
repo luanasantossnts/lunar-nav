@@ -1,0 +1,20 @@
+{
+ "note": "The Analyst suggested questions (frontend/src/locales/*.json analyst.ex1..ex3), copied for bin/warm-analyst.php. Kept equal by frontend/src/lib/cost.test.js.",
+ "questions": {
+  "en": [
+   "Compare the Shackleton rim and IM-2 Athena for a 30-day stay from July 1, 2030.",
+   "The landing slipped 10 days. What changes at the Shackleton rim?",
+   "Find a July–August 2030 landing date at the Shackleton rim with at least 90% sunlight over 14 days."
+  ],
+  "es": [
+   "Compara el borde de Shackleton e IM-2 Athena para una estancia de 30 días desde el 1 de julio de 2030.",
+   "El alunizaje se retrasó 10 días. ¿Qué cambia en el borde de Shackleton?",
+   "Busca una fecha entre julio y agosto de 2030 en el borde de Shackleton con al menos 90% de luz solar en 14 días."
+  ],
+  "pt": [
+   "Compare a borda de Shackleton e o IM-2 Athena para uma estadia de 30 dias a partir de 1º de julho de 2030.",
+   "O pouso atrasou 10 dias. O que muda na borda de Shackleton?",
+   "Encontre uma data de pouso entre julho e agosto de 2030 na borda de Shackleton com pelo menos 90% de luz solar em 14 dias."
+  ]
+ }
+}

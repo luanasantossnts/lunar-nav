@@ -1,0 +1,78 @@
+/* AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Themes. Colour carries meaning only for data: yellow = Sun, cyan = Earth, orange = delay/alert. */
+:root {
+  --bg: #0b0c0e; --bg2: #0e0f11; --panel: #111214; --raise: #141518; --hair: #1a1b1f;
+  --active: #1c1d21; --line: #24262b; --line2: #3a3d44; --dim: #8b8d93; --muted: #9a9ca1;
+  --text2: #b8b9bc; --ink: #eceae6; --sun: #facc15; --earth: #06b6d4; --alert: #f59e0b;
+  --warnbg: #15120a; --warnline: #5c4613; --warntext: #e8d7a6; --terrain: #17181b;
+  /* Sequential scale for the sensitivity map: 0 % → 50 % → 100 % sunlight. */
+  --seq0: #1d1e22; --seq1: #8a6a0c; --seq2: #facc15;
+  color-scheme: dark;
+}
+/* Light theme: data colours and dim text darkened for WCAG AA (≥ 4.7:1 on every background used). */
+:root.light {
+  --bg: #f6f6f4; --bg2: #eeeeeb; --panel: #ffffff; --raise: #ececE9; --hair: #e6e6e3;
+  --active: #e4e4e1; --line: #d8d8d4; --line2: #b5b6b2; --dim: #5c5e63; --muted: #55575c;
+  --text2: #3b3d42; --ink: #111214; --sun: #7f5c00; --earth: #0b6a84; --alert: #9a4508;
+  --warnbg: #fbf3de; --warnline: #e3c277; --warntext: #6b4e0a; --terrain: #e2e2df;
+  --seq0: #f4efe0; --seq1: #e0a31a; --seq2: #5e4100;
+  color-scheme: light;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.tabular { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* Skip link: hidden until focused. */
+.sr-only-focusable:focus { position: static; width: auto; height: auto; margin: 0; clip: auto; overflow: visible; white-space: normal; }
+/* A small visible control (the 16 px "?") with a 44 px touch area around it. */
+.hit44 { position: relative; }
+.hit44::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+.btn-link { display: inline-flex; align-items: center; min-height: 32px; background: transparent; border: 0; padding: 0 4px; cursor: pointer; }
+a { color: inherit; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 40px; padding: 0 14px;
+  border: 1px solid var(--line2); border-radius: 4px; background: transparent; color: var(--ink); font-size: 14px; cursor: pointer; }
+.btn:hover { background: var(--raise); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-primary { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 600; }
+.btn-primary:hover { background: var(--ink); opacity: .9; }
+.seg { display: inline-flex; }
+.seg > button { min-height: 36px; height: 36px; box-sizing: border-box; padding: 0 12px; border: 1px solid var(--line2); background: transparent; color: var(--muted); font-size: 13px; cursor: pointer; }
+.seg > button + button { border-left: 0; }
+.seg > button:first-child { border-radius: 4px 0 0 4px; }
+.seg > button:last-child { border-radius: 0 4px 4px 0; }
+.seg > button[aria-pressed='true'] { background: var(--active); color: var(--ink); font-weight: 500; }
+.field { min-height: 36px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid var(--line2); border-radius: 4px; background: var(--panel); color: var(--ink); font-size: 13px; }
+.label { font-size: 12px; line-height: 16px; color: var(--muted); }
+/* Field label row: one line, same height everywhere, so every control in a row lines up. */
+.label-row { display: flex; align-items: baseline; gap: 6px; height: 16px; white-space: nowrap; }
+.label-hint { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; line-height: 16px; color: var(--dim); }
+.panel-title { font-size: 13px; font-weight: 600; }
+
+/* Phones and tablets: every control is at least 44 px tall. */
+@media (max-width: 1023.98px) {
+  .btn, .seg > button, .field, .btn-link, .tap { min-height: 44px; }
+  input[type='range'] { min-height: 44px; }
+  .btn.\!min-h-\[36px\], .btn.\!min-h-\[32px\] { min-height: 44px !important; }
+  .field.\!min-h-\[30px\] { min-height: 44px !important; }
+}
+
+@keyframes ln-pulse { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(3); opacity: 0; } }
+.ln-pulse { transform-box: fill-box; transform-origin: center; animation: ln-pulse 2.4s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .ln-pulse { animation: none; opacity: 0; } }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; color: #111; }
+}

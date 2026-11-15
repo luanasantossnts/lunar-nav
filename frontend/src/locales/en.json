@@ -1,0 +1,709 @@
+{
+  "app": {
+    "name": "Lunar Nav",
+    "tagline": "Landing site navigator",
+    "by": "by Lumi Lunar",
+    "credit": "Built for the 2026 NASA Space Apps Challenge · Lunar Landing Site Navigator · Team Lumi Lunar · Independent project, not endorsed by NASA"
+  },
+  "nav": {
+    "briefing": "Briefing",
+    "explorer": "Explorer",
+    "compare": "Compare",
+    "sky": "Sky view",
+    "analyst": "Analyst",
+    "methodology": "Methodology",
+    "report": "Report",
+    "modules": "Modules",
+    "help": "Help",
+    "charts": "Charts"
+  },
+  "top": {
+    "technical": "Technical",
+    "learn": "Learn",
+    "mode": "Mode",
+    "language": "Language",
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme",
+    "ask": "Ask the analyst",
+    "scenario": "Scenario",
+    "menu": "Open menu",
+    "closeMenu": "Close menu",
+    "skip": "Skip to content"
+  },
+  "common": {
+    "sun": "Sun",
+    "earth": "Earth",
+    "both": "Sun and Earth",
+    "sunlight": "Sunlight",
+    "earthInView": "Earth in view",
+    "nextSunset": "Next sunset",
+    "nextEarthset": "Next Earthset",
+    "nextSunrise": "Next sunrise",
+    "sunElevation": "Sun elevation",
+    "earthElevation": "Earth elevation",
+    "longestDark": "Longest dark period",
+    "longestEarthGap": "Longest gap without Earth",
+    "perDay": "per day",
+    "loading": "Computing from JPL Horizons…",
+    "error": "Could not compute this scenario",
+    "retry": "Retry",
+    "geometric": "Geometric",
+    "terrain": "Terrain (LOLA)",
+    "terrainUnavailable": "Terrain unavailable for this site: smooth-sphere horizon shown",
+    "terrainApplied": "Terrain horizon from NASA LOLA applied",
+    "atCursor": "At cursor",
+    "visible": "visible",
+    "behindTerrain": "behind terrain",
+    "belowHorizon": "below horizon",
+    "inView": "in view",
+    "approx": "approx.",
+    "source": "Source",
+    "play": "Play",
+    "pause": "Pause",
+    "time": "Time",
+    "landing": "Landing",
+    "days": "Days on surface",
+    "siteA": "Site A",
+    "siteB": "Site B",
+    "custom": "Custom coordinates",
+    "lat": "Latitude",
+    "lon": "Longitude (east)",
+    "apply": "Apply",
+    "antennaMargin": "Antenna elevation margin",
+    "panelVertical": "Panel factor (vertical)",
+    "horizon": "Horizon",
+    "status": "{source} · {mode} · body centre · step {step} min",
+    "never": "none in period",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "readAloud": "Read aloud",
+    "discRange": "disc {r}",
+    "posRange": "±{m} m: {r}",
+    "discTitle": "From full disc (lower) to first limb (upper) above the horizon",
+    "posTitle": "P10–P90 of grid points within {m} m of the site, terrain horizon",
+    "comm": "Contact with Earth (DSN)",
+    "commShort": "contact",
+    "commTitle": "Earth in view from the site and at least one NASA Deep Space Network 70-m complex (Goldstone, Canberra, Madrid) sees the Moon at ≥ {el}°",
+    "longestCommGap": "Longest gap without contact",
+    "dsnLane": "{id}: Moon above the DSN minimum elevation",
+    "lowerBound": "night longer than the analysed period — this is a minimum",
+    "lowerBoundGap": "gap longer than the analysed period — this is a minimum",
+    "deltaBound": "at least one of the two values is a minimum (its night is longer than the period)",
+    "whatIs": "What is “{term}”? Open the glossary",
+    "trackSummary": "{label}: visible {p} of the period",
+    "elevSummary": "Elevation over the stay: Sun {s}, Earth {e}",
+    "belowMargin": "above the horizon, below the antenna margin ({m}°)",
+    "sameScenario": "Choose two different sites or dates to compare.",
+    "regions": {
+      "south_pole": "South pole",
+      "south_high_latitude": "South high latitude",
+      "near_side": "Near side"
+    },
+    "longTerm": "Long-term average (NASA PGDA, 18.6 yr)",
+    "psrNear": "Permanent shadow within 300 m"
+  },
+  "brief": {
+    "title": "Your landing slipped ten days. Is the site still lit, and can it still see Earth?",
+    "body": "Lunar Nav compares landing sites and dates at the lunar south pole: where the Sun and Earth sit against the local horizon, for how long, and what a schedule change does to both.",
+    "tour": "Take the 60-second tour",
+    "open": "Open the planner",
+    "figure": "Horizon seen from {site}",
+    "note": "Positions from JPL Horizons for the scenario dates; skyline from NASA LOLA terrain where available. Dashed line: smooth-sphere horizon (0°)."
+  },
+  "planner": {
+    "timeline": "Visibility over the stay",
+    "delayCta": "Apply a {n}-day delay and compare",
+    "sky": "Stand at site A: sky view",
+    "analystNote": "Ask the analyst to explain the trade-off",
+    "map": "South polar map",
+    "mapNote": "Polar stereographic, 0° longitude up. Catalogue sites shown; click a site to set A or B.",
+    "setA": "Set as A",
+    "setB": "Set as B",
+    "elevation": "Elevation over the stay",
+    "h1": "Explorer: {a} and {b}",
+    "siteConditions": "Site conditions"
+  },
+  "compare": {
+    "title": "Original landing vs. {n} days later",
+    "subtitle": "{d} days on the surface from each landing date",
+    "original": "Original",
+    "delayed": "Delayed +{n} d",
+    "metric": "Metric",
+    "change": "What the delay changes",
+    "delta": "Change",
+    "search": "Find a landing date that meets constraints",
+    "minSun": "Minimum sunlight (%)",
+    "minEarth": "Minimum Earth in view per day (h)",
+    "maxDark": "Maximum dark period (h)",
+    "from": "From",
+    "to": "To",
+    "duration": "Stay (days)",
+    "run": "Search",
+    "firstMatch": "First date meeting all constraints",
+    "noMatch": "No date in this range meets all constraints.",
+    "scanned": "{n} landing dates scanned",
+    "sensitivity": "Sensitivity map",
+    "sensitivityNote": "Sunlight on a 100 m grid (±500 m) around site A, each point with its own terrain horizon. Outlined cells lie within 300 m: their P10–P90 is the position range shown next to each result.",
+    "linkNote": "Earth in view is a geometric line of sight, not a radio link budget.",
+    "delayDays": "Delay (days)",
+    "sensitivityScale": "{spacing} m grid · ±{ext} m · {n} pts · N ↑ E →",
+    "withinRadius": "Within {m} m ({n} pts): P10–P90 (median)",
+    "minComm": "Minimum contact per day (h)",
+    "maxBattery": "Maximum battery (kWh)",
+    "sensitivityNoTerrain": "Terrain data is not available for this site (outside the LOLA polar DEMs).",
+    "sensitivityCustom": "The sensitivity map needs a catalogue site with terrain data; custom coordinates have no precomputed grid.",
+    "sensitivityLegend": "Sunlight over the period, per cell",
+    "charts": {
+      "region": "Charts of the delay comparison",
+      "posOriginal": "±300 m P10–P90 (original date)",
+      "c1": {
+        "title": "Original vs +{n} days",
+        "what": "Share of the period with the Sun up, Earth in view and contact through the DSN, for sites A and B on the original date and {n} days later (darker bars). Fixed 0–100 % scale. Whiskers: disc range; dashed box: spread within 300 m (original date, where a terrain grid exists).",
+        "summary": "Original vs +{n} days. {list}."
+      },
+      "c2": {
+        "title": "What the {n}-day delay changes",
+        "what": "Change from the original date to {n} days later, for A and B: hours of Sun, of Earth in view and of contact (one scale in hours), and the battery needed (its own scale, kWh). Bars to the right are gains. ≥ / ≤ / ≈: one of the two batteries is only a minimum (its night runs past the period).",
+        "hours": "Change in hours over the period",
+        "battery": "Change in battery (kWh)",
+        "summary": "What the {n}-day delay changes. {list}."
+      }
+    }
+  },
+  "sky": {
+    "title": "Sky view from {site}",
+    "panorama": "Panorama",
+    "terrain3d": "3D terrain",
+    "sphere": "smooth-sphere horizon",
+    "why": "Why is the Sun hidden here?",
+    "noTerrain": "Terrain data is not available for this site (outside the LOLA polar DEMs).",
+    "present": "Present",
+    "exaggeration": "vertical scale × {n}",
+    "skyline": "terrain skyline",
+    "terrainSummary": "3D terrain around {site}, lit by the Sun at {time}. Sun visible {p} of the period.",
+    "panoramaSummary": "{title}: Sun visible {p} of the period. Now: Sun {s}, Earth {e}.",
+    "caption3d": "NASA LOLA · vertical exaggeration ×{n} · {light} · terrain shadows from the heightmap",
+    "sunBelow": "Sun below the horizon",
+    "sunBehindTerrain": "Sun behind the terrain",
+    "earthlight": "terrain lit by earthlight",
+    "noDirectLight": "no direct light",
+    "skylineReference": "terrain skyline (reference)",
+    "siteGroup": "Site",
+    "viewGroup": "View",
+    "litSun": "lit by the Sun at the cursor",
+    "litEarth": "{where} — lit by earthlight",
+    "litNone": "{where} — no direct light",
+    "trackStart": "start",
+    "trackEnd": "end",
+    "trackLegend": "○ start · ● end of the period"
+  },
+  "analyst": {
+    "title": "Analyst",
+    "note": "Answers are built from tool results; the model does not produce numbers.",
+    "placeholder": "Ask about a site, a date or a delay",
+    "run": "Run",
+    "speak": "Speak",
+    "stop": "Stop recording",
+    "listen": "Listen to the summary",
+    "stopVoice": "Stop voice",
+    "tools": "Tool calls",
+    "settings": "Settings",
+    "model": "Model",
+    "readAloud": "Read answers aloud",
+    "level": "Explanation level",
+    "technical": "Technical",
+    "classroom": "Classroom",
+    "examples": "Try one of these",
+    "ex1": "Compare the Shackleton rim and IM-2 Athena for a 30-day stay from July 1, 2030.",
+    "ex2": "The landing slipped 10 days. What changes at the Shackleton rim?",
+    "ex3": "Find a July–August 2030 landing date at the Shackleton rim with at least 90% sunlight over 14 days.",
+    "disclosure": "Text by an AI model from Lunar Nav tool results; speech by ElevenLabs (AI voice).",
+    "thinking": "Planning and calling tools…",
+    "provenance": "Source for ephemeris calls: JPL Horizons API",
+    "you": "You",
+    "empty": "Ask a question to start.",
+    "browserVoice": "Read by your browser's built-in voice.",
+    "noVoice": "No voice available in this browser.",
+    "disclosureText": "Text by an AI model from Lunar Nav tool results",
+    "voiceEleven": "speech by ElevenLabs (AI voice)",
+    "voiceBrowser": "speech by your browser's built-in voice",
+    "levelFollows": "Follows Technical / Learn in the top bar",
+    "readFull": "Read full answer",
+    "cachedAnswer": "cached answer",
+    "cachedTitle": "Answer saved on {d} for this exact question, scenario and mode; no new AI call.",
+    "voiceLimit": "Read by your browser's built-in voice: the AI voice is not available right now.",
+    "micMax": "Recording stopped at 30 s."
+  },
+  "method": {
+    "title": "Methodology and validation",
+    "intro": "What each number assumes, where it comes from, and how far it has been checked. Status: planned, integration tested, numerically verified, validated for scope.",
+    "premises": "Premises",
+    "validation": "Validation",
+    "check": "Check",
+    "status": "Status",
+    "result": "Result",
+    "notRun": "Validation has not been run on this server yet.",
+    "provenance": "Provenance of the current result",
+    "ai": "Use of AI",
+    "sources": "Sources",
+    "p": {
+      "eph": [
+        "Ephemerides",
+        "JPL Horizons, DE441. Topocentric azimuth and elevation for an observer on the lunar surface, airless (no refraction)."
+      ],
+      "hor": [
+        "Horizon",
+        "Smooth sphere, or a terrain mask computed from NASA LOLA elevation. Always labelled; never swapped silently."
+      ],
+      "vis": [
+        "Visibility",
+        "Body centre above the horizon, with the range from full disc to first limb (radius 0.267° Sun, 0.95° Earth)."
+      ],
+      "link": [
+        "Earth in view / contact",
+        "Earth in view: line of sight to Earth's centre. Contact (DSN): Earth in view and at least one DSN 70-m complex sees the Moon at ≥ 10°. No link budget."
+      ],
+      "time": [
+        "Time",
+        "Metrics per interval between samples, horizon crossings interpolated linearly; step chosen by a convergence test."
+      ],
+      "scope": [
+        "Out of scope",
+        "Landing safety (slope, rocks, thermal). Results hold for the stated site, period and premises only."
+      ]
+    },
+    "aiItems": [
+      "Spanish and Portuguese text: AI-assisted translations.",
+      "Code written with AI assistance."
+    ],
+    "limitsTitle": "Known limits",
+    "limitsIntro": "Measured on 2030-07-01 + 30 days, terrain mode. Each result shows the disc range and, where a terrain grid exists, the ±300 m range.",
+    "limits": [
+      "Night lengths are measured in full for nights that overlap the period (series extended by 15 days on each side); fractions and energy use the period only.",
+      "Site position: published coordinates are approximate, and real landings can miss their target by hundreds of metres. Within 300 m, Shackleton ridge Sun P10–P90 is 48–73 % (centre 99.8 %); Malapert 0–97 %.",
+      "The ±300 m range uses a 100 m grid on a 40 m DEM (~2.5 pixels apart), so it mixes real micro-relief with the DEM's resolution limit.",
+      "Sun and Earth discs: values use the body centre. Full disc to first limb: Shackleton Sun 94.3–100 %, Malapert 13.3–30.6 %; Earth ±0.95° moves Earth in view by 4–8 points.",
+      "DEM resolution: Shackleton Sun 99.8 % with LOLA 40 m/px vs 91.4 % with 60 m/px; Malapert 21.1 % vs 29.8 %.",
+      "Earth in view is the centre of Earth's disc. Contact (DSN) also needs a DSN 70-m complex to see the Moon.",
+      "DSN only (3 complexes, ≥ 10°); real missions may also use other networks; no link budget.",
+      "Observer 2 m above the surface. At Malapert the skyline forms within 1 km in every direction, so local slope and mast height matter.",
+      "IM-2 uses the planned landing point, not the actual touchdown position.",
+      "Frames: Horizons and LOLA both use the Moon Mean Earth/polar axis (ME) frame; differences between ephemeris realisations are of the order of metres.",
+      "Chandrayaan-3 (69.4°S) is outside the polar LOLA DEMs used here: no terrain horizon.",
+      "Checked and negligible: time step 60 → 10 min (≤ 0.02 points), ray sampling (≤ 0.05°), horizon reach 150 → 300 km (≤ 0.19°).",
+      "Power: Sun–Moon distance taken as 1 AU; the ±3.4% yearly change in sunlight is ignored.",
+      "Power: no dust and no panel degradation.",
+      "Power: no thermal model; heaters belong in the survival load you enter.",
+      "Power: the panel is never shadowed by the lander itself.",
+      "Power and battery values are illustrative and depend on the inputs shown; they are not any real mission's specification."
+    ],
+    "pgda": {
+      "title": "Our model ({year}) vs NASA PGDA (18.6 yr)",
+      "intro": "Our pipeline over the whole year, terrain mode, margin 0, against NASA PGDA product 69 (Mazarico et al. 2011). PGDA counts a body as visible when any fraction of its disc is up, so the comparison uses our first limb; our disc centre is in brackets. Nothing was tuned to agree.",
+      "cols": {
+        "site": "Site",
+        "model": "Model / PGDA map",
+        "sunOurs": "Sun, ours (centre)",
+        "sunPgda": "Sun, PGDA",
+        "delta": "Δ points",
+        "sun300": "Sun 300 m median, ours / PGDA (Δ)",
+        "earthOurs": "Earth, ours (centre)",
+        "earthPgda": "Earth, PGDA"
+      },
+      "ranking": "Sun ranking the same: {same}. Ours: {ours}. PGDA: {pgda}.",
+      "yes": "yes",
+      "no": "no",
+      "notes": [
+        "Ranking of the 5 sites by sunlight is identical to NASA PGDA.",
+        "Malapert: the point differs by −10.7 points, but the 300 m medians agree within 4.8 points; NASA's own map changes from 18.8 % to 29.0 % between nearest-pixel and bilinear reading at this point, so the reference itself varies by ~10 points there.",
+        "Expected differences: 1 year (2030) vs 18.6 years; 40/60 m DEM vs 60/120 m maps; observer at 2 m vs surface.",
+        "At Chandrayaan-3 the PGDA map is 240 m and our model has no terrain there (geometric)."
+      ]
+    },
+    "aiAnalyst": "Analyst: Claude (Anthropic). It calls the same tools as the planner and does not generate numbers. Repeated questions are answered from a cache.",
+    "aiVoice": "Read aloud uses ElevenLabs (AI voice; labelled); if unavailable, the browser's built-in speech.",
+    "aiMic": "Speech input uses ElevenLabs speech-to-text."
+  },
+  "report": {
+    "title": "Scenario report",
+    "generated": "Generated",
+    "print": "Print or save as PDF",
+    "json": "Download JSON",
+    "csv": "Download CSV",
+    "md": "Download Markdown",
+    "assumptions": "Assumptions and limits",
+    "assumptionsText": "Visibility of the body centre, with the range from full disc to first limb and, where a terrain grid exists, P10–P90 within 300 m of the site; horizon model as stated per site; coordinates from the cited sources (published coordinates are approximate, and real landings can miss their target by hundreds of metres); Earth in view is geometric line of sight to Earth's centre, not a radio link; not an assessment of landing safety.",
+    "analysis": "Analyst notes",
+    "noAnalysis": "No analyst answer attached. Ask the analyst and use “Add to report”.",
+    "add": "Add to report",
+    "sunDisc": "Sunlight, disc range",
+    "sunPos": "Sunlight, ±300 m (P10–P90)",
+    "earthDisc": "Earth in view, disc range",
+    "earthPos": "Earth in view, ±300 m (P10–P90)",
+    "bothDisc": "Sun and Earth, disc range",
+    "bothPos": "Sun and Earth, ±300 m (P10–P90)",
+    "commDisc": "Contact (DSN), disc range",
+    "commPos": "Contact (DSN), ±300 m (P10–P90)",
+    "energyDisc": "Energy per day, disc range",
+    "energyPos": "Energy per day, ±300 m (P10–P90)",
+    "batteryDisc": "Battery, disc range",
+    "batteryPos": "Battery, ±300 m (P10–P90)",
+    "h1": "Scenario report",
+    "method": "method {v}",
+    "step": "step {n} min",
+    "terrainState": {
+      "applied": "terrain applied",
+      "notRequested": "flat 0° horizon",
+      "unavailable": "terrain unavailable for this site",
+      "grid": "terrain grid"
+    },
+    "longTermSpread": "Long-term average within 300 m (P10–P90)",
+    "psr": "Permanent shadow nearby (PGDA)"
+  },
+  "tour": {
+    "s1": [
+      "The problem",
+      "Your mission's landing date slipped. At the lunar south pole the Sun skims the horizon and Earth hides behind it: small changes in date or place change power and contact with Earth."
+    ],
+    "s2": [
+      "Two sites, one schedule",
+      "Site A and site B are compared over the same stay. The panel shows the share of time with sunlight and with Earth in view, from JPL Horizons."
+    ],
+    "s3": [
+      "The horizon",
+      "Sky view shows where the Sun and Earth sit against the skyline. With a NASA LOLA terrain mask, mountains can hide the Sun even when it is above the smooth horizon."
+    ],
+    "s4": [
+      "The delay",
+      "Compare shows the original landing against a later one, and searches for the next date that meets your constraints."
+    ],
+    "s5": [
+      "Ask the analyst",
+      "The analyst answers in plain language, in your language, using the same calculations. Every number links to the tool call that produced it."
+    ]
+  },
+  "learn": {
+    "polar": "At the poles the Sun never rises high: it circles the horizon once a lunar day (about 29.5 Earth days).",
+    "libration": "Earth stays almost fixed in the lunar sky, but libration makes it rock a few degrees up and down over about a month. Near the pole that is enough to hide it.",
+    "terrain": "With no atmosphere, the horizon is just the terrain. A ridge one degree high can block the Sun completely."
+  },
+  "svs": {
+    "title": "Context from NASA's Scientific Visualization Studio",
+    "credit": "Visualizations: NASA's Scientific Visualization Studio (SVS). Opens svs.gsfc.nasa.gov.",
+    "offline": "link only"
+  },
+  "power": {
+    "title": "Power & battery",
+    "note": "Illustrative: the inputs are assumptions, not a mission specification. Energy uses the Sun's visibility above the chosen horizon; the battery carries the survival load through the longest night.",
+    "panel": "Panel (W at 1361 W/m²)",
+    "orientation": "Orientation",
+    "vertical": "Vertical, tracks the Sun",
+    "horizontal": "Horizontal",
+    "load": "Operating load (W)",
+    "survival": "Night survival load (W)",
+    "dod": "Depth of discharge",
+    "whkg": "Pack energy (Wh/kg)",
+    "reset": "Reset to defaults",
+    "energy": "Energy per day",
+    "balance": "Average daily balance",
+    "night": "Longest night",
+    "battery": "Battery needed",
+    "batteryShort": "battery",
+    "deficit": "Time in deficit",
+    "inputs": "Power inputs (illustrative): panel {panel} W, {orient}; operating load {load} W; survival load {surv} W; depth of discharge {dod}; {whkg} Wh/kg."
+  },
+  "help": {
+    "title": "Help",
+    "intro": "How to use each screen, what the terms mean, and short answers to common questions.",
+    "howTitle": "How to use",
+    "open": "Open",
+    "tour": "Start the guided tour",
+    "screens": {
+      "briefing": {
+        "title": "Briefing",
+        "text": "The starting page: the challenge on one screen, and the two default sites to compare."
+      },
+      "explorer": {
+        "title": "Explorer",
+        "text": "Map, site readouts with their ranges, power and battery, and the timeline. Change sites, dates, horizon mode and margins in the top bar."
+      },
+      "compare": {
+        "title": "Compare",
+        "text": "Original vs delayed landing, a search for dates that meet your constraints, and the ±500 m sensitivity map."
+      },
+      "sky": {
+        "title": "Sky view",
+        "text": "A 360° panorama of the skyline with the Sun and Earth tracks, and 3D terrain lit by the Sun at the chosen time."
+      },
+      "analyst": {
+        "title": "Analyst",
+        "text": "Ask in plain language. The AI answers only with Lunar Nav's own calculations and cites every number."
+      },
+      "report": {
+        "title": "Report",
+        "text": "A printable scenario report, with JSON, CSV and Markdown exports."
+      },
+      "methodology": {
+        "title": "Methodology",
+        "text": "Premises, known limits, validation status, the provenance of the current result, and sources."
+      },
+      "charts": {
+        "title": "Charts",
+        "text": "Six read-only charts of the same data: sites side by side with their ranges, 2030 month by month, our model vs NASA PGDA, battery needed, what a delay changes, and the ±300 m spread at site A. Each has a data table."
+      }
+    },
+    "glossaryTitle": "Glossary",
+    "filter": "Filter terms",
+    "noMatch": "No term matches this filter.",
+    "example": "In the app",
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      [
+        "Why does Shackleton show 99.8% sunlight but 48–73% within 300 m?",
+        "The published point sits on top of a narrow ridge. A few hundred metres away the terrain hides the low Sun for longer, so landing precision matters as much as the choice of site. Published coordinates are approximate, and real landings can miss their target by hundreds of metres."
+      ],
+      [
+        "Does Lunar Nav say a site is safe to land?",
+        "No. It computes Sun and Earth visibility, contact and an illustrative power budget. Slopes, rocks and thermal conditions are out of scope."
+      ],
+      [
+        "Why can Earth be more visible in terrain mode?",
+        "On a high plateau such as IM-2's (about +5.3 km), the real horizon lies below 0° in many directions, so Earth stays in view a little below the flat 0° horizon."
+      ],
+      [
+        "Are the power numbers real mission specifications?",
+        "No. They are illustrative: you choose the panel, loads and battery inputs, and the assumptions are listed next to the results."
+      ],
+      [
+        "Where do the numbers come from?",
+        "Sun, Earth and Moon positions from JPL Horizons, terrain from NASA LOLA, and DSN antenna positions from the DSN Telecommunications Link Design Handbook. Every result carries its provenance."
+      ]
+    ],
+    "faqMethod": "See Methodology",
+    "refsTitle": "References",
+    "refsText": "Every data source, paper and service is listed with links in Methodology, under Sources.",
+    "refsLink": "Open Methodology → Sources",
+    "terms": {
+      "azimuth": {
+        "title": "Azimuth",
+        "def": "Direction along the horizon, measured clockwise from north (0° north, 90° east).",
+        "example": "Sky view shows the skyline height at the Sun's azimuth."
+      },
+      "elevation": {
+        "title": "Elevation",
+        "def": "Angle of a body above the mathematical horizon (0°). At the lunar south pole the Sun stays within about ±1.5°.",
+        "example": "At Shackleton ridge in July 2030 the Sun stays between 0.6° and 1.5°."
+      },
+      "horizon-mask": {
+        "title": "Horizon mask (skyline)",
+        "def": "Elevation of the real terrain horizon in each direction, computed from NASA LOLA elevation data out to 150 km."
+      },
+      "geometric-terrain": {
+        "title": "Geometric vs terrain mode",
+        "def": "Geometric assumes a flat 0° horizon; terrain uses the horizon mask. Terrain can lower or raise visibility.",
+        "example": "In terrain mode IM-2 loses 5.6 points of sunlight but gains 12 points of Earth in view."
+      },
+      "dem": {
+        "title": "DEM",
+        "def": "Digital elevation model: a grid of surface heights. Lunar Nav uses LOLA DEMs at 40 m and 60 m per pixel."
+      },
+      "lola": {
+        "title": "LOLA",
+        "def": "Lunar Orbiter Laser Altimeter on NASA's Lunar Reconnaissance Orbiter, which measured the Moon's topography."
+      },
+      "horizons": {
+        "title": "JPL Horizons",
+        "def": "NASA/JPL service that gives precise positions of the Sun, Earth and Moon for any place and time."
+      },
+      "disc-range": {
+        "title": "First limb / centre / full disc",
+        "def": "The Sun counts as visible when its first edge, its centre or its whole disc is above the skyline. The range between them is the disc range.",
+        "example": "Shackleton ridge: 94.3–100% sunlight from full disc to first limb."
+      },
+      "p10-p90": {
+        "title": "P10–P90",
+        "def": "The range that contains the middle 80% of values. Here, of the results at grid points within 300 m of the site.",
+        "example": "Shackleton ridge sunlight within 300 m: 48–73%."
+      },
+      "earth-in-view": {
+        "title": "Earth in view",
+        "def": "Earth's centre above the local skyline: a direct line of sight."
+      },
+      "dsn": {
+        "title": "DSN (Deep Space Network)",
+        "def": "NASA's Deep Space Network, with 70 m antennas at Goldstone (USA), Madrid (Spain) and Canberra (Australia). Contact with Earth here means Earth in view AND at least one DSN complex seeing the Moon at 10° or more.",
+        "example": "In July 2030 the three complexes together saw the Moon 99.1% of the time."
+      },
+      "longest-dark": {
+        "title": "Longest dark period",
+        "def": "The longest continuous time without the Sun, among the nights that overlap the analysed period, measured in full (up to 15 days before and after it). “≥” means it may be even longer."
+      },
+      "panel-factor": {
+        "title": "Panel factor",
+        "def": "Share of a panel's rated power produced on average, from the Sun's angle (vertical panel tracking the Sun: cosine of the elevation)."
+      },
+      "dod": {
+        "title": "Depth of discharge (DoD)",
+        "def": "Fraction of the battery's capacity that is actually used.",
+        "example": "With the default 0.8, a 10 kWh battery delivers 8 kWh."
+      },
+      "libration": {
+        "title": "Libration",
+        "def": "The Moon's slight wobble seen from Earth, which makes Earth rise and set over the polar horizon during the month."
+      },
+      "set": {
+        "title": "Earthset / sunset",
+        "def": "The time the body goes below the local skyline."
+      },
+      "provenance": {
+        "title": "Provenance",
+        "def": "The record of where each number came from: source, parameters and version."
+      },
+      "validation-status": {
+        "title": "Validation status",
+        "def": "How far a claim has been checked: planned → integration tested → numerically verified → validated for scope."
+      },
+      "longest-gap": {
+        "title": "Longest gap without Earth / contact",
+        "def": "The longest continuous time without Earth in view (or without DSN contact), among the gaps that overlap the analysed period, measured in full. “≥” means it may be even longer.",
+        "example": "At Shackleton ridge Earth sets for about 12 days at a time, so the gap without contact is set by the Moon's libration, not by the network."
+      },
+      "pgda-average": {
+        "title": "Long-term average (PGDA)",
+        "def": "NASA PGDA's share of time a place sees the Sun (or Earth) over a full 18.6-year lunar cycle, hourly, from LOLA topography (Mazarico et al. 2011). Any fraction of the disc counts. It does not depend on the dates you choose.",
+        "example": "Shackleton ridge: Sun 72.7%, Earth 51.9% (60 m map)."
+      },
+      "psr": {
+        "title": "Permanently shadowed region (PSR)",
+        "def": "Ground that never sees any part of the Sun over the 18.6-year cycle, mapped by NASA PGDA. Cold traps where ice may survive; dark for a lander.",
+        "example": "Within 300 m of Malapert, 20% of the PGDA pixels are permanent shadow."
+      }
+    }
+  },
+  "validation": {
+    "status": {
+      "integration tested": "integration tested",
+      "numerically verified": "numerically verified",
+      "validated for scope": "validated for scope",
+      "planned": "planned",
+      "failed": "failed",
+      "error": "error",
+      "needs smaller step": "needs smaller step",
+      "needs investigation": "needs investigation"
+    },
+    "names": {
+      "control": "Control site, {site}",
+      "dsn_convergence": "Time-step convergence, DSN stations",
+      "dsn_coverage": "DSN coverage of the Moon (sanity)",
+      "convergence": "Time-step convergence, {site}",
+      "convergence_terrain": "Time-step convergence (terrain), {site}",
+      "terrain_mask": "Terrain mask, {site}",
+      "terrain_missing": "Terrain mask, {site}",
+      "sun_disc": "Sun disc range (terrain), {site}",
+      "power": "Power consistency, {site}",
+      "full_nights": "Full nights (±15 d window), {site}",
+      "position": "Position spread ±{radius} m, {site}",
+      "position_missing": "Position spread, {site}",
+      "terrain_checks": "Terrain checks, {site}",
+      "pgda": "Independent check vs NASA PGDA"
+    },
+    "results": {
+      "control": "Earth in view {earth}%, elevation {min}° to {max}°",
+      "dsn_convergence": "Moon ≥ {el}° at the DSN union: 60 min {u60} vs 10 min {u10}; max |Δ| {diff} (tolerance {tol}); app step {step} min",
+      "dsn_coverage": "union {union}% of {days} days, longest gap {gap} h; {stations}",
+      "convergence": "max |Δ fraction| 60 min vs 10 min = {diff} (tolerance {tol})",
+      "convergence_terrain": "max |Δ fraction| 60 min vs 10 min = {diff} (tolerance {tol})",
+      "terrain_mask": "mask present",
+      "terrain_missing": "not built yet",
+      "sun_disc": "first limb {first}% · centre {centre}% · full disc {full}% (r = {r}°)",
+      "power": "energy {energy} Wh vs P × panel factor × hours = {p} × {pf} × {hours} = {expected} Wh (|Δ| {rel}%, tolerance 0.1%); battery {battery} kWh for a {night} h night",
+      "full_nights": "longest night {full} h in full vs {period} h within the period only; still lower bounds: {bounds} of 3 (Sun, Earth, contact)",
+      "position": "Sun P10–P90 {s10}–{s90}% (median {smed}%) · Earth {e10}–{e90}% · {points} points at {spacing} m",
+      "position_missing": "no terrain grid for this site",
+      "pgda": "our {year} (first limb) vs PGDA 18.6 yr: Sun ranking the same: {same}; max |Δ Sun| at 40 m DEM sites {max40} points; Δ Sun per site: {list}"
+    }
+  },
+  "charts": {
+    "title": "Charts",
+    "intro": "The same numbers as the rest of the app, drawn side by side. Scenario period: {d}, {n} days. Each chart says what it shows and has a data table below it.",
+    "modeNote": "terrain horizon where a LOLA mask exists; Chandrayaan-3 geometric",
+    "what": "What this shows",
+    "legend": "Legend",
+    "table": "Data table",
+    "site": "Site",
+    "metric": "Metric",
+    "value": "Value",
+    "discRange": "Disc range (full disc → first limb)",
+    "posRange": "±300 m P10–P90",
+    "month": "Month",
+    "yearMean": "Year (weighted by days)",
+    "ours": "Ours (2030, first limb)",
+    "points": "points",
+    "unavailable": "Not available: these series are not in the cache.",
+    "c1": {
+      "title": "Sites side by side",
+      "what": "Share of the period ({d}, {n} days) with the Sun up, Earth in view and contact through the DSN, per site. Whiskers: disc range; dashed boxes: the spread within 300 m of the site. A wide box means the exact landing point matters.",
+      "summary": "Sites side by side, {d}, {n} days. {list}.",
+      "narrowNote": "Ch-3 = Chandrayaan-3 (geometric horizon); the other sites use the LOLA terrain horizon."
+    },
+    "c2": {
+      "title": "{year} month by month",
+      "what": "Share of each month of {year} with the Sun up (top) and Earth in view (bottom), body centre, from the cached year runs. Line style identifies the site.",
+      "sun": "Sun up (% of month)",
+      "earth": "Earth in view (% of month)",
+      "summary": "Month by month in {year}, range over the months. {list}."
+    },
+    "c3": {
+      "title": "Ours vs NASA PGDA",
+      "what": "Our whole year {year} (first limb, as PGDA counts) next to NASA PGDA's 18.6-year average for each site, with the difference in points. Differences are expected (1 year vs 18.6 years, different elevation models); the ranking is the check.",
+      "sun": "Sunlight",
+      "earth": "Earth in view",
+      "ranking": "Same ranking by sunlight: {same}.",
+      "summary": "Ours vs NASA PGDA, year {year}. Same ranking: {same}. Sun ours vs PGDA: {list}."
+    },
+    "c4": {
+      "title": "Battery needed by site",
+      "what": "Battery to survive the longest night at each site (illustrative: {panel} W panel, {surv} W survival load, depth of discharge {dod}). Dashed box: P10–P90 within 300 m.",
+      "headline": "Where you land matters more than when.",
+      "note": "Within 300 m the battery varies by up to {w}; a {n}-day delay changes it by at most {d}.",
+      "summary": "Battery needed by site. {list}.",
+      "headlineSome": "Where you land matters more than when at {k} of {n} sites ({list}).",
+      "except": "At {site}, the ±300 m range ({w}) is smaller than the change from a {n}-day delay ({d})."
+    },
+    "c5": {
+      "title": "What a {n}-day delay changes",
+      "what": "For each site: hours of daylight from landing to the first sunset, and the share of the period with contact with Earth, for the original date and {n} days later. 0 h means the site is dark at landing.",
+      "daylight": "Daylight before the first night",
+      "dark": "dark at landing",
+      "summary": "What a {n}-day delay changes, original → delayed. {list}."
+    },
+    "c6": {
+      "title": "Sensitivity: sunlight within 300 m",
+      "what": "How the sunlight of the grid points within {m} m of {site} is distributed (same terrain, each point with its own horizon). A spread-out histogram means landing accuracy decides the result.",
+      "points": "Grid points",
+      "sitePoint": "Grid point at the site",
+      "count": "Points",
+      "none": "No terrain grid for site A: choose a site with a LOLA mask.",
+      "summary": "Sunlight of {n} grid points within {m} m of {site}: P10 {p10}, P90 {p90}; the site point gets {point}."
+    }
+  },
+  "limits": {
+    "generic": "Something went wrong. Please try again in a moment.",
+    "question_empty": "Please type a question.",
+    "question_too_long": "Questions are limited to 500 characters. Please shorten yours.",
+    "analyst_ip": "You've asked a lot of questions this hour. Please try again a little later — answers to questions already asked are still available.",
+    "analyst_daily": "The analyst has reached today's limit. Please come back tomorrow — answers to questions already asked are still available.",
+    "analyst_unavailable": "The analyst is not available right now. Please try again later.",
+    "tts_ip": "You've used the AI voice a lot this hour; reading with your browser's voice instead.",
+    "tts_daily": "The AI voice has reached today's limit; reading with your browser's voice instead.",
+    "tts_unavailable": "The AI voice is not available right now; reading with your browser's voice instead.",
+    "stt_ip": "Speech input has reached its hourly limit. Please type your question or try again later.",
+    "stt_daily": "Speech input has reached today's limit. Please type your question.",
+    "stt_too_long": "Recordings are limited to 30 seconds. Please try a shorter question.",
+    "stt_empty": "No audio was recorded. Please try again.",
+    "stt_unavailable": "Speech input is not available right now. Please type your question.",
+    "bad_request": "Something went wrong. Please try again in a moment."
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "notes": "Longitude is east-positive, 0-360. Latitude in degrees. Altitude in km relative to the 1737.4 km reference sphere (0 when no published elevation was found). Every entry cites the page its coordinates were taken from; 'status' says how far the coordinate has been checked.",
+  "default_pair": ["shackleton_ridge", "im2_athena"],
+  "sites": [
+    {
+      "id": "shackleton_ridge",
+      "name": "Shackleton rim at the de Gerlache ridge",
+      "region": "south_pole",
+      "program": "Candidate (south polar ridge)",
+      "lat": -89.684,
+      "lon": 196.739,
+      "alt_km": 0.0,
+      "source": "LROC Featured Image 1247, 'Traversing the Shackleton de Gerlache Ridge' (intersection of the ridge and the Shackleton rim)",
+      "source_url": "https://lroc.im-ldi.com/images/1247",
+      "status": "published coordinate, elevation not set"
+    },
+    {
+      "id": "im2_athena",
+      "name": "IM-2 Athena, Mons Mouton region",
+      "region": "south_pole",
+      "program": "CLPS (Intuitive Machines IM-2, 2025)",
+      "lat": -84.78,
+      "lon": 29.13,
+      "alt_km": 0.0,
+      "source": "LROC Featured Image 1401, 'IM-2 Landing Region' (intended landing site)",
+      "source_url": "https://lroc.im-ldi.com/images/1401",
+      "status": "published coordinate (intended site), elevation not set"
+    },
+    {
+      "id": "im1_odysseus",
+      "name": "IM-1 Odysseus, Malapert A",
+      "region": "south_pole",
+      "program": "CLPS (Intuitive Machines IM-1, 2024)",
+      "lat": -80.13,
+      "lon": 1.44,
+      "alt_km": 0.0,
+      "source": "Wikipedia, 'IM-1' (landing site infobox)",
+      "source_url": "https://en.wikipedia.org/wiki/IM-1",
+      "status": "secondary source, verify against LROC"
+    },
+    {
+      "id": "malapert_m1",
+      "name": "Malapert Mountain, point M1",
+      "region": "south_pole",
+      "program": "Candidate (illumination studies)",
+      "lat": -86.04,
+      "lon": 2.7,
+      "alt_km": 0.0,
+      "source": "Wikipedia, 'Peak of eternal light' (lighting table, no primary citation)",
+      "source_url": "https://en.wikipedia.org/wiki/Peak_of_eternal_light",
+      "status": "unverified, needs a primary source"
+    },
+    {
+      "id": "chandrayaan3",
+      "name": "Chandrayaan-3, Statio Shiv Shakti",
+      "region": "south_high_latitude",
+      "program": "ISRO Chandrayaan-3 (2023)",
+      "lat": -69.373,
+      "lon": 32.319,
+      "alt_km": 0.0,
+      "source": "Wikipedia, 'Statio Shiv Shakti' (citing ISRO mission page)",
+      "source_url": "https://en.wikipedia.org/wiki/Statio_Shiv_Shakti",
+      "status": "secondary source citing ISRO"
+    },
+    {
+      "id": "apollo11",
+      "name": "Apollo 11, Tranquility Base",
+      "region": "near_side",
+      "program": "Apollo (1969) · control site",
+      "lat": 0.67416,
+      "lon": 23.47314,
+      "alt_km": -1.926,
+      "source": "LROC, 'Spacecraft Related Coordinates - 2016 Update' (mean observed LM position)",
+      "source_url": "https://www.lroc.im-ldi.com/images/938",
+      "status": "published coordinate and elevation"
+    },
+    {
+      "id": "apollo12",
+      "name": "Apollo 12",
+      "region": "near_side",
+      "program": "Apollo (1969)",
+      "lat": -3.0128,
+      "lon": 336.5781,
+      "alt_km": -1.422,
+      "source": "LROC, 'Spacecraft Related Coordinates - 2016 Update'",
+      "source_url": "https://www.lroc.im-ldi.com/images/938",
+      "status": "published coordinate and elevation"
+    },
+    {
+      "id": "apollo14",
+      "name": "Apollo 14",
+      "region": "near_side",
+      "program": "Apollo (1971)",
+      "lat": -3.64589,
+      "lon": 342.52806,
+      "alt_km": -1.062,
+      "source": "LROC, 'Spacecraft Related Coordinates - 2016 Update'",
+      "source_url": "https://www.lroc.im-ldi.com/images/938",
+      "status": "published coordinate and elevation"
+    },
+    {
+      "id": "apollo15",
+      "name": "Apollo 15",
+      "region": "near_side",
+      "program": "Apollo (1971)",
+      "lat": 26.13239,
+      "lon": 3.6333,
+      "alt_km": -1.931,
+      "source": "LROC, 'Spacecraft Related Coordinates - 2016 Update'",
+      "source_url": "https://www.lroc.im-ldi.com/images/938",
+      "status": "published coordinate and elevation"
+    },
+    {
+      "id": "apollo16",
+      "name": "Apollo 16",
+      "region": "near_side",
+      "program": "Apollo (1972)",
+      "lat": -8.9734,
+      "lon": 15.5011,
+      "alt_km": 0.008,
+      "source": "LROC, 'Spacecraft Related Coordinates - 2016 Update'",
+      "source_url": "https://www.lroc.im-ldi.com/images/938",
+      "status": "published coordinate and elevation"
+    },
+    {
+      "id": "apollo17",
+      "name": "Apollo 17",
+      "region": "near_side",
+      "program": "Apollo (1972)",
+      "lat": 20.1911,
+      "lon": 30.7723,
+      "alt_km": -2.626,
+      "source": "LROC, 'Spacecraft Related Coordinates - 2016 Update'",
+      "source_url": "https://www.lroc.im-ldi.com/images/938",
+      "status": "published coordinate and elevation"
+    }
+  ]
+}

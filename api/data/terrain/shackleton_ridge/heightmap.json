@@ -1,0 +1,1 @@
+{"size": 256, "extent_m": 20000.0, "cell_m": 78.43137254901961, "min_m": -2845.3336394841112, "max_m": 1957.6065291994814, "orientation": "row 0 = north edge, column 0 = west edge, site at centre", "format": "float32 little-endian, row-major", "product": "LOLA LDEM_80S_40M V2.0 (LRO-L-LOLA-4-GDR-V1.0, 40 m/px, south polar stereographic)"}

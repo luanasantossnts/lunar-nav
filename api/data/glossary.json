@@ -1,0 +1,110 @@
+{
+  "source": "frontend/src/locales/en.json → help.terms (kept equal by frontend/src/lib/glossary.test.js)",
+  "terms": [
+    {
+      "id": "azimuth",
+      "title": "Azimuth",
+      "def": "Direction along the horizon, measured clockwise from north (0° north, 90° east)."
+    },
+    {
+      "id": "elevation",
+      "title": "Elevation",
+      "def": "Angle of a body above the mathematical horizon (0°). At the lunar south pole the Sun stays within about ±1.5°."
+    },
+    {
+      "id": "horizon-mask",
+      "title": "Horizon mask (skyline)",
+      "def": "Elevation of the real terrain horizon in each direction, computed from NASA LOLA elevation data out to 150 km."
+    },
+    {
+      "id": "geometric-terrain",
+      "title": "Geometric vs terrain mode",
+      "def": "Geometric assumes a flat 0° horizon; terrain uses the horizon mask. Terrain can lower or raise visibility."
+    },
+    {
+      "id": "dem",
+      "title": "DEM",
+      "def": "Digital elevation model: a grid of surface heights. Lunar Nav uses LOLA DEMs at 40 m and 60 m per pixel."
+    },
+    {
+      "id": "lola",
+      "title": "LOLA",
+      "def": "Lunar Orbiter Laser Altimeter on NASA's Lunar Reconnaissance Orbiter, which measured the Moon's topography."
+    },
+    {
+      "id": "horizons",
+      "title": "JPL Horizons",
+      "def": "NASA/JPL service that gives precise positions of the Sun, Earth and Moon for any place and time."
+    },
+    {
+      "id": "disc-range",
+      "title": "First limb / centre / full disc",
+      "def": "The Sun counts as visible when its first edge, its centre or its whole disc is above the skyline. The range between them is the disc range."
+    },
+    {
+      "id": "p10-p90",
+      "title": "P10–P90",
+      "def": "The range that contains the middle 80% of values. Here, of the results at grid points within 300 m of the site."
+    },
+    {
+      "id": "earth-in-view",
+      "title": "Earth in view",
+      "def": "Earth's centre above the local skyline: a direct line of sight."
+    },
+    {
+      "id": "dsn",
+      "title": "DSN (Deep Space Network)",
+      "def": "NASA's Deep Space Network, with 70 m antennas at Goldstone (USA), Madrid (Spain) and Canberra (Australia). Contact with Earth here means Earth in view AND at least one DSN complex seeing the Moon at 10° or more."
+    },
+    {
+      "id": "longest-dark",
+      "title": "Longest dark period",
+      "def": "The longest continuous time without the Sun, among the nights that overlap the analysed period, measured in full (up to 15 days before and after it). “≥” means it may be even longer."
+    },
+    {
+      "id": "panel-factor",
+      "title": "Panel factor",
+      "def": "Share of a panel's rated power produced on average, from the Sun's angle (vertical panel tracking the Sun: cosine of the elevation)."
+    },
+    {
+      "id": "dod",
+      "title": "Depth of discharge (DoD)",
+      "def": "Fraction of the battery's capacity that is actually used."
+    },
+    {
+      "id": "libration",
+      "title": "Libration",
+      "def": "The Moon's slight wobble seen from Earth, which makes Earth rise and set over the polar horizon during the month."
+    },
+    {
+      "id": "set",
+      "title": "Earthset / sunset",
+      "def": "The time the body goes below the local skyline."
+    },
+    {
+      "id": "provenance",
+      "title": "Provenance",
+      "def": "The record of where each number came from: source, parameters and version."
+    },
+    {
+      "id": "validation-status",
+      "title": "Validation status",
+      "def": "How far a claim has been checked: planned → integration tested → numerically verified → validated for scope."
+    },
+    {
+      "id": "longest-gap",
+      "title": "Longest gap without Earth / contact",
+      "def": "The longest continuous time without Earth in view (or without DSN contact), among the gaps that overlap the analysed period, measured in full. “≥” means it may be even longer."
+    },
+    {
+      "id": "pgda-average",
+      "title": "Long-term average (PGDA)",
+      "def": "NASA PGDA's share of time a place sees the Sun (or Earth) over a full 18.6-year lunar cycle, hourly, from LOLA topography (Mazarico et al. 2011). Any fraction of the disc counts. It does not depend on the dates you choose."
+    },
+    {
+      "id": "psr",
+      "title": "Permanently shadowed region (PSR)",
+      "def": "Ground that never sees any part of the Sun over the 18.6-year cycle, mapped by NASA PGDA. Cold traps where ice may survive; dark for a lander."
+    }
+  ]
+}

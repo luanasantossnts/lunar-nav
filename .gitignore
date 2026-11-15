@@ -1,0 +1,22 @@
+# secrets
+api/config.php
+.env
+.env.*
+
+# runtime data
+api/data/cache/
+
+# build and deps
+node_modules/
+frontend/dist/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# large inputs
+*.tif
+*.IMG
+*.img
+*.LBL
+
+.DS_Store

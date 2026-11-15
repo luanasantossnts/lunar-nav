@@ -1,0 +1,47 @@
+{
+  "network": "NASA Deep Space Network, 70-m antennas (one per complex)",
+  "source": "DSN Telecommunications Link Design Handbook 810-005, Module 301, Rev. P (Coverage and Geometry), issue date 2026-05-22, Table 5: Geodetic Coordinates for DSN Stations With Respect to the WGS 84 Ellipsoid",
+  "source_url": "https://deepspace.jpl.nasa.gov/dsndocs/810-005/301/301P.pdf",
+  "horizons": "JPL Horizons has these antennas as predefined Earth sites (CENTER='DSS-14@399', 'DSS-43@399', 'DSS-63@399'). Their site coordinates, as printed in the Horizons header, match Table 5 to the last published digit (checked 2026-11-14).",
+  "min_elevation_deg": 10,
+  "step_minutes": 60,
+  "step_note": "Moon rise/set at the stations changes elevation by about 12-15 deg per hour, and crossings are interpolated linearly. Measured 2026-11-14 for 2030-07-01 + 30 d: DSN union coverage 60 min 0.9909 vs 10 min 0.9913 (|delta| 0.0003) at 10 deg, 0.0010 at 20 deg, both below the 0.005 tolerance, so 60 min is used. bin/validate.php repeats the check.",
+  "stations": [
+    {
+      "id": "DSS-14",
+      "complex": "Goldstone",
+      "country": "USA",
+      "antenna": "70-m",
+      "lat_dms": "35 25 33.24312",
+      "lon_east_dms": "243 06 37.66244",
+      "lat": 35.4259009,
+      "lon_east": 243.1104618,
+      "height_m": 1001.390,
+      "horizons_center": "DSS-14@399"
+    },
+    {
+      "id": "DSS-43",
+      "complex": "Canberra",
+      "country": "Australia",
+      "antenna": "70-m",
+      "lat_dms": "-35 24 08.72724",
+      "lon_east_dms": "148 58 52.56231",
+      "lat": -35.4024242,
+      "lon_east": 148.9812673,
+      "height_m": 688.867,
+      "horizons_center": "DSS-43@399"
+    },
+    {
+      "id": "DSS-63",
+      "complex": "Madrid",
+      "country": "Spain",
+      "antenna": "70-m",
+      "lat_dms": "40 25 52.35510",
+      "lon_east_dms": "355 45 07.16924",
+      "lat": 40.4312098,
+      "lon_east": 355.7519915,
+      "height_m": 864.816,
+      "horizons_center": "DSS-63@399"
+    }
+  ]
+}

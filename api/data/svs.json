@@ -1,0 +1,41 @@
+{
+ "notes": "Curated visualizations from NASA's Scientific Visualization Studio shown as context. Metadata is fetched from the public SVS API (https://svs.gsfc.nasa.gov/api/<id>) and cached; the fallback text below is used when it cannot be reached.",
+ "items": [
+  {
+   "id": 5013,
+   "topic": "sites",
+   "title": "Artemis III Landing Region Candidates",
+   "url": "https://svs.gsfc.nasa.gov/5013/"
+  },
+  {
+   "id": 4716,
+   "topic": "terrain",
+   "title": "Visualizing Shackleton Crater",
+   "url": "https://svs.gsfc.nasa.gov/4716/"
+  },
+  {
+   "id": 4770,
+   "topic": "sites",
+   "title": "From Apollo Sites To The South Pole",
+   "url": "https://svs.gsfc.nasa.gov/4770/"
+  },
+  {
+   "id": 4119,
+   "topic": "libration",
+   "title": "Moon Phase and Libration, 2014 South Up",
+   "url": "https://svs.gsfc.nasa.gov/4119/"
+  },
+  {
+   "id": 5228,
+   "topic": "terrain",
+   "title": "Lunar South Pole Illumination with Earth and Sun",
+   "url": "https://svs.gsfc.nasa.gov/5228/"
+  },
+  {
+   "id": 5127,
+   "topic": "sites",
+   "title": "Lunar South Pole Terrain in Coded Color",
+   "url": "https://svs.gsfc.nasa.gov/5127/"
+  }
+ ]
+}
