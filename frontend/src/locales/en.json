@@ -592,7 +592,7 @@
       "longest-gap": {
         "title": "Longest gap without Earth / contact",
         "def": "The longest continuous time without Earth in view (or without DSN contact), among the gaps that overlap the analysed period, measured in full. “≥” means it may be even longer.",
-        "example": "At Shackleton ridge Earth sets for about 12 days at a time, so the gap without contact is set by the Moon's libration, not by the network."
+        "example": "At Shackleton ridge Earth sets for about 14.5 days at a time (347.4 h, 30 days from 1 July 2030, terrain), so the gap without contact is set by the Moon’s libration, not by the network."
       },
       "pgda-average": {
         "title": "Long-term average (PGDA)",

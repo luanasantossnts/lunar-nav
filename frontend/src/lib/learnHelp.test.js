@@ -72,3 +72,16 @@ describe('Help layout', () => {
     }
   });
 });
+
+describe('Help text checked against the API (default scenario, terrain)', () => {
+  it('longest gap without Earth at Shackleton: 347.37 h (≈ 14.5 days), not "12 days"', () => {
+    expect(en.help.terms['longest-gap'].example).toContain('14.5 days');
+    expect(en.help.terms['longest-gap'].example).toContain('347.4 h');
+    expect(pt.help.terms['longest-gap'].example).toContain('14,5 dias');
+    expect(es.help.terms['longest-gap'].example).toContain('14,5 días');
+    for (const d of Object.values(LOCALES)) expect(d.help.terms['longest-gap'].example).not.toMatch(/\b12 (days|dias|días)/);
+  });
+  it('PT says "locais", not "sites", in the Charts description', () => {
+    expect(pt.help.screens.charts.text).not.toMatch(/\bsites?\b/);
+  });
+});

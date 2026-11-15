@@ -475,7 +475,7 @@
       },
       "charts": {
         "title": "Gráficos",
-        "text": "Seis gráficos, só de leitura, com os mesmos dados: sites lado a lado com suas faixas, 2030 mês a mês, nosso modelo × NASA PGDA, bateria necessária, o que um atraso muda e a dispersão em ±300 m no site A. Cada um tem uma tabela de dados."
+        "text": "Seis gráficos, só de leitura, com os mesmos dados: locais lado a lado com suas faixas, 2030 mês a mês, nosso modelo × NASA PGDA, bateria necessária, o que um atraso muda e a dispersão em ±300 m no local A. Cada um tem uma tabela de dados."
       }
     },
     "glossaryTitle": "Glossário",
@@ -592,7 +592,7 @@
       "longest-gap": {
         "title": "Maior intervalo sem Terra / contato",
         "def": "O maior tempo contínuo sem a Terra visível (ou sem contato pela DSN), entre os intervalos que cruzam o período analisado, medido por inteiro. “≥” indica que pode ser ainda maior.",
-        "example": "Na crista de Shackleton a Terra se põe por cerca de 12 dias seguidos, então o intervalo sem contato é definido pela libração da Lua, não pela rede."
+        "example": "Na crista de Shackleton a Terra se põe por cerca de 14,5 dias seguidos (347,4 h, 30 dias a partir de 1º de julho de 2030, relevo), então o intervalo sem contato é definido pela libração da Lua, não pela rede."
       },
       "pgda-average": {
         "title": "Média de longo prazo (PGDA)",

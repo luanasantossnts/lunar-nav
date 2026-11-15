@@ -592,7 +592,7 @@
       "longest-gap": {
         "title": "Mayor intervalo sin Tierra / contacto",
         "def": "El mayor tiempo continuo sin la Tierra visible (o sin contacto por la DSN), entre los intervalos que cruzan el período analizado, medido completo. “≥” indica que puede ser aún mayor.",
-        "example": "En la cresta de Shackleton la Tierra se pone durante unos 12 días seguidos, así que el intervalo sin contacto lo fija la libración de la Luna, no la red."
+        "example": "En la cresta de Shackleton la Tierra se pone durante unos 14,5 días seguidos (347,4 h, 30 días desde el 1 de julio de 2030, relieve), así que el intervalo sin contacto lo fija la libración de la Luna, no la red."
       },
       "pgda-average": {
         "title": "Promedio a largo plazo (PGDA)",

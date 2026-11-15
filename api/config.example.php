@@ -3,11 +3,25 @@
 /**
  * Lunar Nav configuration.
  *
- * Copy to config.php and fill in. Secrets can also come from environment
- * variables (ANTHROPIC_API_KEY, ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, IP_SALT; optionally
- * ANTHROPIC_MODEL), which take precedence — for example from a file passed to
- * `docker run --env-file`. Never commit config.php or any key.
+ * Copy to config.php (same folder) and fill in the five fields below. config.php is blocked from
+ * the web by .htaccess and is never in the repository or the deploy zip. Environment variables
+ * with the same names (ANTHROPIC_API_KEY, ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, IP_SALT;
+ * optionally ANTHROPIC_MODEL) take precedence when the host provides them. Never commit a key.
  */
+
+// Anthropic (Claude) key for the Analyst. Empty: the Analyst only answers from its cache.
+$ANTHROPIC_API_KEY = '';
+// ElevenLabs key for read-aloud and speech input. Empty: the browser's own voice is used.
+$ELEVENLABS_API_KEY = '';
+// ElevenLabs voice (public id, not a secret). The cached MP3 files were made with this voice.
+$ELEVENLABS_VOICE_ID = 'EXAVITQu4vr4xnSDxMaL';
+// Secret for hashing client addresses (hourly limits). 64 random hex characters, e.g. from
+// `php -r "echo bin2hex(random_bytes(32));"`. Empty: one is created in $PRIVATE_DIR.
+$IP_SALT = '';
+// Private folder OUTSIDE public_html (never served), e.g. /home/USUARIO/lunarnav-private
+// on Hostinger. Holds the IP salt file when $IP_SALT is empty.
+$PRIVATE_DIR = '/home/USUARIO/lunarnav-private';
+
 return [
     'cache' => [
         // 'file' works on any host. 'mysql' uses the table created by bin/create-cache-table.sql.
@@ -32,7 +46,7 @@ return [
 
     'ai' => [
         // The analyst uses Claude (Anthropic Messages API) only.
-        'api_key' => '',
+        'api_key' => $ANTHROPIC_API_KEY,
         // Smaller models cost less per token (see README, "Cost controls").
         'model' => 'claude-opus-5-5',
         'url' => 'https://api.anthropic.com/v1/messages',
@@ -45,8 +59,8 @@ return [
     'voice' => [
         // ElevenLabs for both read-aloud (TTS) and speech input (STT, Scribe).
         'elevenlabs' => [
-            'api_key' => '',
-            'voice_id' => '',
+            'api_key' => $ELEVENLABS_API_KEY,
+            'voice_id' => $ELEVENLABS_VOICE_ID,
             'tts_model' => 'eleven_multilingual_v2',
             'stt_model' => 'scribe_v1',
         ],
@@ -59,12 +73,13 @@ return [
 
     'privacy' => [
         // Secret used to hash client addresses for the hourly limits (records are deleted after 48 h).
-        // Prefer the IP_SALT environment variable; if neither is set, one is created in salt_file
-        // or, by default, in a file just above the site root (outside the web root).
-        'ip_salt' => '',
-        'salt_file' => null,
+        // IP_SALT (environment or the field above); if empty, one is created in salt_file, which
+        // must be outside public_html (the app refuses a path inside the site).
+        'ip_salt' => $IP_SALT,
+        'salt_file' => rtrim($PRIVATE_DIR, '/') . '/ip-salt',
     ],
 
-    // Origins allowed to call the API from a browser. Same-origin deploys need nothing here.
-    'cors_origins' => ['http://localhost:5173'],
+    // Origins allowed to call the API from a browser. Same-origin deploys (lunarnav.space) need
+    // nothing here; for local development with the Vite server add 'http://localhost:5173'.
+    'cors_origins' => [],
 ];

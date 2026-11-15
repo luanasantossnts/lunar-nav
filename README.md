@@ -161,22 +161,16 @@ DEM resolution check: `api/data/terrain-dem60/shackleton_ridge/mask.json` is the
 
 Check `--units`/`--scale` against the product label (some DEMs store half-metres or kilometres). Sites outside the DEM are skipped and shown in the app as *terrain unavailable for this site*. The output records, per ray, how much of the ray the DEM covered, so a truncated horizon is never presented as complete.
 
-## Deploy (shared hosting, Apache + PHP)
+## Deploy (shared hosting, Apache / LiteSpeed + PHP)
 
-```
-public_html/
-  index.html, assets/, favicon.svg, …   ← contents of frontend/dist
-  api/                                  ← the api/ folder (with .htaccess)
-    config.php                          ← created on the server, not uploaded from git
-    data/cache/                         ← writable by PHP
-    data/terrain/                       ← output of preprocess
+Step-by-step guide (Portuguese, Hostinger hPanel): [deploy/DEPLOY.md](deploy/DEPLOY.md).
+
+```bash
+(cd frontend && npm run build)
+python3 -I deploy/build-zip.py   # → deploy/lunarnav-deploy.zip (not committed)
 ```
 
-1. `npm run build` and upload `frontend/dist/*` to the web root.
-2. Upload `api/` as `/api`. Create `api/config.php` on the server; make `api/data/cache` writable.
-3. Turn on HTTPS. The `.htaccess` blocks `src/`, `bin/`, `tests/`, the cache, `config.php` and the dev router.
-4. Run `php api/bin/validate.php` and `php api/bin/warm-cache.php` on the server (or upload `data/cache` and `data/validation.json` generated locally).
-5. Optional MySQL cache: run `api/bin/create-cache-table.sql`, set `cache.driver = 'mysql'`.
+The zip is the content of `public_html`: the built site at the root with `.htaccess` (HTTPS, SPA fallback, blocks, CSP and security headers, long cache for hashed assets), and `api/` with only what production needs (PHP code, horizon masks, reference data, `validation.json`, and the Horizons, Analyst and TTS caches). It never contains `config.php`, keys, tests, DEMs, Python, or the cache records with client data or usage counters. On the server, copy `api/config.example.php` to `api/config.php` and fill in the five fields at the top; `api/data/cache` must be writable. `api/data`, `api/bin` and `api/src` refuse every web request.
 
 Keep the site online until judging ends (January 2027). Use a neutral domain (no "nasa").
 

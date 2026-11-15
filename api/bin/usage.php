@@ -3,12 +3,23 @@
 // Usage of the paid services per UTC day (from the app cache). Private: not exposed by the API.
 //   php api/bin/usage.php           last 7 days
 //   php api/bin/usage.php 30        last 30 days
+//   php api/bin/usage.php --reset   zero today's counters (UTC); --reset=YYYY-MM-DD for another day
 declare(strict_types=1);
 require __DIR__ . '/../src/bootstrap.php';
 
-$days = max(1, min(366, (int) ($argv[1] ?? 7)));
 $config = lunarnav_config();
 $usage = new LunarNav\Usage\Usage(LunarNav\Cache\CacheFactory::make($config));
+
+// --reset[=YYYY-MM-DD]: the counters (and so the daily limits) of that UTC day start again from zero.
+foreach (array_slice($argv, 1) as $arg) {
+    if (preg_match('/^--reset(?:=(\d{4}-\d{2}-\d{2}))?$/', $arg, $m)) {
+        $day = $m[1] ?? gmdate('Y-m-d');
+        $usage->reset($day);
+        echo "Usage counters for {$day} (UTC) reset.\n";
+        exit(0);
+    }
+}
+$days = max(1, min(366, (int) ($argv[1] ?? 7)));
 $cols = [
     'claude_questions' => 'questions', 'claude_requests' => 'Claude req', 'analyst_cache_hits' => 'cached ans',
     'claude_input_tokens' => 'in tok', 'claude_cache_read_tokens' => 'cache read', 'claude_cache_write_tokens' => 'cache write', 'claude_output_tokens' => 'out tok',

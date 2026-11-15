@@ -21,3 +21,6 @@ __pycache__/
 *.LBL
 
 .DS_Store
+
+# Deploy package (built by deploy/build-zip.py; never committed)
+deploy/*.zip

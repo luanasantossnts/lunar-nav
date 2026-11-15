@@ -34,13 +34,18 @@ final class IpSalt
             if (self::insideSite((string) $f, $site)) {
                 continue; // never inside the site folder, where it could be served or committed
             }
-            if (is_file($f) && is_readable($f)) {
+            // @: with open_basedir, a path outside the allowed folders only fails (no warning in the JSON).
+            if (@is_file($f) && @is_readable($f)) {
                 $s = trim((string) file_get_contents($f));
                 if (strlen($s) >= 32) {
                     return self::$memo = $s;
                 }
             }
             $s = bin2hex(random_bytes(32));
+            // The configured private folder (e.g. /home/USER/lunarnav-private) may not exist yet.
+            if (!@is_dir(dirname((string) $f))) {
+                @mkdir(dirname((string) $f), 0700, true);
+            }
             if (@file_put_contents($f, $s . "\n", LOCK_EX) !== false) {
                 @chmod($f, 0600);
                 return self::$memo = $s;
@@ -53,8 +58,8 @@ final class IpSalt
     /** True when $file would be inside the site folder (web root + project). */
     public static function insideSite(string $file, string $site): bool
     {
-        $dir = realpath(dirname($file)) ?: dirname($file);
-        $site = rtrim(realpath($site) ?: $site, '/');
+        $dir = @realpath(dirname($file)) ?: dirname($file);
+        $site = rtrim(@realpath($site) ?: $site, '/');
         return $dir === $site || str_starts_with($dir . '/', $site . '/');
     }
 

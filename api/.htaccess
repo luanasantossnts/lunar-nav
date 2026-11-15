@@ -1,16 +1,30 @@
-# Lunar Nav API (Apache). Everything goes through index.php.
+# AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
+# Lunar Nav API (Apache / LiteSpeed). Everything goes through index.php.
+# This file's rewrite rules replace the site root's for /api, so the blocks are repeated here.
 Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # HTTPS (the root .htaccess does the same for the rest of the site).
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   # Hidden files (e.g. .lunarnav-ip-salt, .env) are never served.
   RewriteRule (^|/)\. - [F,L]
-  RewriteRule ^(src|bin|tests|data/cache)(/|$) - [F,L]
+  # Code, data, scripts and tests: read by PHP only, never served.
+  RewriteRule ^(src|bin|tests|data)(/|$) - [F,L]
   RewriteRule ^(config(\.example)?|dev-router)\.php$ - [F,L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
-<FilesMatch "^\.|\.(sql|md|lock)$">
-  Require all denied
+<FilesMatch "^\.|\.(sql|md|lock|log)$|^(config|config\.example|dev-router)\.php$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
 </FilesMatch>

@@ -1,0 +1,80 @@
+# AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
+# Lunar Nav — public_html/.htaccess (Apache / LiteSpeed, Hostinger). Copied to the site root by
+# deploy/build-zip.py. The api/ folder has its own .htaccess with the same blocks.
+
+Options -Indexes
+DirectoryIndex index.html
+ServerSignature Off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. HTTPS (also behind a proxy/CDN that sets X-Forwarded-Proto) and a single host name.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://lunarnav.space%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.lunarnav\.space$ [NC]
+  RewriteRule ^ https://lunarnav.space%{REQUEST_URI} [L,R=301]
+
+  # 2. Never served: dotfiles (except .well-known, used to issue the SSL certificate),
+  #    config files, the API's code, data, scripts and tests, the local dev router.
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  RewriteRule (^|/)config(\.example)?\.php$ - [F,L]
+  RewriteRule ^api/(data|bin|src|tests)(/|$) - [F,L]
+  RewriteRule ^api/dev-router\.php$ - [F,L]
+
+  # 3. Single-page app: a path without a file extension that is not a file, a folder or the
+  #    API returns index.html. Missing files with an extension (e.g. /assets/x.js) stay 404.
+  RewriteCond %{REQUEST_URI} !^/api(/|$)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !\.[A-Za-z0-9]{1,8}$
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Files that are never served, wherever they are.
+<FilesMatch "(^\.|\.(md|sql|lock|log|sh|py|zip|bak|dist|example\.php)$|^config\.php$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_headers.c>
+  # Content Security Policy for the built app: scripts, styles, fonts, the 3D worker and the API are
+  # on this site; SVS preview images come from svs.gsfc.nasa.gov; audio is the API's MP3 files or a
+  # local recording (blob:). Inline styles are allowed only for the style attributes React sets.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://svs.gsfc.nasa.gov; media-src 'self' blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "camera=(), geolocation=(), microphone=(self), payment=(), usb=()"
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+
+  # The page itself is always checked again (new deploys show at once); hashed assets have
+  # their own long cache (assets/.htaccess).
+  <FilesMatch "^(index\.html|404\.html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(svg|png|ico)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType image/svg+xml .svg
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>

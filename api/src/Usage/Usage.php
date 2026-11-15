@@ -48,6 +48,12 @@ final class Usage
         return (float) ($this->day()[$field] ?? 0);
     }
 
+    /** Deletes the counters of one UTC day (default: today); the daily limits start again from zero. */
+    public function reset(?string $day = null): void
+    {
+        $this->cache->delete(self::key($day ?? $this->todayKey()));
+    }
+
     /** @param array<string,int|float> $deltas */
     public function add(array $deltas): void
     {

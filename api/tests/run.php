@@ -753,6 +753,38 @@ check('IP salt: created outside the site folder (never inside the web root or th
     && LunarNav\Privacy\IpSalt::insideSite($siteDir . '/api/.x', $siteDir) && !LunarNav\Privacy\IpSalt::insideSite(dirname($siteDir) . '/.x', $siteDir));
 check('IP salt: IP_SALT from the environment wins', LunarNav\Privacy\IpSalt::resolve(['privacy' => ['ip_salt' => 'env-salt']]) === 'env-salt');
 
+echo "Shared hosting (deploy): salt folder, usage reset, config fields, web blocks\n";
+$priv = sys_get_temp_dir() . '/lunarnav-test-private-' . bin2hex(random_bytes(4)) . '/nested';
+LunarNav\Privacy\IpSalt::reset();
+$s1 = LunarNav\Privacy\IpSalt::resolve(['privacy' => ['ip_salt' => '', 'salt_file' => $priv . '/ip-salt']]);
+check('IP salt: the configured private folder is created if missing, file readable only by the owner', strlen($s1) === 64 && is_file($priv . '/ip-salt') && (fileperms($priv . '/ip-salt') & 0o077) === 0 && trim((string) file_get_contents($priv . '/ip-salt')) === $s1);
+LunarNav\Privacy\IpSalt::reset();
+check('IP salt: the same file gives the same salt after a restart', LunarNav\Privacy\IpSalt::resolve(['privacy' => ['ip_salt' => '', 'salt_file' => $priv . '/ip-salt']]) === $s1);
+@unlink($priv . '/ip-salt'); @rmdir($priv); @rmdir(dirname($priv));
+LunarNav\Privacy\IpSalt::reset();
+$uc = new LunarNav\Cache\FileCache($tmp . '/cache-usage-reset');
+$u = new LunarNav\Usage\Usage($uc);
+$u->add(['claude_requests' => 3]);
+$before = $u->get('claude_requests');
+$u->reset();
+check('usage: --reset zeroes today\'s counters (the daily limits start again)', $before == 3 && $u->get('claude_requests') == 0);
+$ex = (static fn() => require LUNARNAV_ROOT . '/config.example.php')();
+$exSrc = (string) file_get_contents(LUNARNAV_ROOT . '/config.example.php');
+check('config.example.php: the five deploy fields, voice EXAVITQu4vr4xnSDxMaL, salt file outside public_html, no key',
+    $ex['voice']['elevenlabs']['voice_id'] === 'EXAVITQu4vr4xnSDxMaL' && $ex['ai']['api_key'] === '' && $ex['voice']['elevenlabs']['api_key'] === '' && $ex['privacy']['ip_salt'] === ''
+    && !str_contains((string) $ex['privacy']['salt_file'], 'public_html') && str_starts_with((string) $ex['privacy']['salt_file'], '/home/')
+    && preg_match_all('/^\$(ANTHROPIC_API_KEY|ELEVENLABS_API_KEY|ELEVENLABS_VOICE_ID|IP_SALT|PRIVATE_DIR) = /m', $exSrc) === 5 && $ex['cors_origins'] === []);
+$deny = static fn(string $f) => is_file($f) && str_contains((string) file_get_contents($f), 'Require all denied') && str_contains((string) file_get_contents($f), 'Deny from all');
+$apiHt = (string) file_get_contents(LUNARNAV_ROOT . '/.htaccess');
+$rootHt = (string) @file_get_contents(LUNARNAV_ROOT . '/../deploy/root.htaccess');
+check('web: api/data, api/bin and api/src refuse every request; api/.htaccess blocks data/bin/src/tests, dotfiles and config',
+    $deny(LUNARNAV_ROOT . '/data/.htaccess') && $deny(LUNARNAV_ROOT . '/bin/.htaccess') && $deny(LUNARNAV_ROOT . '/src/.htaccess')
+    && str_contains($apiHt, 'RewriteRule ^(src|bin|tests|data)(/|$) - [F,L]') && str_contains($apiHt, 'RewriteRule (^|/)\. - [F,L]') && str_contains($apiHt, 'config(\.example)?|dev-router'));
+check('site root .htaccess: HTTPS, SPA fallback, blocks, CSP and security headers, long cache for hashed assets',
+    $rootHt === '' || (str_contains($rootHt, 'RewriteCond %{HTTPS} !=on') && str_contains($rootHt, 'RewriteRule ^ index.html [L]') && str_contains($rootHt, '^api/(data|bin|src|tests)(/|$)')
+    && str_contains($rootHt, "Content-Security-Policy \"default-src 'self'; script-src 'self';") && str_contains($rootHt, 'X-Content-Type-Options') && str_contains($rootHt, 'Referrer-Policy')
+    && str_contains((string) @file_get_contents(LUNARNAV_ROOT . '/../deploy/assets.htaccess'), 'max-age=31536000, immutable')));
+
 echo "DEM resolution sensitivity: the 60 m reference mask\n";
 $m60 = json_decode((string) @file_get_contents(LUNARNAV_ROOT . '/data/terrain-dem60/shackleton_ridge/mask.json'), true) ?: [];
 check('60 m mask (validation only): LDEM_75S_60M, same method (150 km, 0.5°, 2 m), rays fully covered', str_contains($m60['meta']['product'] ?? '', 'LDEM_75S_60M') && ($m60['meta']['pixel_m'] ?? 0) == 60 && ($m60['meta']['max_distance_km'] ?? 0) == 150 && ($m60['az_step_deg'] ?? 0) == 0.5 && ($m60['meta']['observer_height_m'] ?? 0) == 2 && ($m60['meta']['rays_fully_covered'] ?? 0) == 1 && count($m60['elevations'] ?? []) === 720);
