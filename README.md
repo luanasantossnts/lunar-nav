@@ -1,6 +1,6 @@
 # Lunar Nav
 
-**Live app:** https://lunarnav.space · **Demo video:** VIDEO_LINK · **Kids edition (bonus):** https://kids.lunarnav.space
+**Live app:** https://lunarnav.space · **Demo video:**(https://youtu.be/2DHGXYqBplQ) · **Kids edition (bonus):** https://kids.lunarnav.space
 
 ![Explorer, Shackleton rim ridge with the terrain horizon: the readout shows 99.8 % sunlight at the published point and a ±300 m range of 48.1–73.3 %, next to the polar map of the south-pole sites.](docs/screenshots/explorer-shackleton-terrain.png)
 
