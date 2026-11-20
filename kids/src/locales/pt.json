@@ -214,7 +214,7 @@
     "finish": "Ver meu resultado",
     "doneTitle": "Quiz concluído!",
     "score": "{n} de {total} certas",
-    "doneText": "Ótima exploração! Seu resultado só aparece aqui; ele não é salvo em lugar nenhum.",
+    "doneText": "Ótima exploração! Sua pontuação só aparece aqui. Um 5 de 5 fica guardado só neste aparelho, junto com suas estrelas.",
     "again": "Jogar de novo"
   },
   "cert": {
@@ -229,7 +229,7 @@
     "lockedPhase": "Termine todas as missões de {phase} para liberar este certificado!"
   },
   "footer": {
-    "privacy": "Sem nomes, sem contas, nada enviado. O progresso fica só neste aparelho.",
+    "privacy": "Sem nomes, sem contas. O progresso fica só neste aparelho.",
     "notEndorsed": "Projeto independente, não endossado pela NASA",
     "data": "Feito com dados do NASA/JPL Horizons e do NASA LOLA",
     "grownups": "Para adultos: lunarnav.space"
@@ -349,12 +349,14 @@
     "total": "{n} de 3 estrelas",
     "sunYes": "Sol: {p} % do tempo, pelo menos metade.",
     "sunNo": "Sol: só {p} % do tempo. Queremos pelo menos metade.",
+    "sunDark": "Sol: o Lumi pousa no escuro e espera cerca de {n} dias até o Sol nascer, então o Sol aparece menos da metade do tempo.",
     "callYes": "Ligações: a maior espera sem ligar é de cerca de {n} dias, 7 dias ou menos.",
     "callNo": "Ligações: a maior espera sem ligar é de cerca de {n} dias, mais de 7.",
     "callUnknown": "Ligações: a espera pode ser ainda maior do que estes 30 dias mostram.",
     "batYes": "Bateria: o Lumi precisa de {need} kWh para uma noite de {night}; sua bateria de {kwh} kWh dá conta.",
     "batNo": "Bateria: o Lumi precisa de {need} kWh para uma noite de {night}; {kwh} kWh não bastam.",
     "batUnknown": "Bateria: a noite pode ser ainda maior do que estes 30 dias mostram, então não dá para ter certeza de que {kwh} kWh bastam (o Lumi precisa de pelo menos {need} kWh para {night}).",
+    "shorterNight": "Pousando em {date}, a noite mais longa é um pouco menor; por isso o Lumi precisa de cerca de {need} kWh, e não de cerca de {m3} kWh como na Missão 3.",
     "nightDays": "cerca de {n} dias",
     "nightHours": "cerca de {n} horas",
     "aboutKwh": "cerca de {n}",

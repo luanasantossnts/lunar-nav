@@ -71,6 +71,7 @@ export const MAX_WAIT_H = 7 * 24;
  */
 export function planStars(siteId, dateIndex, batteryKey) {
   const r = DATA.plans[siteId][dateIndex].raw;
+  const base = DATA.plans[siteId][0].raw;
   const kwh = BATTERIES[batteryKey];
   const sun = r.sun_fraction >= SUN_ENOUGH;
   const call = r.longest_no_contact_h <= MAX_WAIT_H && !r.longest_no_contact_lower_bound;
@@ -81,5 +82,9 @@ export function planStars(siteId, dateIndex, batteryKey) {
     need_kwh: r.battery_kwh, night_h: r.longest_night_h, night_lower_bound: r.longest_night_lower_bound,
     wait_h: r.longest_no_contact_h, wait_lower_bound: r.longest_no_contact_lower_bound,
     sun_fraction: r.sun_fraction,
+    // Landing in the dark: days until the Sun first rises (the reason given when the Sun star is missed).
+    dark_wait_days: r.daylight_before_first_night_h === 0 ? DATA.plans[siteId][dateIndex].sun_spans_days[0][0] : null,
+    // A later landing whose longest night is shorter than Mission 3's (1 July), both known exactly.
+    shorter_night: dateIndex > 0 && !r.longest_night_lower_bound && !base.longest_night_lower_bound && r.longest_night_h < base.longest_night_h,
   };
 }

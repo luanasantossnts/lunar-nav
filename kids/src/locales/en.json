@@ -214,7 +214,7 @@
     "finish": "See my result",
     "doneTitle": "Quiz complete!",
     "score": "{n} of {total} right",
-    "doneText": "Great exploring! Your score is only shown here; it is not saved anywhere.",
+    "doneText": "Great exploring! Your score is only shown here. A 5 of 5 is kept only on this device, with your stars.",
     "again": "Play again"
   },
   "cert": {
@@ -229,7 +229,7 @@
     "lockedPhase": "Finish every {phase} mission to unlock this certificate!"
   },
   "footer": {
-    "privacy": "No names, no accounts, nothing sent anywhere. Progress stays only on this device.",
+    "privacy": "No names, no accounts. Progress stays only on this device.",
     "notEndorsed": "Independent project, not endorsed by NASA",
     "data": "Built on NASA/JPL Horizons and NASA LOLA data",
     "grownups": "For grown-ups: lunarnav.space"
@@ -349,12 +349,14 @@
     "total": "{n} of 3 stars",
     "sunYes": "Sun: {p} % of the time, at least half.",
     "sunNo": "Sun: only {p} % of the time. We want at least half.",
+    "sunDark": "Sun: Lumi lands in the dark and waits about {n} days for the Sun to rise, so the Sun is up less than half the time.",
     "callYes": "Calls: the longest wait without a call is about {n} days, 7 days or less.",
     "callNo": "Calls: the longest wait without a call is about {n} days, longer than 7.",
     "callUnknown": "Calls: the wait may be even longer than these 30 days can show.",
     "batYes": "Battery: Lumi needs {need} kWh for a night of {night}; your {kwh} kWh battery is enough.",
     "batNo": "Battery: Lumi needs {need} kWh for a night of {night}; {kwh} kWh is not enough.",
     "batUnknown": "Battery: the night may be even longer than these 30 days can show, so we cannot be sure a {kwh} kWh battery is enough (Lumi needs at least {need} kWh for {night}).",
+    "shorterNight": "Landing on {date}, the longest night is a little shorter, so Lumi needs about {need} kWh instead of about {m3} kWh as in Mission 3.",
     "nightDays": "about {n} days",
     "nightHours": "about {n} hours",
     "aboutKwh": "about {n}",

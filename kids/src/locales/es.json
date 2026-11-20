@@ -214,7 +214,7 @@
     "finish": "Ver mi resultado",
     "doneTitle": "¡Cuestionario terminado!",
     "score": "{n} de {total} correctas",
-    "doneText": "¡Gran exploración! Tu resultado solo se muestra aquí; no se guarda en ningún lugar.",
+    "doneText": "¡Gran exploración! Tu resultado solo se muestra aquí. Un 5 de 5 se guarda solo en este dispositivo, con tus estrellas.",
     "again": "Jugar de nuevo"
   },
   "cert": {
@@ -229,7 +229,7 @@
     "lockedPhase": "¡Termina todas las misiones de {phase} para desbloquear este certificado!"
   },
   "footer": {
-    "privacy": "Sin nombres, sin cuentas, nada enviado. El progreso se queda solo en este dispositivo.",
+    "privacy": "Sin nombres, sin cuentas. El progreso se queda solo en este dispositivo.",
     "notEndorsed": "Proyecto independiente, sin respaldo de la NASA",
     "data": "Hecho con datos de NASA/JPL Horizons y NASA LOLA",
     "grownups": "Para adultos: lunarnav.space"
@@ -349,12 +349,14 @@
     "total": "{n} de 3 estrellas",
     "sunYes": "Sol: {p} % del tiempo, al menos la mitad.",
     "sunNo": "Sol: solo el {p} % del tiempo. Queremos al menos la mitad.",
+    "sunDark": "Sol: Lumi aterriza a oscuras y espera unos {n} días hasta que sale el Sol, así que el Sol está menos de la mitad del tiempo.",
     "callYes": "Llamadas: la espera más larga sin llamar es de unos {n} días, 7 días o menos.",
     "callNo": "Llamadas: la espera más larga sin llamar es de unos {n} días, más de 7.",
     "callUnknown": "Llamadas: la espera podría ser aún más larga de lo que muestran estos 30 días.",
     "batYes": "Batería: Lumi necesita {need} kWh para una noche de {night}; tu batería de {kwh} kWh alcanza.",
     "batNo": "Batería: Lumi necesita {need} kWh para una noche de {night}; {kwh} kWh no alcanzan.",
     "batUnknown": "Batería: la noche podría ser aún más larga de lo que muestran estos 30 días, así que no sabemos si {kwh} kWh alcanzan (Lumi necesita al menos {need} kWh para {night}).",
+    "shorterNight": "Aterrizando el {date}, la noche más larga es un poco más corta; por eso Lumi necesita unos {need} kWh y no unos {m3} kWh como en la Misión 3.",
     "nightDays": "unos {n} días",
     "nightHours": "unas {n} horas",
     "aboutKwh": "unos {n}",

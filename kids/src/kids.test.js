@@ -158,8 +158,11 @@ describe('texts in English, Spanish and Portuguese', () => {
     }
   });
   it('the footer says what the brief asks for', () => {
-    expect(en.footer.privacy).toBe('No names, no accounts, nothing sent anywhere. Progress stays only on this device.');
-    expect(pt.footer.privacy).toMatch(/O progresso fica só neste aparelho\./);
+    expect(en.footer.privacy).toBe('No names, no accounts. Progress stays only on this device.');
+    expect(pt.footer.privacy).toBe('Sem nomes, sem contas. O progresso fica só neste aparelho.');
+    expect(es.footer.privacy).toBe('Sin nombres, sin cuentas. El progreso se queda solo en este dispositivo.');
+    // Nothing may claim that progress is not saved: stars and a 5 of 5 are kept on this device.
+    for (const d of [en, es, pt]) expect(JSON.stringify(d)).not.toMatch(/nothing (is )?saved|not saved|nada salvo|não é salvo|no se guarda/i);
     expect(en.footer.notEndorsed).toBe('Independent project, not endorsed by NASA');
     expect(en.footer.data).toBe('Built on NASA/JPL Horizons and NASA LOLA data');
     expect(en.footer.grownups).toBe('For grown-ups: lunarnav.space');

@@ -57,9 +57,10 @@ export default function PlanMission() {
           <h2 id="m9-result" style={{ fontSize: 26 }}>{t('m9.resultTitle')}</h2>
           <div aria-live="polite" className="stack" style={{ gap: 14 }}>
             <p className="row" style={{ gap: 12 }}><StarRow n={r.total} size={34} /><span className="big-number" style={{ fontSize: 30 }}>{t('m9.total', { n: r.total })}</span></p>
-            <p className="row" style={{ gap: 12, flexWrap: 'nowrap', alignItems: 'flex-start' }}><Mark ok={r.sun} /><span>{t(r.sun ? 'm9.sunYes' : 'm9.sunNo', { p: Math.round(100 * r.sun_fraction) })}</span></p>
+            <p className="row" style={{ gap: 12, flexWrap: 'nowrap', alignItems: 'flex-start' }}><Mark ok={r.sun} /><span>{r.sun ? t('m9.sunYes', { p: Math.round(100 * r.sun_fraction) }) : r.dark_wait_days !== null ? t('m9.sunDark', { n: kidNumber(Math.round(r.dark_wait_days), lang) }) : t('m9.sunNo', { p: Math.round(100 * r.sun_fraction) })}</span></p>
             <p className="row" style={{ gap: 12, flexWrap: 'nowrap', alignItems: 'flex-start' }}><Mark ok={r.call} /><span>{t(r.wait_lower_bound ? 'm9.callUnknown' : r.call ? 'm9.callYes' : 'm9.callNo', { n: days(r.wait_h) })}</span></p>
             <p className="row" style={{ gap: 12, flexWrap: 'nowrap', alignItems: 'flex-start' }}><Mark ok={r.battery} /><span>{t(r.night_lower_bound ? 'm9.batUnknown' : r.battery ? 'm9.batYes' : 'm9.batNo', { need, night, kwh: BATTERIES[battery] })}</span></p>
+            {r.shorter_night && <p className="scene-note" style={{ color: 'var(--card-ink)' }}>{t('m9.shorterNight', { date: fmt(DATA.plans[site][date].date), need: kidNumber(Math.round(r.need_kwh), lang), m3: kidNumber(DATA.sites[site].kids.battery_kwh, lang) })}</p>}
           </div>
           <p className="scene-note" style={{ color: 'var(--card-muted)' }}>{t('m9.rules')}</p>
         </section>

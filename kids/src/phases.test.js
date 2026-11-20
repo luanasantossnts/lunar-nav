@@ -91,6 +91,17 @@ describe('Mission 9: stars for a plan (rule of the API: battery = 60 W × longes
     expect(planStars('shackleton_ridge', 0, 'small')).toMatchObject({ sun: true, call: false, battery: true, total: 2 }); // 14½ days without a call
     expect(planStars('malapert_m1', 0, 'large').battery).toBe(false); // the night is only a lower bound
     expect(planStars('malapert_m1', 1, 'large').battery).toBe(true);
+    // IM-2 on 1 July misses the Sun star because Lumi waits about 6 days in the dark (API: 5.76 days).
+    expect(DATA.plans.im2_athena[0].sun_spans_days[0][0]).toBeCloseTo(5.76, 2);
+    expect(Math.round(planStars('im2_athena', 0, 'large').dark_wait_days)).toBe(6);
+    expect(planStars('im2_athena', 1, 'large').dark_wait_days).toBeNull();
+    // Landing on 11 July the night is a little shorter: about 26 kWh instead of Mission 3's about 27.
+    expect(planStars('im2_athena', 1, 'large').shorter_night).toBe(true);
+    expect(Math.round(planStars('im2_athena', 1, 'large').need_kwh)).toBe(26);
+    expect(DATA.sites.im2_athena.kids.battery_kwh).toBe(27);
+    expect(planStars('im2_athena', 0, 'large').shorter_night).toBe(false);
+    expect(planStars('malapert_m1', 1, 'large').shorter_night).toBe(false); // 1 July night is only a lower bound
+    expect(planStars('shackleton_ridge', 1, 'large').shorter_night).toBe(false);
   });
   it('the battery star follows the API need exactly', () => {
     const pm = DATA.about.power_model;

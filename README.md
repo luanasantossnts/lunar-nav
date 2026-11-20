@@ -60,7 +60,7 @@ The horizon defaults to **Terrain (LOLA)** wherever a NASA LOLA mask exists; sit
 - Client addresses are stored only as salted hashes (HMAC-SHA256) for the hourly limits. The salt is kept outside the web root, and the records are deleted after 48 hours.
 - Analyst questions that look like personal data (e-mail, phone, CPF) are not cached. Cached answers are kept for 90 days, under a hash of the question, with no address.
 - The *Privacy & Terms* page (`#/privacy`) explains what is processed and why, the international transfer to Anthropic and ElevenLabs (USA), and the user's rights under the LGPD (art. 18).
-- The Kids edition collects nothing: no Analyst, no microphone, no forms and no cookies; it stores only the language choice in the browser (in line with LGPD art. 14 on children's data).
+- The Kids edition collects nothing: no Analyst, no microphone, no forms and no cookies; it stores only the language choice and the game progress (`lunarnav.kids.progress`: stars per mission and whether the quiz was passed, nothing personal) in the browser, only on that device, with an "Erase progress" button (in line with LGPD art. 14 on children's data).
 - Secrets are kept out of the repository and out of both deploy packages. This is checked by searching for key patterns and for the real key values.
 
 **Testing and accessibility** (run on 15 November 2026)
