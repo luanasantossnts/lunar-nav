@@ -5,7 +5,7 @@ import { DATA, batteryLevel, runsOut } from '../lib/data.js';
 import { kidNumber } from '../lib/lang.js';
 import Mascot from '../components/Mascot.jsx';
 import { SitePicker, useReducedMotion } from '../components/Controls.jsx';
-import { MissionBar, NextButton } from '../components/Frame.jsx';
+import { MissionBar, MissionStars, NextButton, useGoals } from '../components/Frame.jsx';
 
 const STEPS = 20; // the night in 20 steps
 const MINT = '#4fd1a5';
@@ -73,6 +73,11 @@ export default function BatteryMission() {
     return () => clearInterval(id);
   }, [running]);
 
+  // Stars: get through the night, see a half-size battery run out, look at all three spots.
+  const { reach } = useGoals('battery');
+  const [seen, setSeen] = useState(() => new Set(['im2_athena']));
+  useEffect(() => { setSeen((x) => (x.has(site) ? x : new Set([...x, site]))); }, [site]);
+  useEffect(() => { if (seen.size >= 3) reach('three'); }, [seen, reach]);
   const k = DATA.sites[site].kids;
   const raw = DATA.sites[site].raw;
   const pm = DATA.about.power_model;
@@ -82,6 +87,7 @@ export default function BatteryMission() {
   const size = small ? 0.5 : 1;
   const level = Math.round(batteryLevel(t01 * nightDays, nightDays, size));
   const frozen = runsOut(t01 * nightDays, nightDays, size);
+  useEffect(() => { if (frozen) reach('ranOut'); if (!small && step >= STEPS) reach('madeIt'); }, [frozen, small, step, reach]);
   const nightLen = k.night_days !== null
     ? t(k.night_at_least ? 'm3.lenDaysAtLeast' : 'm3.lenDays', { n: kidNumber(k.night_days, lang) })
     : t('m3.lenHours', { n: kidNumber(k.night_hours, lang) });
@@ -93,10 +99,12 @@ export default function BatteryMission() {
 
   return (
     <div className="stack">
-      <MissionBar n={3} />
+      <MissionBar id="battery" />
       <div className="stack" style={{ gap: 10 }}>
         <h1>{t('m3.title')}</h1>
         <p style={{ fontSize: 20, maxWidth: '62ch' }}>{t('m3.intro', { site: siteName, len: nightLen })}</p>
+        <MissionStars id="battery" />
+        <p className="scene-note">{t('m3.goals')}</p>
         <SitePicker value={site} onChange={(id) => { setSite(id); setStep(0); setRunning(false); }} label={t('m3.pick')} />
       </div>
 

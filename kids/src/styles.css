@@ -117,7 +117,9 @@ button.card:hover { transform: translateY(-2px); }
 .badge.win { background: var(--sun); color: var(--card-ink); }
 .big-number { font-family: var(--title); font-size: clamp(30px, 5.5vw, 44px); font-weight: 800; line-height: 1.05; color: var(--card-ink); }
 .panel .big-number, .card.night .big-number { color: var(--sun); }
+.panel .card:not(.night) .big-number { color: var(--card-ink); } /* white card inside a dark panel */
 button.card .big-number { font-size: clamp(26px, 3vw, 32px); }
+.card p.big-number { color: var(--card-ink); }
 .sunbar { display: block; width: 100%; height: 16px; border-radius: 999px; background: #ece9f7; overflow: hidden; }
 .sunbar > span { display: block; height: 100%; background: var(--sun); border-radius: 999px; }
 
@@ -206,6 +208,27 @@ input[type='range'] { flex: 1 1 260px; height: 52px; accent-color: var(--sun); c
 .certificate.locked { border-color: var(--rock-back); border-style: dashed; background: #f4f2fb; }
 .certificate.locked h2 { color: var(--card-muted); }
 
+/* ---------- Stars, phases ---------- */
+.star-row { display: inline-flex; gap: 2px; vertical-align: middle; }
+.phase-map { width: 100%; height: auto; display: block; }
+.phase-card { display: flex; flex-direction: column; gap: 14px; }
+.phase-card.locked { opacity: 1; }
+.phase-head { display: flex; align-items: center; gap: 14px; }
+.phase-head svg { width: 64px; height: 64px; flex: none; }
+.mission-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 8px 14px; border-radius: 18px; background: #f4f2fb; color: var(--card-ink); text-decoration: none; font-weight: 800; }
+.mission-row:hover { background: #ebe8f8; }
+.lock-note { color: var(--card-muted); font-weight: 700; }
+
+/* ---------- Grid game (missions 5 and 7) ---------- */
+.grid-map { width: 100%; max-width: 520px; height: auto; display: block; border-radius: 18px; }
+.grid-wrap { width: fit-content; max-width: 100%; border-radius: 20px; }
+.grid-wrap:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; border-radius: 20px; }
+.pad { display: grid; grid-template-columns: repeat(3, 56px); gap: 6px; }
+.pad .btn { min-width: 56px; padding: 0; }
+
+/* ---------- Sky domes (mission 8) ---------- */
+.dome { width: 100%; height: auto; display: block; border-radius: 20px; }
+
 /* ---------- Footer ---------- */
 footer.foot { border-top: 2px solid var(--panel2); margin-top: 34px; padding: 20px 0 34px; font-size: 16px; color: var(--muted); }
 footer.foot a { color: var(--sun); font-weight: 800; }
@@ -223,4 +246,5 @@ footer.foot a { color: var(--sun); font-weight: 800; }
   .grid2 { display: block; }
   .certificate { border-color: #e0a800; }
   .certificate.locked { display: none !important; }
+  body.printing .cert-block:not(.print-me), body.printing .phase-intro { display: none !important; }
 }

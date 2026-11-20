@@ -114,10 +114,11 @@ describe('certificate: only after 5 of 5 right answers', () => {
     expect(certificateUnlocked(5, 5, false)).toBe(false); // not finished yet
   });
   it('the print button exists only in the unlocked certificate, and a locked card is not printed', () => {
-    const src = readFileSync(new URL('./missions/Quiz.jsx', import.meta.url), 'utf8');
+    const src = readFileSync(new URL('./components/Certificate.jsx', import.meta.url), 'utf8');
     const lockedPart = src.slice(src.indexOf(') : ('), src.indexOf('</section>', src.indexOf(') : (')));
     expect(src).toMatch(/\{unlocked \? \(/);
-    expect(lockedPart).not.toMatch(/window\.print/);
+    expect(lockedPart).not.toMatch(/window\.print|onClick=\{print\}/);
+    expect(src).toMatch(/onClick=\{print\}/);
     expect(readFileSync(new URL('./styles.css', import.meta.url), 'utf8')).toMatch(/@media print[\s\S]*\.certificate\.locked \{ display: none !important; \}/);
   });
   it('the quiz answers are the same in every language (the UI check answers 0, 1, 1, 1, 0)', () => {
@@ -157,7 +158,8 @@ describe('texts in English, Spanish and Portuguese', () => {
     }
   });
   it('the footer says what the brief asks for', () => {
-    expect(en.footer.privacy).toBe('No names, no accounts, nothing saved.');
+    expect(en.footer.privacy).toBe('No names, no accounts, nothing sent anywhere. Progress stays only on this device.');
+    expect(pt.footer.privacy).toMatch(/O progresso fica só neste aparelho\./);
     expect(en.footer.notEndorsed).toBe('Independent project, not endorsed by NASA');
     expect(en.footer.data).toBe('Built on NASA/JPL Horizons and NASA LOLA data');
     expect(en.footer.grownups).toBe('For grown-ups: lunarnav.space');
@@ -198,10 +200,11 @@ describe('children\'s privacy (LGPD art. 14) and Space Apps rules', () => {
     }
     expect(html).not.toMatch(/https?:\/\//);
   });
-  it('browser storage is used only for the language', () => {
+  it('browser storage holds only the language and the progress', () => {
     const uses = all.filter(([, s]) => /localStorage|sessionStorage|indexedDB/.test(s)).map(([f]) => f);
-    expect(uses).toEqual(['lib/lang.js']);
+    expect(uses.sort()).toEqual(['lib/lang.js', 'lib/progress.js']);
     expect(all.find(([f]) => f === 'lib/lang.js')[1]).toMatch(/STORAGE_KEY = 'lunarnav\.lang'/);
+    expect(all.find(([f]) => f === 'lib/progress.js')[1]).toMatch(/PROGRESS_KEY = 'lunarnav\.kids\.progress'/);
   });
   it('no images or media files: only SVG and CSS drawn for this project', () => {
     const media = files(SRC).concat(files(new URL('../public', import.meta.url).pathname)).filter((f) => /\.(png|jpe?g|gif|webp|mp3|mp4|webm|wav|ogg)$/i.test(f));

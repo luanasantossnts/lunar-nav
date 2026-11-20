@@ -64,14 +64,23 @@ Permissões: pastas `755` e arquivos `644`. Nada precisa de escrita.
 - [ ] **Missão 1:** os três locais; tocar e arrastar o tempo; o Sol some atrás das montanhas; barras de 30, 15 e 6 dias.
 - [ ] **Missão 2:** a Terra sobe e desce; "Dá para ligar para casa!" muda com o tempo; cerca de 13 de 30 dias em Shackleton.
 - [ ] **Missão 3:** "Passar a noite"; com "Metade do tamanho" a bateria acaba no meio da noite.
-- [ ] **Quiz:** 5 perguntas e depois o certificado; "Imprimir o certificado" mostra só o certificado na prévia de impressão.
+- [ ] **Quiz:** 5 perguntas; com 5 de 5 o certificado Cadete libera, e "Imprimir" mostra só o certificado na prévia de impressão.
+- [ ] **Fases:** na Home, a Fase 2 aparece trancada até a Fase 1 ter estrelas nas 3 missões; "Jogar mesmo assim" abre na hora.
+- [ ] **Missões 4–9:**
+  - escolher 1/7 e 11/7;
+  - pousar no mapa com as setas + Enter e também tocando;
+  - deslizar os meses;
+  - escolher um ponto no gelo;
+  - trocar o céu Apollo 11 / Shackleton;
+  - montar um plano com 3 estrelas (Mons Mouton, 11 de julho, bateria grande).
+- [ ] **Progresso:** recarregue a página e as estrelas continuam; "Apagar progresso" (rodapé) zera tudo.
 - [ ] No celular e no tablet: sem rolagem para os lados, botões fáceis de tocar.
 
 **Segurança e privacidade:**
 - [ ] `http://kids.lunarnav.space` redireciona (301) para `https://`.
 - [ ] F12 → **Console**: nenhum erro, incluindo "Content Security Policy".
 - [ ] F12 → **Rede**: todas as requisições são para `kids.lunarnav.space`, nenhuma para fora.
-- [ ] F12 → **Aplicativo → Cookies**: nenhum cookie. **Armazenamento local**: só `lunarnav.lang`.
+- [ ] F12 → **Aplicativo → Cookies**: nenhum cookie. **Armazenamento local**: só `lunarnav.lang` e `lunarnav.kids.progress` (estrelas e quiz, nada pessoal).
 - [ ] `https://kids.lunarnav.space/.htaccess` → **403**.
 - [ ] `https://kids.lunarnav.space/qualquer-coisa` (sem extensão) abre o site; `https://kids.lunarnav.space/nao-existe.js` → **404**.
 - [ ] O rodapé mostra "Independent project, not endorsed by NASA", "Built on NASA/JPL Horizons and NASA LOLA data" e o link "For grown-ups: lunarnav.space".

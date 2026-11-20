@@ -1,62 +1,45 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { htmlLang, initialLang, makeT, saveLang, savedLang, urlLang, withoutLangParam } from './lib/lang.js';
+import { clearProgress, loadProgress, saveProgress, withQuizPassed, withStars } from './lib/progress.js';
 import Stars from './components/Stars.jsx';
-import Mascot from './components/Mascot.jsx';
-import { Footer, Header, MISSION_COLORS } from './components/Frame.jsx';
+import { Footer, Header } from './components/Frame.jsx';
+import Home from './missions/Home.jsx';
 import SunMission from './missions/SunMission.jsx';
 import CallMission from './missions/CallMission.jsx';
 import BatteryMission from './missions/BatteryMission.jsx';
 import Quiz from './missions/Quiz.jsx';
+import SlippedMission from './missions/SlippedMission.jsx';
+import TargetMission from './missions/TargetMission.jsx';
+import SeasonsMission from './missions/SeasonsMission.jsx';
+import IceMission from './missions/IceMission.jsx';
+import ApolloMission from './missions/ApolloMission.jsx';
+import PlanMission from './missions/PlanMission.jsx';
+import Certificates from './missions/Certificates.jsx';
 
 const Ctx = createContext(null);
 export const useKids = () => useContext(Ctx);
 
-/** Hash routes: #/, #/sun, #/call, #/battery, #/quiz, #/certificate (query after "?" is ignored). */
-const ROUTES = ['/', '/sun', '/call', '/battery', '/quiz', '/certificate'];
+/** Hash routes (any query after "?" is ignored). */
+const PAGES = {
+  '/': Home,
+  '/sun': SunMission, '/call': CallMission, '/battery': BatteryMission, '/quiz': Quiz, '/certificate': Quiz,
+  '/slipped': SlippedMission, '/target': TargetMission, '/seasons': SeasonsMission,
+  '/ice': IceMission, '/apollo': ApolloMission, '/plan': PlanMission,
+  '/certificates': Certificates,
+};
 const readRoute = () => {
   const r = (location.hash.replace(/^#/, '').split('?')[0]) || '/';
-  return ROUTES.includes(r) ? r : '/';
+  return PAGES[r] ? r : '/';
 };
-
-function Home() {
-  const { t, go } = useKids();
-  const missions = [['/sun', 'm1', MISSION_COLORS[0]], ['/call', 'm2', MISSION_COLORS[1]], ['/battery', 'm3', MISSION_COLORS[2]]];
-  return (
-    <div className="stack" style={{ gap: 34 }}>
-      <section className="hero" aria-labelledby="hello-title">
-        <div className="stack" style={{ gap: 18 }}>
-          <h1 id="hello-title">{t('home.title')}</h1>
-          <p className="lead">{t('home.lead')}</p>
-          <p><a className="btn big" href="#/sun" onClick={(e) => { e.preventDefault(); go('/sun'); }}>{t('home.start')}</a></p>
-        </div>
-        <div className="lumi-side">
-          <p className="speech">{t('home.hello')}</p>
-          <div style={{ width: 'min(300px, 70vw)' }}><Mascot label={t('home.mascotLabel')} /></div>
-        </div>
-      </section>
-      <section aria-labelledby="missions-title" className="stack" style={{ gap: 16 }}>
-        <h2 id="missions-title" className="sr-only">{t('home.missions')}</h2>
-        <ul className="grid3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-          {missions.map(([route, k, color], i) => (
-            <li key={k}>
-              <a className="card mission-link" href={`#${route}`} onClick={(e) => { e.preventDefault(); go(route); }}>
-                <span className="numdot" style={{ background: color }} aria-hidden="true">{i + 1}</span>
-                <span className="title-font">{t(`${k}.title`)}</span>
-                <span style={{ color: 'var(--card-muted)' }}>{t(`${k}.teaser`)}</span>
-                <span className="sr-only">{t('home.missionN', { n: i + 1 })}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
-  );
-}
 
 export default function App() {
   const [lang, setLangState] = useState(() => initialLang(savedLang(), urlLang()));
   const [route, setRoute] = useState(readRoute);
+  // Progress (stars, quiz passed) lives only on this device.
+  const [progress, setProgress] = useState(() => loadProgress());
+  // Phases opened with "Play anyway" (this visit only, not saved).
+  const [opened, setOpened] = useState(() => new Set());
   const t = useMemo(() => makeT(lang), [lang]);
   const mainRef = useRef(null);
   const first = useRef(true);
@@ -82,10 +65,14 @@ export default function App() {
     mainRef.current?.focus({ preventScroll: true });
   }, [route]);
 
+  const award = useCallback((id, n) => setProgress((p) => { const next = withStars(p, id, n); if (next !== p) saveProgress(next); return next; }), []);
+  const passQuiz = useCallback(() => setProgress((p) => { const next = withQuizPassed(p); if (next !== p) saveProgress(next); return next; }), []);
+  const resetProgress = useCallback(() => { clearProgress(); setProgress(loadProgress()); setOpened(new Set()); }, []);
+  const openPhase = useCallback((id) => setOpened((s) => new Set([...s, id])), []);
+
   const go = (r) => { if (location.hash !== `#${r}`) location.hash = r; else setRoute(readRoute()); };
-  const value = { t, lang, setLang, route, go };
-  // The quiz and the certificate share one screen (two columns on wide screens).
-  const Page = { '/': Home, '/sun': SunMission, '/call': CallMission, '/battery': BatteryMission, '/quiz': Quiz, '/certificate': Quiz }[route] || Home;
+  const value = { t, lang, setLang, route, go, progress, award, passQuiz, resetProgress, opened, openPhase };
+  const Page = PAGES[route] || Home;
   return (
     <Ctx.Provider value={value}>
       <a className="skip" href="#main" onClick={(e) => { e.preventDefault(); mainRef.current?.focus(); }}>{t('app.skip')}</a>

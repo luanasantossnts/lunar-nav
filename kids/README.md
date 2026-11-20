@@ -7,7 +7,18 @@ An animated, child-friendly version of Lunar Nav for ages 8–12, published at *
 - **Mission 1 — Find the sunniest spot:** days of sunshine in July 2030 at Shackleton, IM-2 and Malapert. The Sun moves along the real skyline.
 - **Mission 2 — When can we call home?:** Earth rocks up and down (libration) and hides behind the terrain. A time slider shows when Earth is in view and a NASA Deep Space Network antenna sees the Moon.
 - **Mission 3 — Charge for the long night:** a battery drains through the longest night. A half-size battery runs out.
-- **Quiz and certificate:** a five-question quiz (score never saved) and a printable "Junior Lunar Navigator" certificate (no name asked).
+- **Quiz and certificate:** a five-question quiz; 5 of 5 opens a printable "Junior Lunar Navigator: Cadet" certificate (no name asked).
+- **Three phases**, shown as planets on the home screen, each with 0–3 stars per mission. A phase opens when the one before is done, and "Play anyway" never blocks anyone:
+  - **Phase 1 · Cadet:** missions 1–3 above.
+  - **Phase 2 · Explorer:**
+    - *The landing slipped!*: Mons Mouton, 1 vs 11 July 2030; 0 h vs about 10 days of light before the first night.
+    - *Hit the target*: a landing game on the real 121-point Shackleton grid, playable with the keyboard or by touch.
+    - *Moon seasons*: sunny days per month in 2030.
+  - **Phase 3 · Commander:**
+    - *Ice hunt*: permanent shadow explained with NASA PGDA's 20 %, on the real Malapert grid.
+    - *Time travel: Apollo 11*: Earth 60–72° high vs near the horizon at Shackleton.
+    - *Final mission: your plan*: site × date × battery, three stars with their reasons.
+  - Each phase has its own certificate (Cadet, Explorer, Commander).
 - **Languages:** English (first visit), Spanish and Portuguese. `?lang=en|es|pt` works as in the main app.
 
 ## Data
@@ -23,7 +34,7 @@ The export reads the API's cache only, from a temporary copy, so the main cache 
 ## Privacy and rules
 
 - **No data from children:** no AI, chat, microphone, forms, cookies, analytics or outside resources. The fonts (Nunito for text, Baloo 2 for titles) and the drawings are served by the site.
-- **localStorage:** the site stores only the language, under `lunarnav.lang`.
+- **localStorage:** the language (`lunarnav.lang`) and the progress (`lunarnav.kids.progress`: stars per mission and whether the quiz was passed — nothing personal, only on this device). An "Erase progress" button clears it.
 - **Images:** no NASA or Space Apps logos, no photos, video or audio of people, no AI-generated images. Only SVG and CSS made for this site.
 - **Tests:** `src/kids.test.js` checks these rules on the source.
 

@@ -1,11 +1,11 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useKids } from '../App.jsx';
 import { DATA, callReason, earthWindow, sample, sampleCount } from '../lib/data.js';
 import { kidNumber } from '../lib/lang.js';
 import Scene, { sceneScale } from '../components/Scene.jsx';
 import { SitePicker, Strip, TimeControl, dayOf } from '../components/Controls.jsx';
-import { MissionBar, NextButton } from '../components/Frame.jsx';
+import { MissionBar, MissionStars, NextButton, useGoals } from '../components/Frame.jsx';
 
 /** A big dish antenna (DSN-style), drawn for this site. */
 function Antenna() {
@@ -35,13 +35,21 @@ export default function CallMission() {
   const dirs = { 0: t('dir.n'), 90: t('dir.e'), 180: t('dir.s'), 270: t('dir.w') };
   const el = DATA.sites[site].raw.earth_elevation;
   const siteName = t(`sites.${site}.short`);
+  // Stars: find a moment to call home, find Earth hiding, look at all three spots.
+  const { reach } = useGoals('call');
+  const [seen, setSeen] = useState(() => new Set(['shackleton_ridge']));
+  useEffect(() => { setSeen((x) => (x.has(site) ? x : new Set([...x, site]))); }, [site]);
+  useEffect(() => { if (seen.size >= 3) reach('three'); }, [seen, reach]);
+  useEffect(() => { if (index > 0 && reason === 'ok') reach('call'); if (index > 0 && reason !== 'ok' && !s.earthUp) reach('hide'); }, [index, reason, s.earthUp, reach]);
 
   return (
     <div className="stack">
-      <MissionBar n={2} />
+      <MissionBar id="call" />
       <div className="stack" style={{ gap: 10 }}>
         <h1>{t('m2.title')}</h1>
         <p style={{ fontSize: 20, maxWidth: '62ch' }}>{t('m2.intro')}</p>
+        <MissionStars id="call" />
+        <p className="scene-note">{t('m2.goals')}</p>
         <SitePicker value={site} onChange={(id) => { setSite(id); setIndex(0); }} label={t('m2.pick')} />
       </div>
 

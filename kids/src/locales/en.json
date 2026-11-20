@@ -16,13 +16,24 @@
     "hello": "Hi! I’m Lumi. I run on sunshine!",
     "mascotLabel": "Lumi, a friendly astronaut robot, waving",
     "missions": "Missions",
-    "missionN": "Mission {n}"
+    "missionN": "Mission {n}",
+    "phases": "Your missions",
+    "phasesNote": "Three phases, three missions each. Your stars stay only on this device.",
+    "phaseN": "Phase {n} · {phase}",
+    "phaseStars": "{n} of {max} stars",
+    "locked": "Finish the {prev} phase to open it.",
+    "playAnyway": "Play anyway",
+    "certReady": "Certificate ready!",
+    "certLocked": "Certificate",
+    "quiz": "Phase 1 quiz"
   },
   "nav": {
     "home": "Home",
     "progress": "Mission {n} of 3",
     "next": "Next mission",
-    "quiz": "Take the quiz"
+    "quiz": "Take the quiz",
+    "phaseProgress": "Phase {p} · {phase} · Mission {n} of 3",
+    "certificates": "See my certificates"
   },
   "sites": {
     "shackleton_ridge": {
@@ -60,7 +71,8 @@
     "daysAbout": "about {n} of 30 days",
     "tipLabel": "Lumi’s tip",
     "tipTitle": "Lumi’s tip:",
-    "tip": "On Shackleton ridge, walking just 300 m (three football fields) can turn {a} sunny days into about {x} to {y}."
+    "tip": "On Shackleton ridge, walking just 300 m (three football fields) can turn {a} sunny days into about {x} to {y}.",
+    "goals": "Stars: look at two spots · look at all three · follow a spot to the end of July."
   },
   "m2": {
     "title": "When can we call home?",
@@ -90,7 +102,8 @@
     "hiding": "Earth hiding: up to about {n} days in a row",
     "hidingAtLeast": "Earth hiding: more than {n} days in a row",
     "callDays": "You can call home on about {n} of the 30 days.",
-    "why": "The south pole is at the edge of the side of the Moon that faces Earth, so Earth sits low in the sky and a small wobble can hide it."
+    "why": "The south pole is at the edge of the side of the Moon that faces Earth, so Earth sits low in the sky and a small wobble can hide it.",
+    "goals": "Stars: find a moment to call home · find Earth hiding · look at all three spots."
   },
   "m3": {
     "title": "Charge for the long night",
@@ -121,7 +134,8 @@
     "size": "That’s a battery of about {kwh} kWh, about {kg} kg.",
     "sizeAtLeast": "That’s a battery of at least {kwh} kWh, at least {kg} kg.",
     "sizeTiny": "Here the night is short, so a small battery (less than 1 kWh) is enough.",
-    "rule": "How we count: battery = {load} W × the longest night ÷ 0.8 (we only use {dod} % of it). A phone battery holds about {wh} Wh."
+    "rule": "How we count: battery = {load} W × the longest night ÷ 0.8 (we only use {dod} % of it). A phone battery holds about {wh} Wh.",
+    "goals": "Stars: get through the night · watch a half-size battery run out · look at all three spots."
   },
   "scene": {
     "taller": "The mountains are drawn {n}× taller so you can see them.",
@@ -208,12 +222,159 @@
     "print": "Print my certificate",
     "locked": "Answer all 5 questions right to unlock your certificate!",
     "unlocked": "5 of 5! Your certificate is unlocked.",
-    "needAll": "You need all {total} right to get the certificate. Try again!"
+    "needAll": "You need all {total} right to get the certificate. Try again!",
+    "text1": "Found sunshine, called home and charged up for the long Moon night.",
+    "text2": "Rescued a late landing, hit the target and followed the Moon seasons.",
+    "text3": "Hunted for ice, travelled back to Apollo 11 and planned a full Moon mission.",
+    "lockedPhase": "Finish every {phase} mission to unlock this certificate!"
   },
   "footer": {
-    "privacy": "No names, no accounts, nothing saved.",
+    "privacy": "No names, no accounts, nothing sent anywhere. Progress stays only on this device.",
     "notEndorsed": "Independent project, not endorsed by NASA",
     "data": "Built on NASA/JPL Horizons and NASA LOLA data",
     "grownups": "For grown-ups: lunarnav.space"
+  },
+  "phase": {
+    "cadet": "Cadet",
+    "explorer": "Explorer",
+    "commander": "Commander"
+  },
+  "progress": {
+    "erase": "Erase progress",
+    "confirm": "Erase all stars on this device?",
+    "yes": "Yes, erase",
+    "no": "No",
+    "erased": "Progress erased.",
+    "stars": "{n} of 3 stars",
+    "missionStars": "{n} of 3 stars in this mission"
+  },
+  "m4": {
+    "title": "The landing slipped!",
+    "intro": "Back to Mons Mouton (IM-2). Lumi was going to land on 1 July 2030, but the launch slipped to 11 July. Does the date matter?",
+    "goals": "Stars: try 1 July · try 11 July · pick the better date.",
+    "pick": "Pick a landing date",
+    "daylightLabel": "Sunlight before the first night:",
+    "none": "none",
+    "hours": "{n} hours",
+    "aboutDays": "about {n} days",
+    "stripLabel": "The 30 days after landing on {date}: yellow when the Sun shines",
+    "stripNote": "The strip starts on the landing day.",
+    "lumiDark": "Brrr! We land in the dark. The Sun rises after about {n} days.",
+    "lumiSun": "Yay! We land in sunshine, with about {n} days of light before the night.",
+    "question": "Which date is better for Lumi?",
+    "why": "On 11 July Lumi lands in sunshine, with about {n} days of light before the first night. On 1 July it lands in the dark."
+  },
+  "m5": {
+    "title": "Hit the target",
+    "intro": "Aim at the Shackleton ridge and land Lumi. Watch out: real landings can miss by hundreds of metres!",
+    "goals": "Stars: 1 for any landing, 2 for 15 or more sunny days, 3 for 22 or more.",
+    "mapTitle": "Landing map (north is up)",
+    "help": "Arrow keys move the yellow aim; Enter lands. Or tap a square, then press Land.",
+    "mapLabel": "Landing map around the Shackleton ridge, 1 km wide, squares of 100 m",
+    "aim": "Aim: {where}.",
+    "land": "Land!",
+    "showAll": "Show all spots",
+    "resultTitle": "Where did Lumi land?",
+    "landed": "Landing spot: {where}.",
+    "days": "{n} sunny days of 30",
+    "stars1": "1 star. Fewer than 15 sunny days here. Try again!",
+    "stars2": "2 stars. Between 15 and 21 sunny days.",
+    "stars3": "3 stars! At least 22 sunny days. Great spot!",
+    "none": "Aim and land to see how many sunny days Lumi gets.",
+    "miss": "Here Lumi lands up to 200 m from where you aim, like a real lander can.",
+    "range": "8 out of 10 spots within 300 m of the target get about {x} to {y} sunny days.",
+    "legend": "Colours: dark blue = no Sun in July 2030; lilac to yellow = more sunny days. The white rings mark the target."
+  },
+  "m6": {
+    "title": "Moon seasons",
+    "intro": "Slide through 2030 and see how many sunny days each spot gets every month.",
+    "goals": "Stars: find a month with no Sun at Malapert · find a month with Sun there · visit all 12 months.",
+    "monthTitle": "Sunny days this month",
+    "slide": "Slide through 2030",
+    "days": "{n} of {of} days",
+    "malTitle": "Malapert’s long dark",
+    "highlight": "Malapert gets no Sun at all from January to June 2030 — and again in December.",
+    "chartLabel": "Malapert sunny days per month in 2030: {list}",
+    "why": "The Moon’s axis is tilted a tiny bit, so through the year the Sun climbs a little higher or sinks a little lower at the pole. At Malapert, when it sinks, the mountains hide it for months."
+  },
+  "m7": {
+    "title": "Ice hunt",
+    "intro": "Near the pole, some places never see the Sun. They may hold ice! Help Lumi find a safe spot close to the dark.",
+    "goals": "Stars: 3 for a sunny square next to a dark one, 2 for a sunny square, 1 for trying.",
+    "whatTitle": "What is permanent shadow?",
+    "what": "Some craters near the pole are so deep that sunlight never reaches their floor. These permanently shadowed places are very cold, so they may hold ice. But they are far too dark and cold for Lumi to land.",
+    "pgda": "NASA’s long-term map (PGDA) shows that {n} % of the spots within 300 m of Malapert are in permanent shadow.",
+    "mapTitle": "Sunny days around Malapert, July 2030",
+    "help": "Each square is 100 m. Dark squares had no Sun all of July 2030 (they may get Sun in other months, so they are not the same as permanent shadow). Arrow keys or a tap move the aim; Enter or the button chooses.",
+    "mapLabel": "Map of sunny days around Malapert in July 2030, 1 km wide, squares of 100 m",
+    "aim": "Spot: {where} · {n} sunny days in July 2030.",
+    "choose": "Choose this spot",
+    "resultTitle": "Lumi says",
+    "result": {
+      "dark": "Too dark! No Sun all of July here, too cold for Lumi to land. Try a sunny square next to it.",
+      "edge": "Great choice! Sunshine for Lumi, right next to a dark area where ice may be.",
+      "far": "Sunny, but far from the dark areas. Try a square right next to one."
+    },
+    "none": "Pick a square on the map.",
+    "legendSun": "Lilac to yellow: more sunny days in July 2030",
+    "legendDark": "Dark blue: no Sun all of July 2030",
+    "note": "How much ice? Nobody knows yet: there may be some. Scientists are still finding out."
+  },
+  "m8": {
+    "title": "Time travel: Apollo 11",
+    "intro": "Travel back to the Apollo 11 landing site, near the middle of the Moon’s Earth-facing side. Compare its sky with the south pole, over 30 days from 1 July 2030.",
+    "goals": "Stars: see the Apollo 11 sky · see the Shackleton sky · answer the question.",
+    "skyTitle": "Whose sky?",
+    "apollo": "Apollo 11",
+    "domeLabel": "The sky at {where}: Earth stays between {lo}° and {hi}° above the horizon",
+    "apolloText": "Apollo 11: Earth stays between {lo}° and {hi}° high, always up in the sky.",
+    "shackletonText": "Shackleton ridge: Earth goes from {lo}° to {hi}°, so sometimes it is below the horizon.",
+    "note": "The blue band shows how high Earth goes over the 30 days. 90° is straight up.",
+    "question": "Where is Earth higher in the sky?",
+    "why": "At Apollo 11 Earth is about 60° to 70° up. At the south pole it stays near the horizon, so hills can hide it."
+  },
+  "m9": {
+    "title": "Final mission: your plan",
+    "intro": "Choose a spot, a landing date and a battery. Can you find a plan that gets all 3 stars?",
+    "choose": "Your plan",
+    "site": "Spot",
+    "date": "Landing date",
+    "battery": "Battery",
+    "bat": {
+      "small": "Small ({kwh} kWh)",
+      "medium": "Medium ({kwh} kWh)",
+      "large": "Large ({kwh} kWh)"
+    },
+    "resultTitle": "How did your plan do?",
+    "total": "{n} of 3 stars",
+    "sunYes": "Sun: {p} % of the time, at least half.",
+    "sunNo": "Sun: only {p} % of the time. We want at least half.",
+    "callYes": "Calls: the longest wait without a call is about {n} days, 7 days or less.",
+    "callNo": "Calls: the longest wait without a call is about {n} days, longer than 7.",
+    "callUnknown": "Calls: the wait may be even longer than these 30 days can show.",
+    "batYes": "Battery: Lumi needs {need} kWh for a night of {night}; your {kwh} kWh battery is enough.",
+    "batNo": "Battery: Lumi needs {need} kWh for a night of {night}; {kwh} kWh is not enough.",
+    "batUnknown": "Battery: the night may be even longer than these 30 days can show, so we cannot be sure a {kwh} kWh battery is enough (Lumi needs at least {need} kWh for {night}).",
+    "nightDays": "about {n} days",
+    "nightHours": "about {n} hours",
+    "aboutKwh": "about {n}",
+    "lessThan1": "less than 1",
+    "rules": "How stars are given: the Sun up at least half the time · no more than 7 days without a call · a battery of at least 60 W × the longest night ÷ 0.8."
+  },
+  "grid": {
+    "move": "Move the aim",
+    "north": "Move north",
+    "south": "Move south",
+    "east": "Move east",
+    "west": "Move west",
+    "east_m": "{m} m east",
+    "west_m": "{m} m west",
+    "north_m": "{m} m north",
+    "south_m": "{m} m south",
+    "atTarget": "right at the centre"
+  },
+  "certs": {
+    "title": "Your certificates",
+    "intro": "One for each phase. Cadet opens with 5 of 5 in the quiz; Explorer and Commander open when you finish their missions."
   }
 }

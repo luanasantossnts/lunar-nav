@@ -13,7 +13,7 @@ const fs = require('fs');
 const BASE = process.argv[2] || 'http://localhost:5198/';
 const OUT = process.argv[3] || '.';
 const SHOTS = process.argv.includes('--shots');
-const ROUTES = ['/', '/sun', '/call', '/battery', '/quiz', '/certificate'];
+const ROUTES = ['/', '/sun', '/call', '/battery', '/quiz', '/certificate', '/slipped', '/target', '/seasons', '/ice', '/apollo', '/plan', '/certificates'];
 const SIZES = { phone: [390, 844], tablet: [820, 1180], desktop: [1440, 900] };
 const origin = new URL(BASE).origin;
 
@@ -37,6 +37,11 @@ const origin = new URL(BASE).origin;
         if (route === '/sun' || route === '/call') await page.locator('input[type=range]').first().fill('120');
         if (route === '/battery') await page.locator('input[type=range]').first().fill('20');
         if (route === '/quiz') await page.locator('.choice').first().click();
+        if (route === '/slipped') { await page.locator('main .pills .btn').nth(1).click(); await page.locator('main .pills .btn').nth(0).click(); }
+        if (route === '/target' || route === '/ice') { await page.locator('.grid-wrap').focus(); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight'); await page.keyboard.press('Enter'); }
+        if (route === '/seasons') await page.locator('input[type=range]').first().fill('3');
+        if (route === '/apollo') await page.locator('main .pills .btn').nth(1).click();
+        if (route === '/plan') { await page.locator('main .pills').nth(0).locator('.btn').nth(1).click(); await page.locator('main .pills').nth(1).locator('.btn').nth(1).click(); await page.locator('main .pills').nth(2).locator('.btn').nth(2).click(); }
         await page.waitForTimeout(250);
         const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']).analyze();
         const layout = await page.evaluate(() => ({
@@ -70,9 +75,27 @@ const origin = new URL(BASE).origin;
     await ctx.close();
   }
   console.log('certificate lock:', JSON.stringify(lock));
+  // Phases: Phase 2 starts locked; "Play anyway" opens it; progress is kept and "Erase progress" clears it.
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', ignoreHTTPSErrors: true });
+    const page = await ctx.newPage();
+    await page.goto(`${BASE}#/`, { waitUntil: 'networkidle' });
+    const lockedRows = await page.locator('.phase-card').nth(1).locator('.mission-row').count();
+    await page.locator('.phase-card').nth(1).getByRole('button').first().click();
+    const openRows = await page.locator('.phase-card').nth(1).locator('.mission-row').count();
+    await page.goto(`${BASE}#/plan`, { waitUntil: 'networkidle' });
+    await page.locator('main .pills').nth(0).locator('.btn').nth(1).click(); await page.locator('main .pills').nth(1).locator('.btn').nth(1).click(); await page.locator('main .pills').nth(2).locator('.btn').nth(2).click();
+    await page.waitForTimeout(200);
+    const saved = await page.evaluate(() => localStorage.getItem('lunarnav.kids.progress'));
+    await page.locator('footer').getByRole('button').first().click();
+    await page.locator('footer').getByRole('button').first().click();
+    const after = await page.evaluate(() => localStorage.getItem('lunarnav.kids.progress'));
+    console.log('phases:', JSON.stringify({ lockedRows, openRows, saved, afterErase: after }));
+    await ctx.close();
+  }
   await browser.close();
   fs.writeFileSync(`${OUT}/ui-report.json`, JSON.stringify(report, null, 1));
-  const bad = report.filter((r) => r.violations.length || r.overflowX > 0 || r.errors.length || r.outside.length || r.smallTargets.length || r.cookies || r.storage.some((k) => k !== 'lunarnav.lang'));
+  const bad = report.filter((r) => r.violations.length || r.overflowX > 0 || r.errors.length || r.outside.length || r.smallTargets.length || r.cookies || r.storage.some((k) => k !== 'lunarnav.lang' && k !== 'lunarnav.kids.progress'));
   console.log(`pages checked: ${report.length} · axe violations: ${report.reduce((a, r) => a + r.violations.length, 0)} · with horizontal scroll: ${report.filter((r) => r.overflowX > 0).length} · console errors: ${report.reduce((a, r) => a + r.errors.length, 0)} · outside requests: ${report.reduce((a, r) => a + r.outside.length, 0)} · targets < 44 px: ${report.reduce((a, r) => a + r.smallTargets.length, 0)}`);
   for (const r of bad.slice(0, 20)) console.log(JSON.stringify(r).slice(0, 400));
 })();

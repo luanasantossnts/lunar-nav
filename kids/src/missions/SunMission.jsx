@@ -1,12 +1,12 @@
 // AI-assisted: written with Claude (Anthropic) and reviewed by Luana Santos. See AI_DISCLOSURE.md.
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useKids } from '../App.jsx';
 import { DATA, SITE_IDS, sample, sampleCount, sunDaysUntil } from '../lib/data.js';
 import { kidNumber } from '../lib/lang.js';
 import Scene, { sceneScale } from '../components/Scene.jsx';
 import Mascot from '../components/Mascot.jsx';
 import { Strip, TimeControl, dayOf } from '../components/Controls.jsx';
-import { MissionBar, NextButton } from '../components/Frame.jsx';
+import { MissionBar, MissionStars, NextButton, useGoals } from '../components/Frame.jsx';
 
 /** Mission 1 — Find the sunniest spot: days of sunshine in July 2030 at three south-pole sites. */
 export default function SunMission() {
@@ -22,13 +22,21 @@ export default function SunMission() {
   const dirs = { 0: t('dir.n'), 90: t('dir.e'), 180: t('dir.s'), 270: t('dir.w') };
   const winner = DATA.sunniest[0];
   const sh = DATA.sites.shackleton_ridge.kids;
+  // Stars: look at two spots, look at all three, follow a spot to the end of the month.
+  const { reach } = useGoals('sun');
+  const [seen, setSeen] = useState(() => new Set(['shackleton_ridge']));
+  useEffect(() => { setSeen((x) => (x.has(site) ? x : new Set([...x, site]))); }, [site]);
+  useEffect(() => { if (seen.size >= 2) reach('two'); if (seen.size >= 3) reach('three'); }, [seen, reach]);
+  useEffect(() => { if (index >= max) reach('end'); }, [index, max, reach]);
 
   return (
     <div className="stack">
-      <MissionBar n={1} />
+      <MissionBar id="sun" />
       <div className="stack" style={{ gap: 10 }}>
         <h1>{t('m1.title')}</h1>
         <p style={{ fontSize: 20, maxWidth: '62ch' }}>{t('m1.intro')}</p>
+        <MissionStars id="sun" />
+        <p className="scene-note">{t('m1.goals')}</p>
       </div>
 
       <section className="panel stack" aria-labelledby="m1-scene" style={{ gap: 14 }}>

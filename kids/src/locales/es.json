@@ -16,13 +16,24 @@
     "hello": "¡Hola! Soy Lumi. ¡Funciono con luz del Sol!",
     "mascotLabel": "Lumi, un robot astronauta simpático, saludando",
     "missions": "Misiones",
-    "missionN": "Misión {n}"
+    "missionN": "Misión {n}",
+    "phases": "Tus misiones",
+    "phasesNote": "Tres fases, tres misiones en cada una. Tus estrellas se quedan solo en este dispositivo.",
+    "phaseN": "Fase {n} · {phase}",
+    "phaseStars": "{n} de {max} estrellas",
+    "locked": "Termina la fase {prev} para abrirla.",
+    "playAnyway": "Jugar de todos modos",
+    "certReady": "¡Certificado listo!",
+    "certLocked": "Certificado",
+    "quiz": "Cuestionario de la fase 1"
   },
   "nav": {
     "home": "Inicio",
     "progress": "Misión {n} de 3",
     "next": "Siguiente misión",
-    "quiz": "Haz el cuestionario"
+    "quiz": "Haz el cuestionario",
+    "phaseProgress": "Fase {p} · {phase} · Misión {n} de 3",
+    "certificates": "Ver mis certificados"
   },
   "sites": {
     "shackleton_ridge": {
@@ -60,7 +71,8 @@
     "daysAbout": "unos {n} de 30 días",
     "tipLabel": "Consejo de Lumi",
     "tipTitle": "Consejo de Lumi:",
-    "tip": "En la cresta de Shackleton, caminar solo 300 m (tres campos de fútbol) puede convertir {a} días de Sol en unos {x} a {y}."
+    "tip": "En la cresta de Shackleton, caminar solo 300 m (tres campos de fútbol) puede convertir {a} días de Sol en unos {x} a {y}.",
+    "goals": "Estrellas: mira dos lugares · mira los tres · sigue un lugar hasta el final de julio."
   },
   "m2": {
     "title": "¿Cuándo podemos llamar a casa?",
@@ -90,7 +102,8 @@
     "hiding": "Tierra escondida: hasta unos {n} días seguidos",
     "hidingAtLeast": "Tierra escondida: más de {n} días seguidos",
     "callDays": "Puedes llamar a casa unos {n} de los 30 días.",
-    "why": "El polo sur está en el borde de la cara de la Luna que mira a la Tierra, así que la Tierra se ve baja y un pequeño balanceo puede esconderla."
+    "why": "El polo sur está en el borde de la cara de la Luna que mira a la Tierra, así que la Tierra se ve baja y un pequeño balanceo puede esconderla.",
+    "goals": "Estrellas: encuentra un momento para llamar a casa · encuentra la Tierra escondida · mira los tres lugares."
   },
   "m3": {
     "title": "Carga para la noche larga",
@@ -121,7 +134,8 @@
     "size": "Es una batería de unos {kwh} kWh, unos {kg} kg.",
     "sizeAtLeast": "Es una batería de al menos {kwh} kWh, al menos {kg} kg.",
     "sizeTiny": "Aquí la noche es corta, así que basta una batería pequeña (menos de 1 kWh).",
-    "rule": "Cómo contamos: batería = {load} W × la noche más larga ÷ 0,8 (solo usamos el {dod} %). Una batería de celular guarda unos {wh} Wh."
+    "rule": "Cómo contamos: batería = {load} W × la noche más larga ÷ 0,8 (solo usamos el {dod} %). Una batería de celular guarda unos {wh} Wh.",
+    "goals": "Estrellas: pasa la noche · mira cómo se agota la batería pequeña · mira los tres lugares."
   },
   "scene": {
     "taller": "Las montañas están dibujadas {n}× más altas para que puedas verlas.",
@@ -208,12 +222,159 @@
     "print": "Imprimir mi certificado",
     "locked": "¡Acierta las 5 preguntas para desbloquear tu certificado!",
     "unlocked": "¡5 de 5! Tu certificado está desbloqueado.",
-    "needAll": "Necesitas acertar las {total} para recibir el certificado. ¡Inténtalo de nuevo!"
+    "needAll": "Necesitas acertar las {total} para recibir el certificado. ¡Inténtalo de nuevo!",
+    "text1": "Encontró el Sol, llamó a casa y cargó energía para la larga noche lunar.",
+    "text2": "Salvó un alunizaje retrasado, dio en el blanco y siguió las estaciones lunares.",
+    "text3": "Buscó hielo, viajó al Apolo 11 y planeó una misión lunar completa.",
+    "lockedPhase": "¡Termina todas las misiones de {phase} para desbloquear este certificado!"
   },
   "footer": {
-    "privacy": "Sin nombres, sin cuentas, nada guardado.",
+    "privacy": "Sin nombres, sin cuentas, nada enviado. El progreso se queda solo en este dispositivo.",
     "notEndorsed": "Proyecto independiente, sin respaldo de la NASA",
     "data": "Hecho con datos de NASA/JPL Horizons y NASA LOLA",
     "grownups": "Para adultos: lunarnav.space"
+  },
+  "phase": {
+    "cadet": "Cadete",
+    "explorer": "Exploradora",
+    "commander": "Comandante"
+  },
+  "progress": {
+    "erase": "Borrar progreso",
+    "confirm": "¿Borrar todas las estrellas de este dispositivo?",
+    "yes": "Sí, borrar",
+    "no": "No",
+    "erased": "Progreso borrado.",
+    "stars": "{n} de 3 estrellas",
+    "missionStars": "{n} de 3 estrellas en esta misión"
+  },
+  "m4": {
+    "title": "¡El alunizaje se retrasó!",
+    "intro": "Volvemos al Mons Mouton (IM-2). Lumi iba a alunizar el 1 de julio de 2030, pero el lanzamiento se retrasó al 11 de julio. ¿Importa la fecha?",
+    "goals": "Estrellas: prueba el 1 de julio · prueba el 11 de julio · elige la mejor fecha.",
+    "pick": "Elige una fecha de alunizaje",
+    "daylightLabel": "Luz del Sol antes de la primera noche:",
+    "none": "ninguna",
+    "hours": "{n} horas",
+    "aboutDays": "unos {n} días",
+    "stripLabel": "Los 30 días después de alunizar el {date}: amarillo cuando brilla el Sol",
+    "stripNote": "La franja empieza el día del alunizaje.",
+    "lumiDark": "¡Brrr! Alunizamos a oscuras. El Sol sale después de unos {n} días.",
+    "lumiSun": "¡Bien! Alunizamos con Sol, con unos {n} días de luz antes de la noche.",
+    "question": "¿Qué fecha es mejor para Lumi?",
+    "why": "El 11 de julio Lumi aluniza con Sol, con unos {n} días de luz antes de la primera noche. El 1 de julio aluniza a oscuras."
+  },
+  "m5": {
+    "title": "Da en el blanco",
+    "intro": "Apunta a la cresta de Shackleton y haz alunizar a Lumi. ¡Cuidado: los alunizajes reales pueden fallar por cientos de metros!",
+    "goals": "Estrellas: 1 por alunizar, 2 por 15 días de Sol o más, 3 por 22 o más.",
+    "mapTitle": "Mapa de alunizaje (el norte está arriba)",
+    "help": "Las flechas mueven la mira amarilla; Enter aluniza. O toca un cuadrado y pulsa Alunizar.",
+    "mapLabel": "Mapa de alunizaje alrededor de la cresta de Shackleton, 1 km de ancho, cuadrados de 100 m",
+    "aim": "Mira: {where}.",
+    "land": "¡Alunizar!",
+    "showAll": "Mostrar todos los lugares",
+    "resultTitle": "¿Dónde alunizó Lumi?",
+    "landed": "Lugar de alunizaje: {where}.",
+    "days": "{n} días de Sol de 30",
+    "stars1": "1 estrella. Aquí hay menos de 15 días de Sol. ¡Inténtalo de nuevo!",
+    "stars2": "2 estrellas. Entre 15 y 21 días de Sol.",
+    "stars3": "¡3 estrellas! Al menos 22 días de Sol. ¡Gran lugar!",
+    "none": "Apunta y aluniza para ver cuántos días de Sol tiene Lumi.",
+    "miss": "Aquí Lumi aluniza hasta a 200 m de donde apuntas, como puede pasar con un módulo real.",
+    "range": "8 de cada 10 lugares a menos de 300 m del blanco tienen unos {x} a {y} días de Sol.",
+    "legend": "Colores: azul oscuro = sin Sol en julio de 2030; de lila a amarillo = más días de Sol. Los anillos blancos marcan el blanco."
+  },
+  "m6": {
+    "title": "Estaciones lunares",
+    "intro": "Desliza por 2030 y mira cuántos días de Sol tiene cada lugar cada mes.",
+    "goals": "Estrellas: encuentra un mes sin Sol en Malapert · encuentra un mes con Sol allí · visita los 12 meses.",
+    "monthTitle": "Días de Sol este mes",
+    "slide": "Desliza por 2030",
+    "days": "{n} de {of} días",
+    "malTitle": "La larga oscuridad de Malapert",
+    "highlight": "Malapert no recibe nada de Sol de enero a junio de 2030, y tampoco en diciembre.",
+    "chartLabel": "Días de Sol por mes en Malapert en 2030: {list}",
+    "why": "El eje de la Luna está un poquito inclinado, así que durante el año el Sol sube o baja un poco en el polo. En Malapert, cuando baja, las montañas lo esconden durante meses."
+  },
+  "m7": {
+    "title": "Caza de hielo",
+    "intro": "Cerca del polo, algunos lugares nunca ven el Sol. ¡Podría haber hielo! Ayuda a Lumi a encontrar un lugar seguro cerca de la oscuridad.",
+    "goals": "Estrellas: 3 por un cuadrado con Sol junto a uno oscuro, 2 por un cuadrado con Sol, 1 por intentarlo.",
+    "whatTitle": "¿Qué es la sombra permanente?",
+    "what": "Algunos cráteres cerca del polo son tan profundos que la luz del Sol nunca llega al fondo. Esos lugares en sombra permanente son muy fríos, así que podría haber hielo. Pero son demasiado oscuros y fríos para que Lumi alunice allí.",
+    "pgda": "El mapa de largo plazo de la NASA (PGDA) muestra que el {n} % de los lugares a menos de 300 m de Malapert están en sombra permanente.",
+    "mapTitle": "Días de Sol alrededor de Malapert, julio de 2030",
+    "help": "Cada cuadrado mide 100 m. Los cuadrados oscuros no tuvieron Sol en todo julio de 2030 (pueden tenerlo en otros meses, así que no son lo mismo que sombra permanente). Las flechas o un toque mueven la mira; Enter o el botón eligen.",
+    "mapLabel": "Mapa de días de Sol alrededor de Malapert en julio de 2030, 1 km de ancho, cuadrados de 100 m",
+    "aim": "Lugar: {where} · {n} días de Sol en julio de 2030.",
+    "choose": "Elegir este lugar",
+    "resultTitle": "Lumi dice",
+    "result": {
+      "dark": "¡Demasiado oscuro! Aquí no hubo Sol en todo julio, hace demasiado frío para alunizar. Prueba un cuadrado con Sol al lado.",
+      "edge": "¡Gran elección! Sol para Lumi, justo al lado de una zona oscura donde podría haber hielo.",
+      "far": "Hay Sol, pero lejos de las zonas oscuras. Prueba un cuadrado justo al lado de una."
+    },
+    "none": "Elige un cuadrado en el mapa.",
+    "legendSun": "De lila a amarillo: más días de Sol en julio de 2030",
+    "legendDark": "Azul oscuro: sin Sol en todo julio de 2030",
+    "note": "¿Cuánto hielo? Nadie lo sabe todavía: podría haber. Los científicos lo siguen investigando."
+  },
+  "m8": {
+    "title": "Viaje en el tiempo: Apolo 11",
+    "intro": "Viaja al lugar de alunizaje del Apolo 11, cerca del centro de la cara de la Luna que mira a la Tierra. Compara su cielo con el del polo sur, en 30 días desde el 1 de julio de 2030.",
+    "goals": "Estrellas: mira el cielo del Apolo 11 · mira el cielo de Shackleton · responde la pregunta.",
+    "skyTitle": "¿El cielo de dónde?",
+    "apollo": "Apolo 11",
+    "domeLabel": "El cielo en {where}: la Tierra se queda entre {lo}° y {hi}° sobre el horizonte",
+    "apolloText": "Apolo 11: la Tierra se queda entre {lo}° y {hi}° de altura, siempre en el cielo.",
+    "shackletonText": "Cresta de Shackleton: la Tierra va de {lo}° a {hi}°, así que a veces está bajo el horizonte.",
+    "note": "La franja azul muestra qué tan alto llega la Tierra en los 30 días. 90° es justo arriba.",
+    "question": "¿Dónde está la Tierra más alta en el cielo?",
+    "why": "En el Apolo 11 la Tierra está a unos 60° a 70° de altura. En el polo sur se queda cerca del horizonte, así que las colinas pueden esconderla."
+  },
+  "m9": {
+    "title": "Misión final: tu plan",
+    "intro": "Elige un lugar, una fecha de alunizaje y una batería. ¿Encuentras un plan con las 3 estrellas?",
+    "choose": "Tu plan",
+    "site": "Lugar",
+    "date": "Fecha de alunizaje",
+    "battery": "Batería",
+    "bat": {
+      "small": "Pequeña ({kwh} kWh)",
+      "medium": "Mediana ({kwh} kWh)",
+      "large": "Grande ({kwh} kWh)"
+    },
+    "resultTitle": "¿Qué tal tu plan?",
+    "total": "{n} de 3 estrellas",
+    "sunYes": "Sol: {p} % del tiempo, al menos la mitad.",
+    "sunNo": "Sol: solo el {p} % del tiempo. Queremos al menos la mitad.",
+    "callYes": "Llamadas: la espera más larga sin llamar es de unos {n} días, 7 días o menos.",
+    "callNo": "Llamadas: la espera más larga sin llamar es de unos {n} días, más de 7.",
+    "callUnknown": "Llamadas: la espera podría ser aún más larga de lo que muestran estos 30 días.",
+    "batYes": "Batería: Lumi necesita {need} kWh para una noche de {night}; tu batería de {kwh} kWh alcanza.",
+    "batNo": "Batería: Lumi necesita {need} kWh para una noche de {night}; {kwh} kWh no alcanzan.",
+    "batUnknown": "Batería: la noche podría ser aún más larga de lo que muestran estos 30 días, así que no sabemos si {kwh} kWh alcanzan (Lumi necesita al menos {need} kWh para {night}).",
+    "nightDays": "unos {n} días",
+    "nightHours": "unas {n} horas",
+    "aboutKwh": "unos {n}",
+    "lessThan1": "menos de 1",
+    "rules": "Cómo se dan las estrellas: Sol al menos la mitad del tiempo · no más de 7 días sin llamar · una batería de al menos 60 W × la noche más larga ÷ 0,8."
+  },
+  "grid": {
+    "move": "Mover la mira",
+    "north": "Mover al norte",
+    "south": "Mover al sur",
+    "east": "Mover al este",
+    "west": "Mover al oeste",
+    "east_m": "{m} m al este",
+    "west_m": "{m} m al oeste",
+    "north_m": "{m} m al norte",
+    "south_m": "{m} m al sur",
+    "atTarget": "justo en el centro"
+  },
+  "certs": {
+    "title": "Tus certificados",
+    "intro": "Uno por cada fase. Cadete se abre con 5 de 5 en el cuestionario; Exploradora y Comandante se abren al terminar sus misiones."
   }
 }
